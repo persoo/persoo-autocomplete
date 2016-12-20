@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>preact-boilerplate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta name="description" content="preact-boilerplate">
+    <meta name="msapplication-TileColor" content="#673ab8">
+    <meta name="msapplication-TileImage" content="./assets/icons/mstile-150x150.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="preact-boilerplate">
+    <meta name="application-name" content="preact-boilerplate">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#673ab8">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="./assets/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="./manifest.json">
+
+    <script type="text/javascript">
+        /* Persoo account for testing real requests */
+        dataLayer = [{
+            pageType: 'search'
+        }];
+        var persooConfig = {
+            apikey: '41kifbkoqit4dcr6c7do9h3f',
+            persooName: 'persoo',
+            dataLayerName: 'dataLayer',
+            settings_tolerance: 2000,  // for loading persoo.js
+            personalizations_tolerance: 2500,    // for showing personalizations
+        };
+        /*! Persoo js client 2015-03-16 */
+        var persooLoader=function(a,b,c,d,e){var f=d.persooName,g="_persoo_hide_body";return{hideBody:
+        function(){var b=a.createElement("style"),c="body{opacity:0 !important;filter:alpha(opacity=0)"
+        +" !important;background:none !important;}",d=a.getElementsByTagName("head")[0];b.setAttribute(
+        "id",g),b.setAttribute("type","text/css"),b.styleSheet?b.styleSheet.cssText=c:b.appendChild(
+        a.createTextNode(c)),d.appendChild(b)},finish:function(){if(!c){c=!0;var b=a.getElementById(g);b&&
+        b.parentNode.removeChild(b)}},loadScript:function(b){var c=a.createElement("script");c.src=b,c.type
+        ="text/javascript",c.onerror=function(){persooLoader.finish()},a.getElementsByTagName("head")[0
+        ].appendChild(c)},init:function(){b[f]=b[f]||function(){(b[f].q=b[f].q||[]).push([].slice.call(
+        arguments))},b[f].l=1*new Date,b[f].apikey=d.apikey,b[f].dataLayerName=d.dataLayerName;var c=
+        a.cookie.match("(^|; )"+e+"=([^;]*)"),g=location.search.match("[?&]"+e+"=([^&]*)"),h=g?g[1]:c?c[2]:
+        "p";d.settings_tolerance>0&&(setTimeout(this.finish,d.settings_tolerance),this.hideBody());var i=(
+        d.scriptsHostname||"//scripts.persoo.cz/")+d.apikey+"/"+h;this.loadScript(i+"/actions.js"),
+        this.loadScript(i+"/persoo.js")}}}(document,window,!1,persooConfig,"persooEnvironment");persooLoader.init();
+    </script>
+</head>
+<body>
+    <style>
+        #mainContent {
+            margin: 100px;
+        }
+
+        .persoo-autocompleteDropdown__root {
+            border: 1px solid #aaa;
+            background: #ffffff;
+            box-shadow: -1px 1px 3px rgba(0, 0, 0, .1);
+        }
+
+        .persoo-autocompleteDataset__hits__hit {
+            cursor: pointer;
+            padding: 10px 3% 10px 3%;
+            line-height: 23px;
+            overflow: hidden;
+            font-size: 1.02em;
+            color: #333;
+            width: 95%;
+
+        }
+        .persoo-autocompleteDataset__id0.persoo-autocompleteDataset__hits__hit {
+            position: relative;
+            display: table;
+            height: 60px;
+        }
+
+        .persoo-autocompleteDataset__hits__hit:hover {
+            text-decoration: none;
+        }
+
+        .persoo-autocompleteDataset__hits__hit b {
+            font-weight: normal;
+            color: #1f8dd6;
+        }
+
+        .persoo-autocompleteDataset__hits__hit .persooSearchImgWrap {
+            width: 17%;
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .persoo-autocompleteDataset__hits__hit .persooSearchTitle {
+            display: table-cell;
+            vertical-align: middle;
+            text-overflow: ellipsis;
+            width: 70%;
+        }
+
+        .persoo-autocompleteDataset__hits__hit .persooSearchPrice {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .persoo-autocompleteDataset__hits__hit.persoo-autocompleteDataset__selected {
+            background-color: rgba(0,0,1,0.2);
+            box-shadow: 4px 1px 17px #ccc;
+        }
+
+        .persoo-autocompleteDataset__hits__hit img {
+            max-width: 64px;
+            max-height: 64px;
+            display: table-cell;
+        }
+    </style>
+    <div id="mainContent">
+        <p>Type your query into input box below.</p>
+        <input id="demoInput">
+    </div>
+    <script>
+        function MockSource(query, callback) {
+                        // simulate callback
+                        console.log('Source: searching for query "' + query + '"');
+                        setTimeout(function (){
+                            callback([
+                                      {title: "aaa"},
+                                      {title: "bbb"},
+                                      {title: "ccc"},
+                                      {title: "ddd"}
+                            ]);
+                        }, 100);
+        }
+        var algorithmID = 'f645379a715b4b189eff1c14805e9f6e';
+    </script>
+    <script>
+        // timeout just because async loading of the lib
+        setTimeout( function() {
+            var myAutocomplete = new PersooAutocomplete('#demoInput', {
+                datasets: [
+                    {
+                        source: window.persoo.getSuggestSource(algorithmID, 5),
+                        templates: {
+                            header: "My header",
+                            footer: function(data) {
+                                if (data.isEmpty) {
+                                    return "";
+                                } else {
+                                    return "... these are results for query '" + data.query + "'";
+                                }
+                            },
+                            item: function(data) {
+                                var item = data.hit;
+                                return '<a href="' + item.link + '">' +
+                                    '<div class="persooSearchImgWrap"><img src="' + item.imageLink + '"></div> ' +
+                                    '<div class="persooSearchTitle">' + data.highlightQuery(item.title) + '</div>' +
+                                    '<div class="persooSearchPrice">' + item.price + '&nbsp;Kč</div>' +
+                                    '</a>';
+                            }
+                        },
+                        cssClasses: {
+                            header: { color: "green"}
+                        }
+                    },
+                    {
+                        source: window.persoo.getSuggestSource(algorithmID, 5),
+                        templates: {
+                            header: "Second index",
+                            item: function(data) {
+                                var item = data.hit;
+                                return item.title;
+                            }
+                        },
+                        cssClasses: {
+                            header: { color: "red"}
+                        }
+                    }
+                ],
+                width: 400
+            });
+        }, 1000);
+    </script>
+</body>
+</html>
