@@ -43,6 +43,7 @@ export default class AutocompleteManager extends Component {
         super(args);
 
         this._initOptions(args);
+        this.inputSelector = args.inputSelector;
 
         // state is like a store
         this.state = {
@@ -57,15 +58,13 @@ export default class AutocompleteManager extends Component {
             selectedHit: null,
         };
         this._initDatasetsState();
-
-        this.inputSelector = args.inputSelector;
     }
     _initOptions(args) {
         if (typeof args.options == 'undefined' || typeof args.inputSelector == 'undefined') {
             console.warn('PersooAutocomplete(inputSelector, options) requires two arguments.');
             return;
         }
-        // options merged with defaults
+        // merge options with defaults
         this.options = Object.assign(defaultOptions, args.options);
         const defaultDatasetOptions = {
                 templates: {},
@@ -82,7 +81,7 @@ export default class AutocompleteManager extends Component {
             dataset.index = i;
             // convert all string templates to react templates
             Object.keys(dataset.templates).map(
-                 x => (dataset.templates[x] = convertToReactComponent(dataset.templates[x]))
+                 x => {dataset.templates[x] = convertToReactComponent(dataset.templates[x]);}
             );
             // bind actions for each only once
             this.receiveHitsActionsForIndex.push(this.receiveHitsAction.bind(this, i));
@@ -93,7 +92,7 @@ export default class AutocompleteManager extends Component {
     _initDatasetsState() {
         const datasetInitialState = {
                 hits: [],
-                hitsForQuery: null,
+                query: null, // data requested for this query
                 searching: false
         };
         this.state.datasets = [];

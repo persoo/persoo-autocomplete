@@ -12,6 +12,7 @@ function convertToReactComponent(template) {
     if (typeof template == 'string') {
         renderRawHTMLTemplate = function () {return template};
     }
+    // FIXME case when template is React Component
     return function(props) {
         const {className, style, onMouseEnter, onMouseDown, onMouseLeave} = props;
         return <div

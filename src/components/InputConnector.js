@@ -3,7 +3,8 @@ import {addEvent, removeEvent, throttle} from 'utils';
 const eventNames = ['keyDown', 'keyUp', 'resize', 'blur', 'focus'];
 
 /**
- * Find INPUT element in the page and provide event listeners to manupulate with element.
+ * Find the INPUT element by querySelector and provide methods for its listeners, values, positions.
+ * @param {string} inputSelector - querySelector to fing the one input element to use as event source for suggest
  */
 export default class PersooInputConnector {
     constructor(inputSelector) {
