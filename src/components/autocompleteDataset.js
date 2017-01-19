@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 import PropTypes from 'proptypes';
-import classNames from './classNames.js';
+import classNames from 'classNames';
 import {getHighlightingFunc} from 'utils';
 
 const cx = classNames('autocompleteDataset');

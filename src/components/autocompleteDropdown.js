@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
 import PropTypes from 'proptypes';
 import AutocompleteDataset from './autocompleteDataset';
-import classNames from './classNames.js';
+import classNames from 'classNames';
 
 const cx = classNames('autocompleteDropdown');
 

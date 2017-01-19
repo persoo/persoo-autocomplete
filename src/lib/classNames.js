@@ -22,7 +22,7 @@ function getClassNames () {
         if (argType === 'string' || argType === 'number') {
             classes.push(arg);
         } else if (Array.isArray(arg)) {
-            classes.push(classNames.apply(null, arg));
+            classes.push(getClassNames.apply(null, arg));
         } else if (argType === 'object') {
             for (var key in arg) {
                 if (hasOwn.call(arg, key) && arg[key]) {
