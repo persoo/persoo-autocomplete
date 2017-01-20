@@ -11,9 +11,10 @@ Try online [Demo] and play with it.
 # Quick-Start Guide
 
 - [How to use it](#how-to-use-it)
-   - [Loading persooAutocomplete.js]
-   - [Binding autocomplete to INPUT element]
-   - [Styling with CSS or inline CSS]
+   - [Loading persooAutocomplete.js](#1-load-persooautocompletejs-to-your-page)
+   - [Binding autocomplete to INPUT element](#2-create-a-persooautocomplete-instance)
+   - [Configuration Options](#available-options)
+   - [Styling with CSS](##3-use-your-own-css-styles)
 - [Development Workflow](#development-workflow)
 
 ## How to use it
@@ -29,7 +30,7 @@ and prepare Input element on which you want to bind "autocomplete".
 <input id="#demoInput">
 ```
 
-### 2. Create an PersooAutocomplete instance
+### 2. Create a PersooAutocomplete instance
 
 and bind it to your input element
 
@@ -79,35 +80,39 @@ Knowing the structure will help you to understand the options, because they are 
 * **offsetTop** (number, 1) -- dropdown offset in px relatively to InputElement
 * **width** (number|null, null) -- dropdown width in px, null means use the width of the Input Element
 
-* **datasets** (array of objects) -- TODO datasetOptions for each dataset
+* **datasets** (array of objects) -- datasetOptions for each dataset
   * **source** (function) -- `function (query, callback)` which for given query calls `callback(result)`, where result is array of hits. Most often you will use `window.persoo.getSuggestSource(algorithmID, 5)` to get 5 results for persoo algorithm with id algorithmID.
   * **templates** (map) -- templates for each item in the structure.
 
     * header
     * hit
     * footer
-  * **cssClasses** (map) -- for each element, it contains map with CSS properties, i.e. `{header: { color: "green", padding: 5}}`
+  * **cssClasses** (map) -- for each element, it contains map with CSS properties,
     * header (map with CSS props)
     * hit (map with CSS props)
     * footer (map with CSS props)
-* **cssClasses** (map) ---- for each element, it contains map with CSS properties, i.e. `{root: { color: "green", padding: 5}}`
-    * root (map with CSS props) 
+* **cssClasses** (map) ---- for each element, it contains map with CSS properties,
+    * root (map with CSS props)
 
 * **onSelect** (function) -- function(selectedHit){} to be called when user selects suggested hit
 
-> Templates: template is string or `function(data) {return "<div>html</div>";}`, which receives
+
+> NOTES:
+> **Templates:** template is string or `function(data) {return "<div>html</div>";}`, which receives
 ```json
 {
-   query: <current query>, 
-   hit: <currentHit as received from server>, 
-   highlightQuery: <function(str) returning highlighted query in str>
+   query: "<current query>",
+   hit: {"<currentHit>": "<as received from server>", ...},
+   highlightQuery: function(str) {return "<highlighted query in str>"}
 }
 ```
 
+> **cssClasses:** cssClasses for each element contains map with CSS properties.
+> For example for `<root>` element it is `{root: { color: "green", padding: 5}}`
 
-> :information_source: Something.
-> TODO width: none, auto ... given by CSS
-> TODO custom listeners to events
+> :information_source: TODO:
+> * width: none, auto ... given by CSS
+> * custom listeners to events
 
 
 ### 3. Use your own CSS styles
@@ -140,9 +145,9 @@ Dropdown box displayed below your input has folowing structure and classes.
 </div>
 ```
 
-You can find a few CSS examples in the [Demo]. Just look at the source code for corresponding <style> element.
+You can find a few CSS examples in the [Demo]. Just look at the source code for corresponding `<style>` element.
 
-
+> You can also use inline CSS styles provided through options (cssClasses on various objects).
 
 ## Development Workflow
 
