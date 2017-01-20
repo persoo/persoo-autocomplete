@@ -67,6 +67,8 @@ Knowing the structure will help you to understand the options, because they are 
 
 ### Available options
 
+For each option, there is data type and default value in the bracket.
+
 * **autocompleteID** (string) -- unique ID to be used as HTML container id.
 * **offerID** (string) -- persoo offerID for measuring statistics
 * **locationID** (string) -- persoo locationID for measuring statistics
@@ -98,17 +100,28 @@ Knowing the structure will help you to understand the options, because they are 
 
 
 > NOTES:
+>
 > **Templates:** template is string or `function(data) {return "<div>html</div>";}`, which receives
-```json
-{
+```javascript
+data = {
    query: "<current query>",
-   hit: {"<currentHit>": "<as received from server>", ...},
+   hit: { /* current hit as received from Souce (server) */ },
    highlightQuery: function(str) {return "<highlighted query in str>"}
+      // useful for highlighting custom fields in hits
 }
 ```
+and return string with HTML.
 
 > **cssClasses:** cssClasses for each element contains map with CSS properties.
-> For example for `<root>` element it is `{root: { color: "green", padding: 5}}`
+> For example for `<root>` element it is
+```javascript
+{
+   root: {
+       color: "green",
+       padding: 5
+   }
+}
+```
 
 > :information_source: TODO:
 > * width: none, auto ... given by CSS
