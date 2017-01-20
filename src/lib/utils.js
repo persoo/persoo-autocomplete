@@ -120,5 +120,7 @@ export {
     removeEvent,
 
     mergeObjects,
-    normalizeQuery
+    normalizeQuery,
+
+    throttle
 }

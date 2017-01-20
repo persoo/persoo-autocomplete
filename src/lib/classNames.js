@@ -25,7 +25,7 @@ function getClassNames () {
             classes.push(getClassNames.apply(null, arg));
         } else if (argType === 'object') {
             for (var key in arg) {
-                if (hasOwn.call(arg, key) && arg[key]) {
+                if (arg.hasOwnProperty(key) && arg[key]) {
                     classes.push(key);
                 }
             }
@@ -37,12 +37,8 @@ function getClassNames () {
 
 //Note: Use prefixes to make sure, there are no collisions in "classes"
 //with hosting web page and its CSS.
-export default function classNames(block) {
+export default function classNames() {
   return (...elements) => ({
-    className: getClassNames(
-      elements
-        .filter(element => element !== undefined && element !== false)
-        .map(element => `${prefix}-${block}__${element}`)
-      ),
+    className: getClassNames(elements).split(' ').map((x) => (prefix + '-' +  x)).join(' ')
   });
 }

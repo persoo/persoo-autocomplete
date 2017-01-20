@@ -3,7 +3,7 @@ import PropTypes from 'proptypes';
 import classNames from 'classNames';
 import {getHighlightingFunc} from 'utils';
 
-const cx = classNames('autocompleteDataset');
+const cx = classNames();
 
 class AutocompleteDataset extends Component {
 
@@ -18,20 +18,32 @@ class AutocompleteDataset extends Component {
 
         return (
             <div
-                {...cx('root', 'id' + datasetIndex, (selectedHit >= 0 ? 'selected' : false))}
+                {...cx('autocompleteDataset__root',
+                    'autocompleteDataset-' + datasetIndex + '__root',
+                    {selected: selectedHit >= 0})
+                }
                 style={cssClasses.root}
             >
                 {HeaderComponent && <HeaderComponent
-                            {...cx('header')}
+                            {...cx('autocompleteDataset__header',
+                                'autocompleteDataset-' + datasetIndex + '__header')
+                            }
                             query={query}
                             isEmpty={!hits || hits.length <= 0}
                             style={cssClasses.header}
                         />
                 }
-                <div {...cx('hits')} style={cssClasses.hits}>
+                <div {...cx('autocompleteDataset__hits',
+                        'autocompleteDataset-' + datasetIndex + '__hits')
+                    }
+                    style={cssClasses.hits}
+                >
                     {hits.map( (hit, index) =>
                             <ItemComponent
-                                {...cx('hits__hit', (selectedHit == index ? 'selected' : false))}
+                                {...cx('autocompleteDataset__hits__hit',
+                                       'autocompleteDataset-' + datasetIndex + '__hits__hit',
+                                       {selected: selectedHit == index})
+                                }
                                 key={hit.objectID}
                                 hit={hit}
                                 query={query}
@@ -43,7 +55,9 @@ class AutocompleteDataset extends Component {
                     )}
                 </div>
                 {FooterComponent && <FooterComponent
-                            {...cx('footer')}
+                            {...cx('autocompleteDataset__footer',
+                                    'autocompleteDataset-' + datasetIndex + '__footer')
+                            }
                             query={query}
                             isEmpty={!hits || hits.length <= 0}
                             style={cssClasses.footer}

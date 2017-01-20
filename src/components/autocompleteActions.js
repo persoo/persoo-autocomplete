@@ -37,7 +37,7 @@ export default function createAutocompleteActions(store, inputConnector, caches)
             if (!datasetState.searching) {
                 if (hits) {
                     // take it from cache
-                    stores.setDatasetState(i, {query: query});
+                    store.setDatasetState(i, {query: query});
                     receiveHits(i, hits);
                     console.log('Serving query "' + query + '" from cache');
                 } else {

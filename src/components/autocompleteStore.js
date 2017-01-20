@@ -19,6 +19,7 @@ const defaultOptions = {
         console.log('persooAutocomplete: selected hit is ' + JSON.stringify(selectedHit));
     },
 
+    autocompleteID: 'persooAutocomplete',
     offerID: 'persooAutocomplete',
     locationID: 'persooAutocomplete'
 };
@@ -29,20 +30,20 @@ const defaultDatasetOptions = {
 
 export function getInitialState(optionsFromArgs) {
     const state = {
-            options: null,
-            query: null,
+        options: null,
+        query: null,
 
-            dropdownIsVisible: false, // in having no hits, its no visible even if this flag is true
-            dropdownTop: 0,
-            dropdownLeft: 0,
-            dropdownWidth: 0,
+        dropdownIsVisible: false, // in having no hits, its no visible even if this flag is true
+        dropdownTop: 0,
+        dropdownLeft: 0,
+        dropdownWidth: 0,
 
-            datasets: [],
-            selectedDataset: null,
-            selectedHit: null,
+        datasets: [],
+        selectedDataset: null,
+        selectedHit: null
     };
 
-    state.options = Object.assign(defaultOptions, optionsFromArgs);
+    state.options = Object.assign({}, defaultOptions, optionsFromArgs);
     const options = state.options;
     options.datasets = options.datasets.map(
             datasetOptions => mergeObjects(defaultDatasetOptions, datasetOptions)
@@ -63,7 +64,7 @@ export function getInitialState(optionsFromArgs) {
             searching: false
     };
     options.datasets.forEach(
-            x => (state.datasets.push(Object.assign(datasetInitialState)))
+            x => (state.datasets.push(Object.assign({}, datasetInitialState)))
     );
 
     return state;

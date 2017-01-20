@@ -13,7 +13,7 @@ export default function createStore(initialState) {
             dispatch();
         },
         updateState(increment) {
-            state = Object.assign(state, increment);
+            Object.assign(state, increment);
             dispatch();
         },
         subscribe(listener) {
@@ -21,6 +21,6 @@ export default function createStore(initialState) {
             return function unsubcribe() {
                 listeners.splice(listeners.indexOf(listener), 1);
             };
-        },
+        }
     };
 }

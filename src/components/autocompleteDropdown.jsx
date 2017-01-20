@@ -3,7 +3,7 @@ import PropTypes from 'proptypes';
 import AutocompleteDataset from './autocompleteDataset';
 import classNames from 'classNames';
 
-const cx = classNames('autocompleteDropdown');
+const cx = classNames();
 
 const defaultStyle = {
         position: "absolute",
@@ -13,17 +13,18 @@ const defaultStyle = {
 class AutocompleteDropdown extends Component {
 
     render() {
-        const {offerID, locationID, query,
+        const {offerID, locationID, autocompleteID, query,
                 selectedDataset, selectedHit, datasetsOptions, datasetsState,
                 selectHitAction, clickHitAction,
                 isVisible, style} = this.props;
-        let {className} = {...cx('root')};
-        className += ' persooLocation persoo__' + offerID;
+        let {className} = {...cx('autocompleteDropdown__root', offerID)};
+        className += ' persooLocation';
 
         return (isVisible &&
             <div
+                id={autocompleteID}
                 className={className}
-                style={Object.assign(defaultStyle, style)}
+                style={Object.assign({}, defaultStyle, style)}
                 data-offerID={offerID}
                 data-locationID={locationID}
                 onMouseLeave={selectHitAction.bind(null, null, null)}
@@ -46,6 +47,7 @@ class AutocompleteDropdown extends Component {
 }
 
 AutocompleteDropdown.propTypes = {
+    autocompleteID: PropTypes.string,
     offerID: PropTypes.string,
     locationID: PropTypes.string,
     isVisible: PropTypes.boolean,

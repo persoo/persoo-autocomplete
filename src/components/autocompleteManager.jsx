@@ -22,7 +22,11 @@ export default class AutocompleteManager extends Component {
 
         // Note: we need different store for each "autocomplete" instance in a page
         this.store = createAutocompleteStore(getInitialState(args.options));
-        this.unsubcribe = this.store.subscribe(() => (this.setState(this.store.getState())) );
+        this.unsubcribe = this.store.subscribe(::this._updateLocalStateFromStore);
+    }
+
+    _updateLocalStateFromStore() {
+        this.setState(this.store.getState());
     }
 
     _resetCaches() {
@@ -67,6 +71,7 @@ export default class AutocompleteManager extends Component {
 
         return (
             <AutocompleteDropdown
+                autocompleteID={options.autocompleteID}
                 offerID={options.offerID}
                 locationID={options.locationID}
                 isVisible={dropdownIsVisible && (this.store.hasHits() || options.showEmptyResults)}
@@ -75,7 +80,7 @@ export default class AutocompleteManager extends Component {
                 datasetsOptions={options.datasets}
                 selectedDataset={state.selectedDataset}
                 selectedHit={state.selectedHit}
-                style={customCss ? Object.assign(customCss, dropdownStyle) : dropdownStyle}
+                style={customCss ? Object.assign({}, customCss, dropdownStyle) : dropdownStyle}
                 selectHitAction={this.actions.selectHitAction}
                 clickHitAction={this.actions.clickHitAction}
             />

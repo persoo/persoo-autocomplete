@@ -8,6 +8,7 @@
     "prestart": "npm run build",
     "build": "cross-env NODE_ENV=production webpack -p --progress",
     "prebuild": "mkdirp build && ncp src/assets build/assets",
+    "postbuild": "mkdirp dist && ncp build/bundle.js dist/persooAutocomplete.js",
     "test": "npm run -s lint && npm run -s test:karma",
     "test:karma": "karma start test/karma.conf.js --single-run",
     "lint": "eslint {src,test}"

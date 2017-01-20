@@ -22,7 +22,7 @@ export default class PersooInputConnector {
 
     listenToEvents(eventHandlers) {
         for (let eventName of eventNames) {
-            if (eventHandlers[eventName] == 'resize') {
+            if (eventName == 'resize' && eventHandlers[eventName]) {
                 addEvent(window, eventName.toLowerCase(), throttle(eventHandlers[eventName], 200));
             } else {
                 addEvent(this.inputElement, eventName.toLowerCase(), eventHandlers[eventName]);

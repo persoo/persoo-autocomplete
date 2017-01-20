@@ -13,7 +13,6 @@ class PersooAutocomplete {
         this._options = options;
         this._render();
         this.root = null;
-
         return this;
       }
 
@@ -23,6 +22,11 @@ class PersooAutocomplete {
               <AutocompleteManager inputSelector={this._inputSelector} options={this._options} />,
               document.body, this.root
           );
+      }
+
+      setOptions(options) {
+          this._options = options;
+          this._render();
       }
 
       destroy() {
