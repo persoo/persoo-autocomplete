@@ -3,15 +3,17 @@ import {mergeObjects, convertToReactComponent} from 'utils';
 
 const defaultOptions = {
     minChars: 1,
+    requestThrottlingInMs: 200,
     showEmptyResults: true, // show dropdown if there are no results in any dataset
     openOnFocus: true,
-    closeOnBlur: false, // usefull for debugging // FIXME set to true
+    closeOnBlur: true, // usefull for debugging
     datasets: [
        // using defaultDatasetOptions for each dataset
     ],
     offsetLeft: 0, // [in px] relatively to InputElement
     offsetTop: 1, // [in px] relatively to InputElement
-    width: null, // [in px] null means use width of the Input Element
+    width: 'auto', // [in px],  'auto' means use width of the Input Element,
+                   // null means do not set it in inline styles
     cssClasses: {
         // root: {}  // add CSS classes to autocompleteDropdown__root
     },
@@ -24,6 +26,7 @@ const defaultOptions = {
     locationID: 'persooAutocomplete'
 };
 const defaultDatasetOptions = {
+    showWhenEmptyResults: true,
     templates: {},
     cssClasses: {}
 };

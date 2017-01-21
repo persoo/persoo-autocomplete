@@ -14,6 +14,7 @@ class AutocompleteDataset extends Component {
         const ItemComponent = templates.item || defaultTemplates.item;
         const HeaderComponent = templates.header || defaultTemplates.header;
         const FooterComponent = templates.footer || defaultTemplates.footer;
+        const EmptyComponent = templates.empty;
         const highlightQuery = getHighlightingFunc(query, 'b');
 
         return (
@@ -24,14 +25,26 @@ class AutocompleteDataset extends Component {
                 }
                 style={cssClasses.root}
             >
-                {HeaderComponent && <HeaderComponent
-                            {...cx('autocompleteDataset__header',
-                                'autocompleteDataset-' + datasetIndex + '__header')
-                            }
-                            query={query}
-                            isEmpty={!hits || hits.length <= 0}
-                            style={cssClasses.header}
-                        />
+                {
+                    HeaderComponent && <HeaderComponent
+                        {...cx('autocompleteDataset__header',
+                            'autocompleteDataset-' + datasetIndex + '__header')
+                        }
+                        query={query}
+                        isEmpty={!hits || hits.length <= 0}
+                        style={cssClasses.header}
+                    />
+                }
+                {
+                    (!hits || hits.length <= 0) && EmptyComponent &&
+                    <EmptyComponent
+                        {...cx('autocompleteDataset__empty',
+                            'autocompleteDataset-' + datasetIndex + '__empty')
+                        }
+                        query={query}
+                        isEmpty={!hits || hits.length <= 0}
+                        style={cssClasses.empty}
+                    />
                 }
                 <div {...cx('autocompleteDataset__hits',
                         'autocompleteDataset-' + datasetIndex + '__hits')
@@ -39,19 +52,19 @@ class AutocompleteDataset extends Component {
                     style={cssClasses.hits}
                 >
                     {hits.map( (hit, index) =>
-                            <ItemComponent
-                                {...cx('autocompleteDataset__hits__hit',
-                                       'autocompleteDataset-' + datasetIndex + '__hits__hit',
-                                       {selected: selectedHit == index})
-                                }
-                                key={hit.objectID}
-                                hit={hit}
-                                query={query}
-                                highlightQuery={highlightQuery}
-                                style={cssClasses.hits__hit}
-                                onMouseEnter={(selectedHit != index) && selectHitAction.bind(null, datasetIndex, index)}
-                                onMouseDown={clickHitAction.bind(null, datasetIndex, index)}
-                            />
+                        <ItemComponent
+                            {...cx('autocompleteDataset__hits__hit',
+                                   'autocompleteDataset-' + datasetIndex + '__hits__hit',
+                                   {selected: selectedHit == index})
+                            }
+                            key={hit.objectID}
+                            hit={hit}
+                            query={query}
+                            highlightQuery={highlightQuery}
+                            style={cssClasses.hits__hit}
+                            onMouseEnter={(selectedHit != index) && selectHitAction.bind(null, datasetIndex, index)}
+                            onMouseDown={clickHitAction.bind(null, datasetIndex, index)}
+                        />
                     )}
                 </div>
                 {FooterComponent && <FooterComponent

@@ -47,7 +47,7 @@ function mergeObjects(obj1, obj2) {
             }
         }
     } else {
-        result = obj2 || obj1;
+        result = (typeof obj2 !== 'undefined') ? obj2 : obj1;
     }
     return result;
 }

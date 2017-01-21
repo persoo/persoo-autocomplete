@@ -1,4 +1,4 @@
-import {normalizeQuery} from 'utils';
+import {normalizeQuery, throttle} from 'utils';
 
 const KEYS = {
         TAB: 9,
@@ -16,6 +16,8 @@ export default function createAutocompleteActions(store, inputConnector, caches)
         // bind actions for each index only once
         receiveHitsForIndex.push(receiveHits.bind(this, i));
     }
+    // throttle request for people who type extremly fast
+    const getSearchHitsThrottled = throttle(getSearchHits, store.getState().options.requestThrottlingInMs);
 
 
     /* helper functions */
@@ -23,7 +25,7 @@ export default function createAutocompleteActions(store, inputConnector, caches)
         query = normalizeQuery(query);
         if (query != store.getState().query) {
             store.updateState({ query });  // ??? update state directly without re-render???
-            getSearchHits();
+            getSearchHitsThrottled();
         }
     }
 
@@ -65,7 +67,7 @@ export default function createAutocompleteActions(store, inputConnector, caches)
         caches[datasetIndex].set(dataReceivedForQuery, hits);
 
         if (currentQuery != dataReceivedForQuery) {
-            getSearchHits();
+            getSearchHitsThrottled();
         }
     }
 
@@ -76,7 +78,7 @@ export default function createAutocompleteActions(store, inputConnector, caches)
             store.updateState({
                 dropdownTop: top + options.offsetTop,
                 dropdownLeft: left + options.offsetLeft,
-                dropdownWidth: options.width || width
+                dropdownWidth: (options.width === 'auto' ? width : options.width)
             });
         },
         onFocusAction() {

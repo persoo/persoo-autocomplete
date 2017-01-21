@@ -65,6 +65,8 @@ Knowing the structure will help you to understand the options, because they are 
 </autocompleteDropdown>
 ```
 
+Hits may be replaced by `<Empty>` when there are no hits in dataset. `<Empty>` typically displays "No results found.".
+
 ### Available options
 
 For each option, there is data type and default value in the bracket.
@@ -74,25 +76,29 @@ For each option, there is data type and default value in the bracket.
 * **locationID** (string) -- persoo locationID for measuring statistics
 
 * **minChars** (number) -- for how many characters in the input it starts suggesting
+* **requestThrottlingInMs** (number as millis) -- how offten we can ask for new suggestions. There can be at most 1 request in throttling interval.
 * **showEmptyResults** (boolean, true) -- show dropdown event if there are no results in any dataset
 * **openOnFocus** (boolean, true) -- open dropdown again on focus (even without changing query)
 * **closeOnBlur** (boolean, true) -- false is very usefull for debugging
 
 * **offsetLeft** (number, 0) -- dropdown offset in px relatively to InputElement
 * **offsetTop** (number, 1) -- dropdown offset in px relatively to InputElement
-* **width** (number|null, null) -- dropdown width in px, null means use the width of the Input Element
+* **width** (number|'auto'|null, 'auto') -- dropdown width in px, 'auto' means use the width of the Input Element, null means do not set width in inline styles because it will be set in CSS.
 
 * **datasets** (array of objects) -- datasetOptions for each dataset
   * **source** (function) -- `function (query, callback)` which for given query calls `callback(result)`, where result is array of hits. Most often you will use `window.persoo.getSuggestSource(algorithmID, 5)` to get 5 results for persoo algorithm with id algorithmID.
+  * **showWhenEmptyResults** (boolean, true) -- show dataset even with empty results (other dataset may have some results)
   * **templates** (map) -- templates for each item in the structure.
 
     * header
     * hit
     * footer
+    * empty -- there is no default template, will not display if not provided in options
   * **cssClasses** (map) -- for each element, it contains map with CSS properties,
     * header (map with CSS props)
     * hit (map with CSS props)
     * footer (map with CSS props)
+    * empty (map with CSS props)
 * **cssClasses** (map) ---- for each element, it contains map with CSS properties,
     * root (map with CSS props)
 
@@ -205,4 +211,3 @@ MIT
 [Demo]: <http://htmlpreview.github.io/?https://github.com/persoo/persoo-autocomplete/blob/master/demo/index.html>
 [persooAutocomplete.js]: <./dist/persooAutocomplete.js>
 [BEM naming standarts]: <http://getbem.com/naming/>
-

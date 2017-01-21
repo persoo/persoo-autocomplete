@@ -31,6 +31,7 @@ class AutocompleteDropdown extends Component {
             >
                 {
                     datasetsOptions.map( (dataset, index) => (
+                        canShowDataset(datasetsOptions, datasetsState, index) &&
                         <AutocompleteDataset
                             hits={datasetsState[index].hits}
                             selectedHit={selectedDataset == index ? selectedHit : -1}
@@ -44,6 +45,11 @@ class AutocompleteDropdown extends Component {
             </div>
         );
     }
+}
+
+function canShowDataset(datasetsOptions, datasetsState, index) {
+    const hits = datasetsState[index].hits;
+    return (datasetsOptions[index].showWhenEmptyResults || (hits && hits.length > 0));
 }
 
 AutocompleteDropdown.propTypes = {

@@ -80,6 +80,10 @@
             padding: 10px 3% 10px 3%;
         }
 
+        #autocomplete1 .persoo-autocompleteDataset__empty {
+            padding: 10px 3% 10px 3%;
+        }
+
         #autocomplete1 .persoo-autocompleteDataset__hits__hit {
             cursor: pointer;
             padding: 10px 3% 10px 3%;
@@ -301,14 +305,15 @@
                         item: function(data) {
                             var item = data.hit;
                             return data.highlightQuery(item.title);
-                        }
+                        },
+                        empty: 'No results found.'
                     },
                     cssClasses: {
                         header: { color: "red"}
                     }
                 }
             ],
-            width: 400
+            width: 'auto'
         });
 
         var myAutocomplete2 = new PersooAutocomplete('#demoInput2', {
