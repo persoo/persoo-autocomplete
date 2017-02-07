@@ -76,6 +76,7 @@ export default class AutocompleteManager extends Component {
                 autocompleteID={options.autocompleteID}
                 offerID={options.offerID}
                 locationID={options.locationID}
+                priceSuffix={options.priceSuffix}
                 isVisible={dropdownIsVisible && (this.store.hasHits() || options.showEmptyResults)}
                 query={state.query}
                 datasetsState={state.datasets}

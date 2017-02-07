@@ -78,7 +78,7 @@ export default function createAutocompleteActions(store, inputConnector, caches)
             store.updateState({
                 dropdownTop: top + options.offsetTop,
                 dropdownLeft: left + options.offsetLeft,
-                dropdownWidth: (options.width === 'auto' ? width : options.width)
+                dropdownWidth: (options.width === 'input' ? width : options.width)
             });
         },
         onFocusAction() {

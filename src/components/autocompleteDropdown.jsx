@@ -13,7 +13,7 @@ const defaultStyle = {
 class AutocompleteDropdown extends Component {
 
     render() {
-        const {offerID, locationID, autocompleteID, query,
+        const {offerID, locationID, autocompleteID, query, priceSuffix,
                 selectedDataset, selectedHit, datasetsOptions, datasetsState,
                 selectHitAction, clickHitAction,
                 isVisible, style} = this.props;
@@ -36,9 +36,10 @@ class AutocompleteDropdown extends Component {
                             hits={datasetsState[index].hits}
                             selectedHit={selectedDataset == index ? selectedHit : -1}
                             datasetIndex={index}
+                            datasetID={datasetsOptions[index].id}
                             templates={datasetsOptions[index].templates}
                             cssClasses={datasetsOptions[index].cssClasses}
-                            {...{query, selectHitAction, clickHitAction}}
+                            {...{query, priceSuffix, selectHitAction, clickHitAction}}
                         />
                     ))
                 }

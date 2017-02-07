@@ -8,10 +8,10 @@ const cx = classNames();
 class AutocompleteDataset extends Component {
 
     render() {
-        const {query, hits, selectedHit, datasetIndex, templates, cssClasses,
-                selectHitAction, clickHitAction} = this.props;
+        const {query, hits, selectedHit, datasetIndex, datasetID, templates, cssClasses,
+                priceSuffix, selectHitAction, clickHitAction} = this.props;
         const defaultTemplates = AutocompleteDataset.defaultProps.templates;
-        const ItemComponent = templates.item || defaultTemplates.item;
+        const ItemComponent = templates.hit || defaultTemplates.hit;
         const HeaderComponent = templates.header || defaultTemplates.header;
         const FooterComponent = templates.footer || defaultTemplates.footer;
         const EmptyComponent = templates.empty;
@@ -20,7 +20,7 @@ class AutocompleteDataset extends Component {
         return (
             <div
                 {...cx('autocompleteDataset__root',
-                    'autocompleteDataset-' + datasetIndex + '__root',
+                    'autocompleteDataset-' + datasetID + '__root',
                     {selected: selectedHit >= 0})
                 }
                 style={cssClasses.root}
@@ -28,7 +28,7 @@ class AutocompleteDataset extends Component {
                 {
                     HeaderComponent && <HeaderComponent
                         {...cx('autocompleteDataset__header',
-                            'autocompleteDataset-' + datasetIndex + '__header')
+                            'autocompleteDataset-' + datasetID + '__header')
                         }
                         query={query}
                         isEmpty={!hits || hits.length <= 0}
@@ -39,7 +39,7 @@ class AutocompleteDataset extends Component {
                     (!hits || hits.length <= 0) && EmptyComponent &&
                     <EmptyComponent
                         {...cx('autocompleteDataset__empty',
-                            'autocompleteDataset-' + datasetIndex + '__empty')
+                            'autocompleteDataset-' + datasetID + '__empty')
                         }
                         query={query}
                         isEmpty={!hits || hits.length <= 0}
@@ -47,20 +47,21 @@ class AutocompleteDataset extends Component {
                     />
                 }
                 <div {...cx('autocompleteDataset__hits',
-                        'autocompleteDataset-' + datasetIndex + '__hits')
+                        'autocompleteDataset-' + datasetID + '__hits')
                     }
                     style={cssClasses.hits}
                 >
                     {hits.map( (hit, index) =>
                         <ItemComponent
                             {...cx('autocompleteDataset__hits__hit',
-                                   'autocompleteDataset-' + datasetIndex + '__hits__hit',
+                                   'autocompleteDataset-' + datasetID + '__hits__hit',
                                    {selected: selectedHit == index})
                             }
                             key={hit.objectID}
                             hit={hit}
                             query={query}
                             highlightQuery={highlightQuery}
+                            priceSuffix={priceSuffix}
                             style={cssClasses.hits__hit}
                             onMouseEnter={(selectedHit != index) && selectHitAction.bind(null, datasetIndex, index)}
                             onMouseDown={clickHitAction.bind(null, datasetIndex, index)}
@@ -69,7 +70,7 @@ class AutocompleteDataset extends Component {
                 </div>
                 {FooterComponent && <FooterComponent
                             {...cx('autocompleteDataset__footer',
-                                    'autocompleteDataset-' + datasetIndex + '__footer')
+                                    'autocompleteDataset-' + datasetID + '__footer')
                             }
                             query={query}
                             isEmpty={!hits || hits.length <= 0}
@@ -85,11 +86,12 @@ AutocompleteDataset.propTypes = {
     query: PropTypes.string,
 
     datasetIndex: PropTypes.number,
+    datasetID: PropTypes.string,
     hits: PropTypes.array,
     selectedHit: PropTypes.number,
 
     templates: {
-        item: PropTypes.oneOfType([
+        hit: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.func,
         ]).isRequired,
@@ -98,6 +100,10 @@ AutocompleteDataset.propTypes = {
             PropTypes.func,
         ]).isRequired,
         footer: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.func,
+        ]).isRequired,
+        empty: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.func,
         ]).isRequired
@@ -110,14 +116,42 @@ AutocompleteDataset.propTypes = {
 
 AutocompleteDataset.defaultProps = {
     templates: {
-        item: hit =>
+        hit: (props) =>  {
+            const nbsp = "\u00a0";
+            const {hit, highlightQuery, priceSuffix, className, style,
+                onMouseEnter, onMouseDown, onMouseLeave} = props;
+            return  <div {...{className, style, onMouseEnter, onMouseDown, onMouseLeave}} >
+                        <a href={ hit.link }>
+                            <div class="persoo-autocompleteDataset__hits__hit__img">
+                                <img src={ hit.imageLink } />
+                            </div>
+                            <div class="persoo-autocompleteDataset__hits__hit__title"
+                                dangerouslySetInnerHTML={{ __html: highlightQuery(hit.title) }}
+                            />
+                            <div class="persoo-autocompleteDataset__hits__hit__price">
+                                {
+                                    hit.originalPrice &&
+                                    <span class="persoo-autocompleteDataset__hits__hit__price__original">
+                                        { hit.originalPrice + priceSuffix }
+                                    </span>
+                                }
+                                <span class="persoo-autocompleteDataset__hits__hit__price__current">
+                                    { hit.price + priceSuffix }
+                                </span>
+                            </div>
+                        </a>
+                    </div>;
+        },
+/* TODO clean this */
+/*        hit: hit =>
             <div
               style={{
                 borderBottom: '1px solid #bbb',
                 paddingBottom: '5px',
                 marginBottom: '5px',
               }}
-            >{JSON.stringify(hit).slice(0, 100)}...</div>,
+            >{JSON.stringify(hit).slice(0, 100)}...</div>, */
+        empty: null,
         header: null,
         footer: null
     },

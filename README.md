@@ -83,9 +83,10 @@ For each option, there is data type and default value in the bracket.
 
 * **offsetLeft** (number, 0) -- dropdown offset in px relatively to InputElement
 * **offsetTop** (number, 1) -- dropdown offset in px relatively to InputElement
-* **width** (number|'auto'|null, 'auto') -- dropdown width in px, 'auto' means use the width of the Input Element, null means do not set width in inline styles because it will be set in CSS.
+* **width** (number|'input'|null, 'input') -- dropdown width in px, 'input' means use the width of the Input Element, null means do not set width in inline styles because it will be set in CSS.
 
 * **datasets** (array of objects) -- datasetOptions for each dataset
+  * **id** (string) -- id used in CSS classes for this dataset (dataset index is used by default)
   * **source** (function) -- `function (query, callback)` which for given query calls `callback(result)`, where result is array of hits. Most often you will use `window.persoo.getSuggestSource(algorithmID, 5)` to get 5 results for persoo algorithm with id algorithmID.
   * **showWhenEmptyResults** (boolean, true) -- show dataset even with empty results (other dataset may have some results)
   * **templates** (map) -- templates for each item in the structure.
@@ -130,7 +131,6 @@ and return string with HTML.
 ```
 
 > :information_source: TODO:
-> * width: none, auto ... given by CSS
 > * custom listeners to events
 
 

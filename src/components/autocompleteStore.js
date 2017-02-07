@@ -12,7 +12,7 @@ const defaultOptions = {
     ],
     offsetLeft: 0, // [in px] relatively to InputElement
     offsetTop: 1, // [in px] relatively to InputElement
-    width: 'auto', // [in px],  'auto' means use width of the Input Element,
+    width: 'input', // [in px],  'input' means use width of the Input Element,
                    // null means do not set it in inline styles
     cssClasses: {
         // root: {}  // add CSS classes to autocompleteDropdown__root
@@ -23,7 +23,9 @@ const defaultOptions = {
 
     autocompleteID: 'persooAutocomplete',
     offerID: 'persooAutocomplete',
-    locationID: 'persooAutocomplete'
+    locationID: 'persooAutocomplete',
+
+    priceSuffix: '' // to display currency after price
 };
 const defaultDatasetOptions = {
     showWhenEmptyResults: true,
@@ -49,17 +51,14 @@ export function getInitialState(optionsFromArgs) {
     state.options = Object.assign({}, defaultOptions, optionsFromArgs);
     const options = state.options;
     options.datasets = options.datasets.map(
-            datasetOptions => mergeObjects(defaultDatasetOptions, datasetOptions)
+        (datasetOptions, i) => {
+            let fullOptions = mergeObjects(Object.assign({index: i, id: i}, defaultDatasetOptions), datasetOptions);
+            Object.keys(fullOptions.templates).map(
+                 x => {fullOptions.templates[x] = convertToReactComponent(fullOptions.templates[x]);}
+            );
+            return fullOptions;
+        }
     );
-
-    for (let i = 0; i < options.datasets.length; i++) {
-        let dataset = options.datasets[i];
-        dataset.index = i;
-        // convert all string templates to react templates
-        Object.keys(dataset.templates).map(
-             x => {dataset.templates[x] = convertToReactComponent(dataset.templates[x]);}
-        );
-    }
 
     const datasetInitialState = {
             hits: [],
