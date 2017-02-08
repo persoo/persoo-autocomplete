@@ -58,7 +58,10 @@ export default function createAutocompleteActions(store, inputConnector, caches)
         const state = store.getState();
         let dataReceivedForQuery = state.datasets[datasetIndex].query;
         let currentQuery = state.query;
-        hits = hits || [];
+
+        // Note:  hits.map() for hits created in other iFrame returns undefined.
+        // Thus we need create clone in js-context of new iFrame window.
+        hits = JSON.parse(JSON.stringify(hits)) || [];
 
         store.setDatasetState(datasetIndex,
                 {hits: hits, searching: false},
