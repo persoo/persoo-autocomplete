@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+import { getHighlightingFunc } from 'highlightUtils';
 
 /**
  * Convert simple HTML of result of template(props) call into React Component, which
@@ -57,32 +58,6 @@ function normalizeQuery(str) {
     return (str || '').replace(/^\s*/g, '').replace(/\s{2,}/g, ' ');
 }
 
-function highlightTerms(str, terms, tagName) {
-    // escape special characters
-    terms = terms.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-    const re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
-    return str.replace(re, "<" + tagName + ">$1</" + tagName + ">")
-}
-/**
- * Return compiled function for highlighting words from "terms" by wrapping matched terms in tagName.
- * I.e. highlight('hello', 'em') will produce '<em>hello</em> world' from 'hello world'.
- * @param {string} terms
- * @param {string} tagName
- */
-function getHighlightingFunc(terms, tagName) {
-    if (!terms) {
-        return function (str) {return str;}
-    }
-    // escape special characters
-    terms = terms.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-    const regex = new RegExp("(" + terms.split(' ').join('|') + ")", "gi");
-    const replacement = "<" + tagName + ">$1</" + tagName + ">";
-
-    return function(str) {
-        return str.replace(regex, replacement);
-    };
-}
-
 /**
  * Call callback() at most once in time interval. Call callback() at the end of interval
  * in case it was canceled during the interval.
@@ -113,8 +88,9 @@ function throttle(callback, limit) {
 }
 
 export {
-    convertToReactComponent,
     getHighlightingFunc,
+
+    convertToReactComponent,
 
     addEvent,
     removeEvent,

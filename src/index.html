@@ -127,26 +127,26 @@
         }
 
 
-        #autocomplete1 .persoo-autocompleteDataset__hits__hit .persooSearchImgWrap {
+        #autocomplete1 .persoo-autocompleteDataset__hits__hit__img {
             width: 17%;
             display: table-cell;
             vertical-align: middle;
         }
 
-        #autocomplete1 .persoo-autocompleteDataset__hits__hit .persooSearchTitle {
+        #autocomplete1 .persoo-autocompleteDataset__hits__hit__title {
             display: table-cell;
             vertical-align: middle;
             text-overflow: ellipsis;
             width: 70%;
         }
 
-        #autocomplete1 .persoo-autocompleteDataset__hits__hit .persooSearchPrice {
+        #autocomplete1 .persoo-autocompleteDataset__hits__hit__price {
             display: table-cell;
             vertical-align: middle;
             font-weight: bold;
         }
 
-        #autocomplete1 .persoo-autocompleteDataset__hits__hit img {
+        #autocomplete1 .persoo-autocompleteDataset__hits__hit__img img {
             max-width: 64px;
             max-height: 64px;
             display: table-cell;
@@ -223,24 +223,24 @@
             vertical-align: middle;
         }
 
-        #autocomplete2 .persoo-autocompleteDataset__hits__hit .persooSearchImgWrap {
+        #autocomplete2 .persoo-autocompleteDataset__hits__hit__img {
         }
 
-        #autocomplete2 .persoo-autocompleteDataset__hits__hit .persooSearchTitle {
+        #autocomplete2 .persoo-autocompleteDataset__hits__hit__title {
             margin: 5px 0;
             text-overflow: ellipsis;
         }
 
-        #autocomplete2 .persoo-autocompleteDataset__hits__hit .persooSearchTitle b {
+        #autocomplete2 .persoo-autocompleteDataset__hits__hit__title b {
             font-weight: bold;
             color: #498fdb;
         }
 
-        #autocomplete2 .persoo-autocompleteDataset__hits__hit .persooSearchPrice {
+        #autocomplete2 .persoo-autocompleteDataset__hits__hit__price {
             font-weight: bold;
         }
 
-        #autocomplete2 .persoo-autocompleteDataset__hits__hit img {
+        #autocomplete2 .persoo-autocompleteDataset__hits__hit__img img {
             max-width: 100px;
             max-height: 100px;
         }
@@ -286,6 +286,7 @@
         setTimeout( function() {
             var myAutocomplete1 = new PersooAutocomplete('#demoInput1', {
                 autocompleteID: "autocomplete1",
+                closeOnBlur: false,
                 datasets: [
                     {
                         source: window.persoo.getSuggestSource(algorithmID, 5),
@@ -298,12 +299,12 @@
                                     return "PRODUCTS matching \"" + data.query + "\"";
                                 }
                             },
-                            item: function(data) {
+                            hit: function(data) {
                                 var item = data.hit;
                                 return '<a href="' + item.link + '">' +
-                                    '<div class="persooSearchImgWrap"><img src="' + item.imageLink + '"></div> ' +
-                                    '<div class="persooSearchTitle">' + data.highlightQuery(item.title) + '</div>' +
-                                    '<div class="persooSearchPrice">' + item.price + '&nbsp;Kč</div>' +
+                                    '<div class="persoo-autocompleteDataset__hits__hit__img"><img src="' + item.imageLink + '"></div> ' +
+                                    '<div class="persoo-autocompleteDataset__hits__hit__title">' + data.highlightQuery(item.title) + '</div>' +
+                                    '<div class="persoo-autocompleteDataset__hits__hit__price">' + item.price + '&nbsp;Kč</div>' +
                                     '</a>';
                             }
                         },
@@ -315,7 +316,7 @@
                         source: window.persoo.getSuggestSource(algorithmID, 5),
                         templates: {
                             header: "CATEGORIES",
-                            item: function(data) {
+                            hit: function(data) {
                                 var item = data.hit;
                                 return data.highlightQuery(item.title);
                             },
@@ -331,12 +332,13 @@
 
             var myAutocomplete2 = new PersooAutocomplete('#demoInput2', {
                 autocompleteID: "autocomplete2",
+                closeOnBlur: false,
                 datasets: [
                     {
                         source: window.persoo.getSuggestSource(algorithmID, 5),
                         templates: {
                             header: "CATEGORIES",
-                            item: function(data) {
+                            hit: function(data) {
                                 var item = data.hit;
                                 return data.highlightQuery(item.title);
                             }
@@ -351,14 +353,6 @@
                                 } else {
                                     return "PRODUCTS MATCHING '" + data.query.toUpperCase() + "'";
                                 }
-                            },
-                            item: function(data) {
-                                var item = data.hit;
-                                return '<a href="' + item.link + '">' +
-                                    '<div class="persooSearchImgWrap"><img src="' + item.imageLink + '"></div> ' +
-                                    '<div class="persooSearchTitle">' + data.highlightQuery(item.title) + '</div>' +
-                                    '<div class="persooSearchPrice">' + item.price + '&nbsp;Kč</div>' +
-                                    '</a>';
                             }
                         }
                     }

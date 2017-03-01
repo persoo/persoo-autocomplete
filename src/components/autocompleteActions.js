@@ -96,18 +96,37 @@ export default function createAutocompleteActions(store, inputConnector, caches)
         },
         onKeyDownAction(e) {
             let key = window.event ? e.keyCode : e.which;
-            if ((key == KEYS.DOWN || key == KEYS.UP) && inputConnector.getValue()) {
+            if ([KEYS.DOWN, KEYS.UP, KEYS.RIGHT, KEYS.LEFT].indexOf(key) >= 0 && inputConnector.getValue()) {
                 // move cursor
-                if (key == KEYS.DOWN) {
-                    store.moveToNextHit();
-                } else {
-                    store.moveToPreviousHit();
+                switch (key) {
+                    case KEYS.DOWN:
+                        store.moveToNextHit();
+                        break;
+                    case KEYS.UP:
+                        store.moveToPreviousHit();
+                        break;
+                    case KEYS.RIGHT:
+                        if (store.getSelectedHit() != null)
+                            store.moveToNextHit();
+                        break;
+                    case KEYS.LEFT:
+                        if (store.getSelectedHit() != null)
+                            store.moveToPreviousHit();
+                        break;
+                    default:
                 }
                 return false;
             }
             else if (key == KEYS.ESC) {
                 // hide dropdown
                 store.updateState({dropdownIsVisible: false});
+            }
+            else if (key == KEYS.TAB && store.getSelectedHit() !== null) {
+                // rotate datasets
+                if (store.moveToNextDataset()) {
+                   // TODO tab is strange, how to get rid of browser default tab behavior???
+                   //e.stopPropagation();
+                }
             }
             else if (key == KEYS.ENTER || key ==  KEYS.TAB) {
                 let selectedHit = store.getSelectedHit();

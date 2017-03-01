@@ -138,6 +138,32 @@ export function createAutocompleteStore(initialState) {
             }
         },
 
+        /** return false if not moved in case of only 1 dataset */
+        moveToNextDataset() {
+            if (this.hasHits()) {
+                let {selectedDataset, selectedHit, datasets} = store.getState();
+                const originalDataset = selectedDataset;
+
+                if (selectedDataset == null) {
+                    selectedDataset = 0;
+                    selectedHit = 0;
+                } else {
+                    selectedDataset = (selectedDataset + 1) % datasets.length;
+                }
+                while (selectedHit >= datasets[selectedDataset].hits.length) {
+                    selectedDataset = (selectedDataset + 1) % datasets.length;
+                    selectedHit = 0;
+                }
+
+                if (originalDataset == null || originalDataset != selectedDataset) {
+                    store.updateState({selectedDataset, selectedHit});
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
+
         // i.e. setDatasetState(1, {key1: val1, key2: val2}, {rootKey: val3})
         setDatasetState(index, datasetIncrement, rootStateIncrement) {
             let datasets = store.getState().datasets;
