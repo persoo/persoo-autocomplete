@@ -285,7 +285,7 @@
                                 return "PRODUCTS matching \"" + data.query + "\"";
                             }
                         },
-                        item: function(data) {
+                        hit: function(data) {
                             var item = data.hit;
                             return '<a href="' + item.link + '">' +
                                 '<div class="persooSearchImgWrap"><img src="' + item.imageLink + '"></div> ' +
@@ -302,7 +302,7 @@
                     source: window.persoo.getSuggestSource(algorithmID, 5),
                     templates: {
                         header: "CATEGORIES",
-                        item: function(data) {
+                        hit: function(data) {
                             var item = data.hit;
                             return data.highlightQuery(item.title);
                         },
@@ -323,7 +323,7 @@
                     source: window.persoo.getSuggestSource(algorithmID, 5),
                     templates: {
                         header: "CATEGORIES",
-                        item: function(data) {
+                        hit: function(data) {
                             var item = data.hit;
                             return data.highlightQuery(item.title);
                         }
@@ -339,7 +339,7 @@
                                 return "PRODUCTS MATCHING '" + data.query.toUpperCase() + "'";
                             }
                         },
-                        item: function(data) {
+                        hit: function(data) {
                             var item = data.hit;
                             return '<a href="' + item.link + '">' +
                                 '<div class="persooSearchImgWrap"><img src="' + item.imageLink + '"></div> ' +
