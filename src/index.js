@@ -45,7 +45,12 @@ window.persoo.getSuggestSource = function(algorithmID, maxCount) {
         console.log('SuggestSource: sending request for query "' + term + "'.");
         persoo('send', 'suggest',
                 {_w:'getAlgorithm', algorithmID: algorithmID, query: term, count: maxCount},
-                function(data){ callback((data.items && data.items.slice(0, maxCount)) || []); }
+                function(data){
+                    callback({
+                        hits: (data.items && data.items.slice(0, maxCount)) || [],
+                        hitsCount: data.itemsCount
+                    });
+                }
         );
     }
 }

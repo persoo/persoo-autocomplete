@@ -60,8 +60,7 @@ export default class AutocompleteManager extends Component {
         const state = this.store.getState();
         const options = state.options;
 
-
-        const {dropdownTop, dropdownLeft, dropdownWidth, dropdownIsVisible} = this.state;
+        const {dropdownTop, dropdownLeft, dropdownWidth, dropdownIsVisible, showWhenEmptyResults} = this.state;
         let dropdownStyle = {
             top: dropdownTop + 'px',
             left: dropdownLeft + 'px'
@@ -77,7 +76,7 @@ export default class AutocompleteManager extends Component {
                 offerID={options.offerID}
                 locationID={options.locationID}
                 priceSuffix={options.priceSuffix}
-                isVisible={dropdownIsVisible && (this.store.hasHits() || options.showEmptyResults)}
+                isVisible={dropdownIsVisible && (this.store.hasHits() || showWhenEmptyResults)}
                 query={state.query}
                 datasetsState={state.datasets}
                 datasetsOptions={options.datasets}

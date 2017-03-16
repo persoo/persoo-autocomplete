@@ -8,8 +8,8 @@ const cx = classNames();
 class AutocompleteDataset extends Component {
 
     render() {
-        const {query, hits, selectedHit, datasetIndex, datasetID, templates, cssClasses,
-                priceSuffix, selectHitAction, clickHitAction} = this.props;
+        const {query, hits, hitsCount, selectedHit, datasetIndex, datasetID, templates,
+                cssClasses, priceSuffix, selectHitAction, clickHitAction} = this.props;
         const defaultTemplates = AutocompleteDataset.defaultProps.templates;
         const ItemComponent = templates.hit || defaultTemplates.hit;
         const HeaderComponent = templates.header || defaultTemplates.header;
@@ -31,6 +31,7 @@ class AutocompleteDataset extends Component {
                             'autocompleteDataset-' + datasetID + '__header')
                         }
                         query={query}
+                        count={hitsCount}
                         isEmpty={!hits || hits.length <= 0}
                         style={cssClasses.header}
                     />
@@ -42,6 +43,7 @@ class AutocompleteDataset extends Component {
                             'autocompleteDataset-' + datasetID + '__empty')
                         }
                         query={query}
+                        count={hitsCount}
                         isEmpty={!hits || hits.length <= 0}
                         style={cssClasses.empty}
                     />
@@ -73,6 +75,7 @@ class AutocompleteDataset extends Component {
                                     'autocompleteDataset-' + datasetID + '__footer')
                             }
                             query={query}
+                            count={hitsCount}
                             isEmpty={!hits || hits.length <= 0}
                             style={cssClasses.footer}
                         />

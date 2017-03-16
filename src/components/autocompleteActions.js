@@ -35,12 +35,12 @@ export default function createAutocompleteActions(store, inputConnector, caches)
         let query = state.query;
         for (let i = 0; i < datasetsCount; i++) {
             let datasetState = state.datasets[i];
-            let hits = caches[i].get(query);
+            let searchResult = caches[i].get(query);
             if (!datasetState.searching) {
-                if (hits) {
+                if (searchResult) {
                     // take it from cache
                     store.setDatasetState(i, {query: query});
-                    receiveHits(i, hits);
+                    receiveHits(i, searchResult);
                     console.log('Serving query "' + query + '" from cache');
                 } else {
                     // call external source to get hits for this dataset
@@ -54,20 +54,22 @@ export default function createAutocompleteActions(store, inputConnector, caches)
             }
         }
     }
-    function receiveHits(datasetIndex, hits) {
+    function receiveHits(datasetIndex, searchResult) {
         const state = store.getState();
         let dataReceivedForQuery = state.datasets[datasetIndex].query;
         let currentQuery = state.query;
 
         // Note:  hits.map() for hits created in other iFrame returns undefined.
         // Thus we need create clone in js-context of new iFrame window.
-        hits = JSON.parse(JSON.stringify(hits)) || [];
+        searchResult = JSON.parse(JSON.stringify(searchResult));
+        searchResult.hits = searchResult.hits || [];
+        searchResult.hitsCount = searchResult.hitsCount || 0;
 
         store.setDatasetState(datasetIndex,
-                {hits: hits, searching: false},
+                {hits: searchResult.hits, hitsCount: searchResult.hitsCount, searching: false},
                 {selectedDataset: null, selectedHit: null});
 
-        caches[datasetIndex].set(dataReceivedForQuery, hits);
+        caches[datasetIndex].set(dataReceivedForQuery, searchResult);
 
         if (currentQuery != dataReceivedForQuery) {
             getSearchHitsThrottled();

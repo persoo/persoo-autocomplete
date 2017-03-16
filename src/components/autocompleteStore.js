@@ -4,7 +4,6 @@ import {mergeObjects, convertToReactComponent} from 'utils';
 const defaultOptions = {
     minChars: 1,
     requestThrottlingInMs: 200,
-    showEmptyResults: true, // show dropdown if there are no results in any dataset
     openOnFocus: true,
     closeOnBlur: true, // usefull for debugging
     datasets: [
@@ -50,18 +49,22 @@ export function getInitialState(optionsFromArgs) {
 
     state.options = Object.assign({}, defaultOptions, optionsFromArgs);
     const options = state.options;
+    let showWhenEmptyResults = false;
     options.datasets = options.datasets.map(
         (datasetOptions, i) => {
             let fullOptions = mergeObjects(Object.assign({index: i, id: i}, defaultDatasetOptions), datasetOptions);
             Object.keys(fullOptions.templates).map(
                  x => {fullOptions.templates[x] = convertToReactComponent(fullOptions.templates[x]);}
             );
+            if (fullOptions.showWhenEmptyResults) showWhenEmptyResults = true; // set global flag
             return fullOptions;
         }
     );
+    state.showWhenEmptyResults = showWhenEmptyResults;
 
     const datasetInitialState = {
             hits: [],
+            hitsCount: 0,
             query: null, // query corresponding to hits
             searching: false
     };

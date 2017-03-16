@@ -34,6 +34,7 @@ class AutocompleteDropdown extends Component {
                         canShowDataset(datasetsOptions, datasetsState, index) &&
                         <AutocompleteDataset
                             hits={datasetsState[index].hits}
+                            hitsCount={datasetsState[index].hitsCount}
                             selectedHit={selectedDataset == index ? selectedHit : -1}
                             datasetIndex={index}
                             datasetID={datasetsOptions[index].id}

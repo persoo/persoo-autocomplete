@@ -77,7 +77,6 @@ For each option, there is data type and default value in the bracket.
 
 * **minChars** (number) -- for how many characters in the input it starts suggesting
 * **requestThrottlingInMs** (number as millis) -- how offten we can ask for new suggestions. There can be at most 1 request in throttling interval.
-* **showEmptyResults** (boolean, true) -- show dropdown event if there are no results in any dataset
 * **openOnFocus** (boolean, true) -- open dropdown again on focus (even without changing query)
 * **closeOnBlur** (boolean, true) -- false is very usefull for debugging
 
@@ -87,7 +86,7 @@ For each option, there is data type and default value in the bracket.
 
 * **datasets** (array of objects) -- datasetOptions for each dataset
   * **id** (string) -- id used in CSS classes for this dataset (dataset index is used by default)
-  * **source** (function) -- `function (query, callback)` which for given query calls `callback(result)`, where result is array of hits. Most often you will use `window.persoo.getSuggestSource(algorithmID, 5)` to get 5 results for persoo algorithm with id algorithmID.
+  * **source** (function) -- `function (query, callback)` which for given query calls `callback(result)`, where result is `{hits: [], hitsCount: 0}`. `Hits` are hits to be displayed and `hitsCount` are total hits found. Not i.e. 5 for 5 top hits return to autocomple. Most often you will use `window.persoo.getSuggestSource(algorithmID, 5)` to get 5 results for persoo algorithm with id algorithmID.
   * **showWhenEmptyResults** (boolean, true) -- show dataset even with empty results (other dataset may have some results)
   * **templates** (map) -- templates for each item in the structure.
 
