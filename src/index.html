@@ -289,7 +289,7 @@
                 closeOnBlur: false,
                 datasets: [
                     {
-                        source: window.persoo.getSuggestSource(algorithmID, 5),
+                        source: window.persoo.getAlgorithmSource(algorithmID, 5),
                         showWhenEmptyResults: false,
                         templates: {
                             header: function(data) {
@@ -308,12 +308,12 @@
                                     '</a>';
                             }
                         },
-                        cssClasses: {
+                        cssProps: {
                             header: { color: "green"}
                         }
                     },
                     {
-                        source: window.persoo.getSuggestSource(algorithmID, 5),
+                        source: window.persoo.getAlgorithmSource(algorithmID, 5),
                         templates: {
                             header: "CATEGORIES",
                             hit: function(data) {
@@ -322,7 +322,7 @@
                             },
                             empty: 'No results found.'
                         },
-                        cssClasses: {
+                        cssProps: {
                             header: { color: "red"}
                         }
                     }
@@ -335,7 +335,7 @@
                 closeOnBlur: false,
                 datasets: [
                     {
-                        source: window.persoo.getSuggestSource(algorithmID, 5),
+                        source: window.persoo.getAlgorithmSource(algorithmID, 5),
                         templates: {
                             header: "CATEGORIES",
                             hit: function(data) {
@@ -345,7 +345,7 @@
                         }
                     },
                     {
-                        source: window.persoo.getSuggestSource(algorithmID, 6),
+                        source: window.persoo.getAlgorithmSource(algorithmID, 6),
                         templates: {
                             header: function(data) {
                                 if (data.isEmpty) {

@@ -13,7 +13,7 @@ const defaultOptions = {
     offsetTop: 1, // [in px] relatively to InputElement
     width: 'input', // [in px],  'input' means use width of the Input Element,
                    // null means do not set it in inline styles
-    cssClasses: {
+    cssProps: {
         // root: {}  // add CSS classes to autocompleteDropdown__root
     },
     onSelect: function(selectedHit){ // function onSelect(selectedHit) {}
@@ -29,7 +29,7 @@ const defaultOptions = {
 const defaultDatasetOptions = {
     showWhenEmptyResults: true,
     templates: {},
-    cssClasses: {}
+    cssProps: {}
 };
 
 export function getInitialState(optionsFromArgs) {

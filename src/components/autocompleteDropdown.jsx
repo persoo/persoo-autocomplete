@@ -39,7 +39,7 @@ class AutocompleteDropdown extends Component {
                             datasetIndex={index}
                             datasetID={datasetsOptions[index].id}
                             templates={datasetsOptions[index].templates}
-                            cssClasses={datasetsOptions[index].cssClasses}
+                            cssProps={datasetsOptions[index].cssProps}
                             {...{query, priceSuffix, selectHitAction, clickHitAction}}
                         />
                     ))

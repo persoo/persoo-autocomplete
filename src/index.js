@@ -40,15 +40,15 @@ window.PersooAutocomplete = PersooAutocomplete;
 // add suggest source to Persoo client
 // TODO later add the method directly to Persoo client
 window.persoo = window.persoo || {};
-window.persoo.getSuggestSource = function(algorithmID, maxCount) {
+window.persoo.getAlgorithmSource = function(algorithmID, maxCount) {
     return function(term, callback){
-        console.log('SuggestSource: sending request for query "' + term + "'.");
+        console.log('AlgorithmSource: sending request for query "' + term + "'.");
         persoo('send', 'suggest',
-                {_w:'getAlgorithm', algorithmID: algorithmID, query: term, count: maxCount},
+                {_w:'getRecommendation', algorithmID: algorithmID, query: term, page: 0, itemsPerPage: maxCount},
                 function(data){
                     callback({
-                        hits: (data.items && data.items.slice(0, maxCount)) || [],
-                        hitsCount: data.itemsCount
+                        hits: data.items || [],
+                        hitsCount: data.itemsCount || 0
                     });
                 }
         );

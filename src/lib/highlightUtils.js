@@ -1,13 +1,5 @@
 import diacriticsUtils from './diacriticsUtils';
 
-function oldHighlightTerms(terms, tagName, str) {
-    const strWithoutAccents = diacriticsUtils.removeDiacritics(str);
-    // escape special characters
-    terms = terms.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-    const re = new RegExp("(" + terms.split(' ').join('|') + ")", "gi");
-    return str.replace(re, "<" + tagName + ">$1</" + tagName + ">");
-}
-
 /** Highlight words from qeury in string str,
  *  by using <tagName>...</tagName> for highlighting
  */

@@ -68,7 +68,7 @@ export default class AutocompleteManager extends Component {
         if (dropdownWidth !== null) {
             dropdownStyle.width = dropdownWidth + 'px';
         }
-        const customCss = options.cssClasses.root;
+        const customCss = options.cssProps.root;
 
         return (
             <AutocompleteDropdown

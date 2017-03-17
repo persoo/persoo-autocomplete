@@ -39,7 +39,7 @@ var myAutocomplete1 = new PersooAutocomplete('#demoInput1', {
     // ... options ...
     datasets: [
         {
-            source: window.persoo.getSuggestSource(algorithmID, 5),
+            source: window.persoo.getAlgorithmSource(algorithmID, 5),
             templates: {
                 //  optional templates for header, hit, footer
             }
@@ -86,7 +86,7 @@ For each option, there is data type and default value in the bracket.
 
 * **datasets** (array of objects) -- datasetOptions for each dataset
   * **id** (string) -- id used in CSS classes for this dataset (dataset index is used by default)
-  * **source** (function) -- `function (query, callback)` which for given query calls `callback(result)`, where result is `{hits: [], hitsCount: 0}`. `Hits` are hits to be displayed and `hitsCount` are total hits found. Not i.e. 5 for 5 top hits return to autocomple. Most often you will use `window.persoo.getSuggestSource(algorithmID, 5)` to get 5 results for persoo algorithm with id algorithmID.
+  * **source** (function) -- `function (query, callback)` which for given query calls `callback(result)`, where result is `{hits: [], hitsCount: 0}`. `Hits` are hits to be displayed and `hitsCount` are total hits found (not only hits returned). Most often you will use `window.persoo.getAlgorithmSource(algorithmID, 5)` to get 5 results for persoo algorithm with id algorithmID.
   * **showWhenEmptyResults** (boolean, true) -- show dataset even with empty results (other dataset may have some results)
   * **templates** (map) -- templates for each item in the structure.
 
@@ -94,12 +94,12 @@ For each option, there is data type and default value in the bracket.
     * hit
     * footer
     * empty -- there is no default template, will not display if not provided in options
-  * **cssClasses** (map) -- for each element, it contains map with CSS properties,
+  * **cssProps** (map) -- for each element, it contains map with CSS properties,
     * header (map with CSS props)
     * hit (map with CSS props)
     * footer (map with CSS props)
     * empty (map with CSS props)
-* **cssClasses** (map) ---- for each element, it contains map with CSS properties,
+* **cssProps** (map) ---- for each element, it contains map with CSS properties,
     * root (map with CSS props)
 
 * **onSelect** (function) -- function(selectedHit){} to be called when user selects suggested hit
@@ -118,7 +118,7 @@ data = {
 ```
 and return string with HTML.
 
-> **cssClasses:** cssClasses for each element contains map with CSS properties.
+> **cssProps:** cssProps for each element contains map with CSS properties.
 > For example for `<root>` element it is
 ```javascript
 {
@@ -165,7 +165,7 @@ Dropdown box displayed below your input has folowing structure and classes.
 
 You can find a few CSS examples in the [Demo]. Just look at the source code for corresponding `<style>` element.
 
-> You can also use inline CSS styles provided through options (cssClasses on various objects).
+> You can also use inline CSS styles provided through options (cssProps on various objects).
 
 ## Development Workflow
 

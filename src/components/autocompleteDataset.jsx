@@ -9,7 +9,7 @@ class AutocompleteDataset extends Component {
 
     render() {
         const {query, hits, hitsCount, selectedHit, datasetIndex, datasetID, templates,
-                cssClasses, priceSuffix, selectHitAction, clickHitAction} = this.props;
+                cssProps, priceSuffix, selectHitAction, clickHitAction} = this.props;
         const defaultTemplates = AutocompleteDataset.defaultProps.templates;
         const ItemComponent = templates.hit || defaultTemplates.hit;
         const HeaderComponent = templates.header || defaultTemplates.header;
@@ -23,7 +23,7 @@ class AutocompleteDataset extends Component {
                     'autocompleteDataset-' + datasetID + '__root',
                     {selected: selectedHit >= 0})
                 }
-                style={cssClasses.root}
+                style={cssProps.root}
             >
                 {
                     HeaderComponent && <HeaderComponent
@@ -33,7 +33,7 @@ class AutocompleteDataset extends Component {
                         query={query}
                         count={hitsCount}
                         isEmpty={!hits || hits.length <= 0}
-                        style={cssClasses.header}
+                        style={cssProps.header}
                     />
                 }
                 {
@@ -45,13 +45,13 @@ class AutocompleteDataset extends Component {
                         query={query}
                         count={hitsCount}
                         isEmpty={!hits || hits.length <= 0}
-                        style={cssClasses.empty}
+                        style={cssProps.empty}
                     />
                 }
                 <div {...cx('autocompleteDataset__hits',
                         'autocompleteDataset-' + datasetID + '__hits')
                     }
-                    style={cssClasses.hits}
+                    style={cssProps.hits}
                 >
                     {hits.map( (hit, index) =>
                         <ItemComponent
@@ -64,7 +64,7 @@ class AutocompleteDataset extends Component {
                             query={query}
                             highlightQuery={highlightQuery}
                             priceSuffix={priceSuffix}
-                            style={cssClasses.hits__hit}
+                            style={cssProps.hits__hit}
                             onMouseEnter={(selectedHit != index) && selectHitAction.bind(null, datasetIndex, index)}
                             onMouseDown={clickHitAction.bind(null, datasetIndex, index)}
                         />
@@ -77,7 +77,7 @@ class AutocompleteDataset extends Component {
                             query={query}
                             count={hitsCount}
                             isEmpty={!hits || hits.length <= 0}
-                            style={cssClasses.footer}
+                            style={cssProps.footer}
                         />
                 }
             </div>
@@ -111,7 +111,7 @@ AutocompleteDataset.propTypes = {
             PropTypes.func,
         ]).isRequired
     },
-    cssClasses: PropTypes.object,
+    cssProps: PropTypes.object,
 
     selectHitAction: PropTypes.func,
     clickHitAction: PropTypes.func
@@ -120,7 +120,6 @@ AutocompleteDataset.propTypes = {
 AutocompleteDataset.defaultProps = {
     templates: {
         hit: (props) =>  {
-            const nbsp = "\u00a0";
             const {hit, highlightQuery, priceSuffix, className, style,
                 onMouseEnter, onMouseDown, onMouseLeave} = props;
             return  <div {...{className, style, onMouseEnter, onMouseDown, onMouseLeave}} >
@@ -145,20 +144,11 @@ AutocompleteDataset.defaultProps = {
                         </a>
                     </div>;
         },
-/* TODO clean this */
-/*        hit: hit =>
-            <div
-              style={{
-                borderBottom: '1px solid #bbb',
-                paddingBottom: '5px',
-                marginBottom: '5px',
-              }}
-            >{JSON.stringify(hit).slice(0, 100)}...</div>, */
         empty: null,
         header: null,
         footer: null
     },
-    cssClasses: {
+    cssProps: {
     }
 };
 
