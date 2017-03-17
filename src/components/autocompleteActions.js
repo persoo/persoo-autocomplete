@@ -10,6 +10,10 @@ const KEYS = {
         DOWN: 40
 };
 
+function getRedirectToHitLinkAction (link) {
+    return function () { window.location = link; };
+}
+
 export default function createAutocompleteActions(store, inputConnector, caches) {
     const receiveHitsForIndex = [];
     for (let i = 0; i < store.getState().datasets.length; i++) {
@@ -41,16 +45,16 @@ export default function createAutocompleteActions(store, inputConnector, caches)
                     // take it from cache
                     store.setDatasetState(i, {query: query});
                     receiveHits(i, searchResult);
-                    console.log('Serving query "' + query + '" from cache');
+                    if (DEBUG) { console.log('Serving query "' + query + '" from cache'); }
                 } else {
                     // call external source to get hits for this dataset
                     store.setDatasetState(i, {searching: true, query: query});
                     let callback = receiveHitsForIndex[i];
                     state.options.datasets[i].source( query, callback);
-                    console.log('Sending query "' + query + '".');
+                    if (DEBUG) { console.log('Sending query "' + query + '".'); }
                 }
             } else {
-                console.log('Omitting query "' + query + '".');
+                if (DEBUG) { console.log('Omitting query "' + query + '".'); }
             }
         }
     }
@@ -134,7 +138,7 @@ export default function createAutocompleteActions(store, inputConnector, caches)
                 let selectedHit = store.getSelectedHit();
                 if (selectedHit) {
                     // apply selected hit
-                    store.getState().options.onSelect(selectedHit);
+                    store.getState().options.onSelect(selectedHit, getRedirectToHitLinkAction(selectedHit.link));
                 } else {
                     // default search action
                 }
@@ -143,7 +147,7 @@ export default function createAutocompleteActions(store, inputConnector, caches)
         },
         onKeyUpAction(e) {
             let key = window.event ? e.keyCode : e.which;
-            console.log(key);
+            if (DEBUG) { console.log("KeyUp action: " + key); }
             if (!key || (key < 35 || key > 40) && key != KEYS.ENTER && key != KEYS.ESC) {
                 let value = inputConnector.getValue();
                 if (value.length >= store.getState().options.minChars) {
@@ -158,7 +162,8 @@ export default function createAutocompleteActions(store, inputConnector, caches)
             store.updateState({selectedDataset: datasetIndex, selectedHit: hitIndex})
         },
         clickHitAction(datasetIndex, hitIndex) {
-            store.getState().options.onSelect(store.getSelectedHit());
+            let selectedHit = store.getSelectedHit();
+            store.getState().options.onSelect(selectedHit, getRedirectToHitLinkAction(selectedHit.link));
             store.updateState({selectedDataset: datasetIndex, selectedHit: hitIndex, dropdownIsVisible: false});
         }
     }

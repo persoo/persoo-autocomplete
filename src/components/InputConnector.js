@@ -11,7 +11,7 @@ export default class PersooInputConnector {
         this.inputSelector = inputSelector;
         this.inputElement = document.querySelector(this.inputSelector);
         if (!this.inputElement) {
-            console.log("PersooAutocompleteInput: cannot find input element" +
+            console.warn("PersooAutocompleteInput: cannot find input element" +
                         ` with selector "{$this.inputElementSelector}".`);
         }
     }

@@ -81,8 +81,17 @@ module.exports = {
             publicPath: '/'
         })
     ]).concat(ENV==='production' ? [
-        new webpack.optimize.OccurenceOrderPlugin()
-    ] : []),
+        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: { warnings: false },
+            global_defs: { DEBUG: false }
+        })
+    ] : [
+        new webpack.optimize.UglifyJsPlugin({
+            compress: { warnings: true },
+            global_defs: { DEBUG: true }
+        })
+    ]),
 
     stats: { colors: true },
 

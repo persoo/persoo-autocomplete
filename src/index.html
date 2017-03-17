@@ -286,7 +286,12 @@
         setTimeout( function() {
             var myAutocomplete1 = new PersooAutocomplete('#demoInput1', {
                 autocompleteID: "autocomplete1",
+                width: 'input',
                 closeOnBlur: false,
+                onSelect: function(selectedHit, redirectToHitLink){
+                    redirectToHitLink();
+                    console.log('persooAutocomplete: selected hit is ' + JSON.stringify(selectedHit));
+                },
                 datasets: [
                     {
                         source: window.persoo.getAlgorithmSource(algorithmID, 5),
@@ -326,13 +331,17 @@
                             header: { color: "red"}
                         }
                     }
-                ],
-                width: 'input'
+                ]
             });
 
             var myAutocomplete2 = new PersooAutocomplete('#demoInput2', {
                 autocompleteID: "autocomplete2",
+                width: 600,
                 closeOnBlur: false,
+                onSelect: function(selectedHit, redirectToHitLink){
+                    redirectToHitLink();
+                    console.log('persooAutocomplete: selected hit is ' + JSON.stringify(selectedHit));
+                },
                 datasets: [
                     {
                         source: window.persoo.getAlgorithmSource(algorithmID, 5),
@@ -363,8 +372,7 @@
                             }
                         }
                     }
-                ],
-                width: 600
+                ]
             });
         }, 1000);
     </script>

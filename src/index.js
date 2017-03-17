@@ -1,6 +1,5 @@
 import { h, render } from 'preact';
 
-
 /**
  * Add autocomplete functionality to an input.
  * It's just a wrapper function to call React component and add it to document body.
@@ -42,7 +41,8 @@ window.PersooAutocomplete = PersooAutocomplete;
 window.persoo = window.persoo || {};
 window.persoo.getAlgorithmSource = function(algorithmID, maxCount) {
     return function(term, callback){
-        console.log('AlgorithmSource: sending request for query "' + term + "'.");
+        if (DEBUG) console.log('AlgorithmSource: sending request for query "' + term + "'.");
+
         persoo('send', 'suggest',
                 {_w:'getRecommendation', algorithmID: algorithmID, query: term, page: 0, itemsPerPage: maxCount},
                 function(data){

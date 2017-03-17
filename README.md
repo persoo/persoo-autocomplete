@@ -1,6 +1,9 @@
 # Persoo autocomplete
 
-Full featured autocomplete widget based on React.
+Full featured autocomplete widget written in React.
+  * lightning fast reaction, rendering only html differences
+  * request caching (saving your server resouces)
+  * fully customizable to your requests format, CSS, ...
 
 Try online [Demo] and play with it.
 
@@ -102,10 +105,14 @@ For each option, there is data type and default value in the bracket.
 * **cssProps** (map) ---- for each element, it contains map with CSS properties,
     * root (map with CSS props)
 
-* **onSelect** (function) -- function(selectedHit){} to be called when user selects suggested hit
+* **onSelect** (function) -- `function(selectedHit, redirectToHitLink){}` to be called when user selects suggested hit (either by click or pressing Enter). Default `onSelect()` calls only `redirectToHitLink()`, but you can override default onSelect function and add your own actions.
+
+> NOTE 1:
+>
+>  Default on select action redirects to `hit.link`, not to src in rendered `<a>` element. This way we redirect to the same link by both click and pressing Enter. But `<a>` elements are usefull, i.e. let's use right mouse button to open link in new tab.
 
 
-> NOTES:
+> NOTE 2:
 >
 > **Templates:** template is string or `function(data) {return "<div>html</div>";}`, which receives
 ```javascript
@@ -114,6 +121,8 @@ data = {
    hit: { /* current hit as received from Souce (server) */ },
    highlightQuery: function(str) {return "<highlighted query in str>"}
       // useful for highlighting custom fields in hits
+      // - ignores cases and accents/diacritics, i.e. cr, čr, Čr, CR, ... are highlighted for query "cr"
+      // - hightlights only prefixes, not text in the middle of word
 }
 ```
 and return string with HTML.

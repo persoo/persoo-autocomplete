@@ -16,8 +16,8 @@ const defaultOptions = {
     cssProps: {
         // root: {}  // add CSS classes to autocompleteDropdown__root
     },
-    onSelect: function(selectedHit){ // function onSelect(selectedHit) {}
-        console.log('persooAutocomplete: selected hit is ' + JSON.stringify(selectedHit));
+    onSelect: function(selectedHit, redirectToHitLink){
+        redirectToHitLink();
     },
 
     autocompleteID: 'persooAutocomplete',

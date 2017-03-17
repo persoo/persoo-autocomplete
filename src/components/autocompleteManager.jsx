@@ -55,8 +55,6 @@ export default class AutocompleteManager extends Component {
     }
 
     render() {
-        console.log("Re-rendering autocomplete.");
-
         const state = this.store.getState();
         const options = state.options;
 
