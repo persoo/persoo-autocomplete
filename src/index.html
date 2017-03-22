@@ -295,7 +295,7 @@
                 datasets: [
                     {
                         source: window.persoo.getAlgorithmSource(algorithmID, 5),
-                        showWhenEmptyResults: false,
+                        showWhenEmptyResults: true,
                         templates: {
                             header: function(data) {
                                 if (data.isEmpty) {
@@ -311,6 +311,9 @@
                                     '<div class="persoo-autocompleteDataset__hits__hit__title">' + data.highlightQuery(item.title) + '</div>' +
                                     '<div class="persoo-autocompleteDataset__hits__hit__price">' + item.price + '&nbsp;Kč</div>' +
                                     '</a>';
+                            },
+                            empty: function(data) {
+                                    return "No product found for \"" + data.query + "\".";
                             }
                         },
                         cssProps: {
