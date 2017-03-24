@@ -18,7 +18,7 @@ class AutocompleteDropdown extends Component {
                 selectHitAction, clickHitAction,
                 isVisible, style} = this.props;
         let {className} = {...cx('autocompleteDropdown__root', offerID)};
-        className += ' persooLocation';
+        className += ' persooLocation persooAction';
 
         return (isVisible &&
             <div

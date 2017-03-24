@@ -16,10 +16,15 @@ function convertToReactComponent(template) {
     // FIXME case when template is React Component
     return function(props) {
         const {className, style, onMouseEnter, onMouseDown, onMouseLeave} = props;
-        return <div
-            dangerouslySetInnerHTML={{__html: renderRawHTMLTemplate(props)}}
-            {...{className, style, onMouseEnter, onMouseDown, onMouseLeave}}
-        />;
+        const rawHTML = renderRawHTMLTemplate(props);
+        if (rawHTML) {
+            return <div
+                dangerouslySetInnerHTML={{__html: rawHTML}}
+                {...{className, style, onMouseEnter, onMouseDown, onMouseLeave}}
+            />;
+        } else {
+            return null;
+        }
     }
 }
 
