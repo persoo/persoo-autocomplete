@@ -242,18 +242,22 @@
         <div class="contentVariant">
             <h2>Autocomplete with 2 datasets below each other </h2>
             <p>Type your query into input box below.</p>
-            <div>
-                <input id="demoInput1" type="search">
-                <input id="demoSubmit1" type="submit" value="Search" onsubmit="javascript: alert('you searched for ...');">
-            </div>
+            <form id="demoForm1" accept-charset="utf-8" role="search" onsubmit="javascript: alert('you searched for ...');">
+                <div>
+                    <input id="demoInput1" type="search" autocomplete="off">
+                    <input id="demoSubmit1" type="submit" value="Search">
+                </div>
+            </form>
         </div>
         <div class="contentVariant">
             <h2>Autocomplete with 2 datasets next to each other</h2>
             <p>Type your query into input box below.</p>
-            <div>
-                <input id="demoInput2" type="search">
-                <input id="demoSubmit2" type="submit" value="Search" onsubmit="javascript: alert('you searched for ...');">
-            </div>
+            <form id="demoForm2" accept-charset="utf-8" role="search" onsubmit="javascript: alert('you searched for ...');">
+                <div>
+                    <input id="demoInput2" type="search" autocomplete="off">
+                    <input id="demoSubmit2" type="submit" value="Search">
+                </div>
+            </form>
         </div>
     </div>
     <script>

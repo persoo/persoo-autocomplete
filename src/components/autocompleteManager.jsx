@@ -84,6 +84,7 @@ export default class AutocompleteManager extends Component {
                 style={customCss ? Object.assign({}, customCss, dropdownStyle) : dropdownStyle}
                 selectHitAction={this.actions.selectHitAction}
                 clickHitAction={this.actions.clickHitAction}
+                clickDropdownAction={this.actions.clickDropdownAction}
             />
         );
     }

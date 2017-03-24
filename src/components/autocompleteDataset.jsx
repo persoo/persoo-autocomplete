@@ -1,11 +1,26 @@
 import { h, Component } from 'preact';
 import PropTypes from 'proptypes';
 import classNames from 'classNames';
-import {getHighlightingFunc} from 'utils';
+import {getCachedHighlightingFunc} from 'utils';
+import Cache from 'cache';
 
 const cx = classNames();
 
 class AutocompleteDataset extends Component {
+    constructor(props) {
+        super(props);
+        this.actionCache = new Cache();
+    }
+
+    getBoundAction(actionFunction, actionName, datasetIndex, index) {
+        const key = JSON.stringify({a: actionName, d: datasetIndex, i: index});
+        let f = this.actionCache.get(key);
+        if (!f) {
+            f = actionFunction.bind(null, datasetIndex, index)
+            this.actionCache.set(key, f);
+        }
+        return f;
+    }
 
     render() {
         const {query, hits, hitsCount, selectedHit, datasetIndex, datasetID, templates,
@@ -15,7 +30,7 @@ class AutocompleteDataset extends Component {
         const HeaderComponent = templates.header || defaultTemplates.header;
         const FooterComponent = templates.footer || defaultTemplates.footer;
         const EmptyComponent = templates.empty;
-        const highlightQuery = getHighlightingFunc(query, 'b');
+        const highlightQuery = getCachedHighlightingFunc(query, 'b');
 
         return (
             <div
@@ -65,8 +80,10 @@ class AutocompleteDataset extends Component {
                             highlightQuery={highlightQuery}
                             priceSuffix={priceSuffix}
                             style={cssProps.hits__hit}
-                            onMouseEnter={(selectedHit != index) && selectHitAction.bind(null, datasetIndex, index)}
-                            onMouseDown={clickHitAction.bind(null, datasetIndex, index)}
+                            onMouseEnter={(selectedHit != index) && this.getBoundAction(
+                                    selectHitAction, 'selectHitAction', datasetIndex, index)}
+                            onMouseDown={this.getBoundAction(
+                                    clickHitAction, 'clickHitAction', datasetIndex, index)}
                         />
                     )}
                 </div>

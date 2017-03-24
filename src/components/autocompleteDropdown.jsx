@@ -15,7 +15,7 @@ class AutocompleteDropdown extends Component {
     render() {
         const {offerID, locationID, autocompleteID, query, priceSuffix,
                 selectedDataset, selectedHit, datasetsOptions, datasetsState,
-                selectHitAction, clickHitAction,
+                selectHitAction, clickHitAction, clickDropdownAction,
                 isVisible, style} = this.props;
         let {className} = {...cx('autocompleteDropdown__root', offerID)};
         className += ' persooLocation persooAction';
@@ -28,6 +28,7 @@ class AutocompleteDropdown extends Component {
                 data-offerID={offerID}
                 data-locationID={locationID}
                 onMouseLeave={selectHitAction.bind(null, null, null)}
+                onMouseDown={clickDropdownAction}
             >
                 {
                     datasetsOptions.map( (dataset, index) => (

@@ -1,5 +1,7 @@
 import { h, Component } from 'preact';
+import { PureComponent } from 'react';
 import { getHighlightingFunc } from 'highlightUtils';
+import Cache from 'cache';
 
 /**
  * Convert simple HTML of result of template(props) call into React Component, which
@@ -13,10 +15,22 @@ function convertToReactComponent(template) {
     if (typeof template == 'string') {
         renderRawHTMLTemplate = function () {return template};
     }
-    // FIXME case when template is React Component
-    return function(props) {
+    var TemplateComponent = class extends AbstractCustomTemplate {
+        constructor(props) {
+            super(renderRawHTMLTemplate, props);
+        }
+    }
+    return TemplateComponent;
+}
+
+class AbstractCustomTemplate extends PureComponent {
+    constructor(renderRawHTMLTemplate, props) {
+        super(props);
+        this.renderRawHTMLTemplate = renderRawHTMLTemplate;
+    }
+	render(props) {
         const {className, style, onMouseEnter, onMouseDown, onMouseLeave} = props;
-        const rawHTML = renderRawHTMLTemplate(props);
+        const rawHTML = this.renderRawHTMLTemplate(props);
         if (rawHTML) {
             return <div
                 dangerouslySetInnerHTML={{__html: rawHTML}}
@@ -92,8 +106,20 @@ function throttle(callback, limit) {
     }
 }
 
+let highlightingCache = new Cache();
+
+function getCachedHighlightingFunc(query, elementName) {
+    const key = JSON.stringify({q:query, e:elementName});
+    let f = highlightingCache.get(key);
+    if (!f) {
+        f = getHighlightingFunc(query, elementName);
+        highlightingCache.set(key, f);
+    }
+    return f;
+}
+
 export {
-    getHighlightingFunc,
+    getCachedHighlightingFunc,
 
     convertToReactComponent,
 

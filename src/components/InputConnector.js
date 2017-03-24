@@ -56,4 +56,7 @@ export default class PersooInputConnector {
     setValue(str) {
         this.inputElement.value = str;
     }
+    setFocus() {
+        this.inputElement.focus();
+    }
 }

@@ -10,8 +10,12 @@ const KEYS = {
         DOWN: 40
 };
 
+// const DEBUG = true;
+
 function getRedirectToHitLinkAction (link) {
-    return function () { window.location = link; };
+    return function () {
+        window.location = link;
+    };
 }
 
 export default function createAutocompleteActions(store, inputConnector, caches) {
@@ -90,16 +94,6 @@ export default function createAutocompleteActions(store, inputConnector, caches)
                 dropdownWidth: (options.width === 'input' ? width : options.width)
             });
         },
-        onFocusAction() {
-            if (store.getState().options.openOnFocus) {
-                store.updateState({dropdownIsVisible: true});
-            }
-        },
-        onBlurAction() {
-            if (store.getState().options.closeOnBlur) {
-                store.updateState({dropdownIsVisible: false});
-            }
-        },
         onKeyDownAction(e) {
             let key = window.event ? e.keyCode : e.which;
             if ([KEYS.DOWN, KEYS.UP, KEYS.RIGHT, KEYS.LEFT].indexOf(key) >= 0 && inputConnector.getValue()) {
@@ -134,20 +128,23 @@ export default function createAutocompleteActions(store, inputConnector, caches)
                    //e.stopPropagation();
                 }
             }
-            else if (key == KEYS.ENTER || key ==  KEYS.TAB) {
+            else if (key == KEYS.ENTER) {
                 let selectedHit = store.getSelectedHit();
                 if (selectedHit) {
                     // apply selected hit
+                    if (DEBUG) { console.log("KeyDown action: " + key + " go to selected hit"); }
                     store.getState().options.onSelect(selectedHit, getRedirectToHitLinkAction(selectedHit.link));
                 } else {
                     // default search action
+                    if (DEBUG) { console.log("KeyDown action: " + key + " default search action/submit query"); }
+                    store.updateState({dropdownIsVisible: false});
                 }
-                store.updateState({dropdownIsVisible: false});
             }
         },
         onKeyUpAction(e) {
-            let key = window.event ? e.keyCode : e.which;
             if (DEBUG) { console.log("KeyUp action: " + key); }
+
+            let key = window.event ? e.keyCode : e.which;
             if (!key || (key < 35 || key > 40) && key != KEYS.ENTER && key != KEYS.ESC) {
                 let value = inputConnector.getValue();
                 if (value.length >= store.getState().options.minChars) {
@@ -158,13 +155,41 @@ export default function createAutocompleteActions(store, inputConnector, caches)
                 }
             }
         },
+        onFocusAction() {
+            if (store.getState().options.openOnFocus) {
+                store.updateState({dropdownIsVisible: true});
+            }
+        },
+        onBlurAction() {
+            if (store.getState().options.closeOnBlur) {
+                if (!store.getState().dropdownClickProcessing) {
+                    store.updateState({dropdownIsVisible: false});
+                } else {
+                    // Prevent onBlur for clicks into Autocomplete Dropdown
+                    inputConnector.setFocus();
+                }
+            }
+            return true;
+        },
         selectHitAction(datasetIndex, hitIndex) {
             store.updateState({selectedDataset: datasetIndex, selectedHit: hitIndex})
         },
-        clickHitAction(datasetIndex, hitIndex) {
-            let selectedHit = store.getSelectedHit();
-            store.getState().options.onSelect(selectedHit, getRedirectToHitLinkAction(selectedHit.link));
-            store.updateState({selectedDataset: datasetIndex, selectedHit: hitIndex, dropdownIsVisible: false});
+        clickHitAction(datasetIndex, hitIndex, event) {
+            if (DEBUG) { console.log('OnClick Hit Action'); }
+
+            if (event.button == 0) { // Left mouse button only
+                let selectedHit = store.getSelectedHit();
+                store.getState().options.onSelect(selectedHit, getRedirectToHitLinkAction(selectedHit.link));
+                store.updateState({selectedDataset: datasetIndex, selectedHit: hitIndex});
+            }
+        },
+        clickDropdownAction() {
+            // Note: trigger onMouseDown which is before onBlur
+            //       used to prevent onBlur action
+            store.updateState({dropdownClickProcessing: true});
+            setTimeout(function() {
+                store.updateState({dropdownClickProcessing: false});
+            }, 1);
         }
     }
 }
