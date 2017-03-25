@@ -68,7 +68,8 @@
     "preact": "*",
     "preact-compat": "*",
     "preact-router": "*",
-    "proptypes": "*"
+    "proptypes": "*",
+    "persoo-templates": "*"
   },
   "main": "webpack.config.babel.js",
   "directories": {

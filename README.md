@@ -114,7 +114,9 @@ For each option, there is data type and default value in the bracket.
 
 > NOTE 2:
 >
-> **Templates:** template is string or `function(data) {return "<div>html</div>";}`, which receives
+> **Templates:** template either
+    * string which reprecents EmbeddedJS template, i.e. `"<% if (true) { %>my content with <%= 1 + 2 + x %>variables<% }%>"` where `<%` switch you to javascript and `<%=` insert javascript expression to output.
+    * `function(data) {return "<div>html</div>";}`, which receives
 ```javascript
 data = {
    query: "<current query>",

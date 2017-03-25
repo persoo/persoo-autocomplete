@@ -1,5 +1,7 @@
 import { h, Component } from 'preact';
 import { PureComponent } from 'react';
+import EJS from 'persoo-templates/lib/embeddedjs'
+
 import { getHighlightingFunc } from 'highlightUtils';
 import Cache from 'cache';
 
@@ -10,27 +12,37 @@ import Cache from 'cache';
  * @return {ReactComponent}
  */
 function convertToReactComponent(template) {
-    // TODO use some templating engine, i.e. Hogan
-    let renderRawHTMLTemplate = template;
+    let renderTemplateFunction = template;
     if (typeof template == 'string') {
-        renderRawHTMLTemplate = function () {return template};
+        if (template.indexOf('%>') >= 0) {
+            // its EmbeddedJS template
+            let ejsOptions = {
+                escape: function (str) {return str;}
+            };
+            renderTemplateFunction = EJS.compile(template, ejsOptions);
+        } else {
+            // plain string
+            renderTemplateFunction = function () { return template; };
+        }
     }
+    // Note: caching is not neccessary, each React Component (class) is defined
+    // only once and remembers compiled template
     var TemplateComponent = class extends AbstractCustomTemplate {
         constructor(props) {
-            super(renderRawHTMLTemplate, props);
+            super(renderTemplateFunction, props);
         }
     }
     return TemplateComponent;
 }
 
 class AbstractCustomTemplate extends PureComponent {
-    constructor(renderRawHTMLTemplate, props) {
+    constructor(renderTemplateFunction, props) {
         super(props);
-        this.renderRawHTMLTemplate = renderRawHTMLTemplate;
+        this.renderTemplateFunction = renderTemplateFunction;
     }
 	render(props) {
         const {className, style, onMouseEnter, onMouseDown, onMouseLeave} = props;
-        const rawHTML = this.renderRawHTMLTemplate(props);
+        const rawHTML = this.renderTemplateFunction(props);
         if (rawHTML) {
             return <div
                 dangerouslySetInnerHTML={{__html: rawHTML}}

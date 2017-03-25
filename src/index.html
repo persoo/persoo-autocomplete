@@ -301,24 +301,13 @@
                         source: window.persoo.getAlgorithmSource(algorithmID, 5),
                         showWhenEmptyResults: true,
                         templates: {
-                            header: function(data) {
-                                if (data.isEmpty) {
-                                    return "";
-                                } else {
-                                    return "PRODUCTS matching \"" + data.query + "\"" + " (" + data.count + " found)";
-                                }
-                            },
-                            hit: function(data) {
-                                var item = data.hit;
-                                return '<a href="' + item.link + '">' +
-                                    '<div class="persoo-autocompleteDataset__hits__hit__img"><img src="' + item.imageLink + '"></div> ' +
-                                    '<div class="persoo-autocompleteDataset__hits__hit__title">' + data.highlightQuery(item.title) + '</div>' +
-                                    '<div class="persoo-autocompleteDataset__hits__hit__price">' + item.price + '&nbsp;Kč</div>' +
-                                    '</a>';
-                            },
-                            empty: function(data) {
-                                    return "No product found for \"" + data.query + "\".";
-                            }
+                            header: "<% if (!isEmpty) { %>PRODUCTS matching \"<%= '<b>'+ query + '</b>' %>\" (<%= count %> found)<% } %>",
+                            hit: '<a href="<%= hit.link %>">' +
+                                    '<div class="persoo-autocompleteDataset__hits__hit__img"><img src="<%= hit.imageLink %>"></div> ' +
+                                    '<div class="persoo-autocompleteDataset__hits__hit__title"><%= highlightQuery(hit.title) %></div>' +
+                                    '<div class="persoo-autocompleteDataset__hits__hit__price"><%= hit.price %>&nbsp;Kč</div>' +
+                                 '</a>',
+                            empty: "No product found for \"<%= query %>\"."
                         },
                         cssProps: {
                             header: { color: "green"}
@@ -363,20 +352,8 @@
                     {
                         source: window.persoo.getAlgorithmSource(algorithmID, 6),
                         templates: {
-                            header: function(data) {
-                                if (data.isEmpty) {
-                                    return "";
-                                } else {
-                                    return "<a href=\"https://localhost/neco\">PRODUCTS</a> MATCHING '" + data.query.toUpperCase() + "'";
-                                }
-                            },
-                            footer: function(data) {
-                                if (data.isEmpty) {
-                                    return "";
-                                } else {
-                                    return "found " + data.count + " items";
-                                }
-                            }
+                            header: "<% if (!isEmpty) { %><a href=\"https://localhost/neco\">PRODUCTS</a> matching \"<%= query %>\" (<%= count %> found)<% } %>",
+                            footer: "<% if (!isEmpty) { %>found <%= count %> items<% } %>"
                         }
                     }
                 ]
