@@ -17,6 +17,7 @@ Try online [Demo] and play with it.
    - [Loading persooAutocomplete.js](#1-load-persooautocompletejs-to-your-page)
    - [Binding autocomplete to INPUT element](#2-create-a-persooautocomplete-instance)
    - [Configuration Options](#available-options)
+   - [Using Your Templates](#templates)
    - [Styling with CSS](##3-use-your-own-css-styles)
 - [Development Workflow](#development-workflow)
 
@@ -114,21 +115,6 @@ For each option, there is data type and default value in the bracket.
 
 > NOTE 2:
 >
-> **Templates:** template may have one of the following formats
-  * plain string
-  * string which represents EmbeddedJS template, i.e. `"<% if (true) { %><div>my content with <%= 1 + 2 + x %></div><% }%>"` where `<%` switch you to javascript and `<%=` insert javascript expression to output.
-  * `function(data) {return "<div>my content with " + 1 + 2 + data.x + "</div>";}`, which receives
-```javascript
-data = {
-   query: "<current query>",
-   hit: { /* current hit as received from Souce (server) */ },
-   highlightQuery: function(str) {return "<highlighted query in str>"}
-      // useful for highlighting custom fields in hits
-      // - ignores cases and accents/diacritics, i.e. cr, čr, Čr, CR, ... are highlighted for query "cr"
-      // - hightlights only prefixes, not text in the middle of word
-}
-```
-and return string with HTML.
 
 > **cssProps:** cssProps for each element contains map with CSS properties.
 > For example for `<root>` element it is
@@ -143,6 +129,26 @@ and return string with HTML.
 
 > :information_source: TODO:
 > * custom listeners to events
+
+
+### Templates
+
+Template may have one of the following formats
+  * plain string
+  * string which represents EmbeddedJS template, i.e. `"<% if (isEmpty) { %><div>my content with <%= query %></div><% }%>"` where `<%` switch you to javascript and `<%=` insert javascript expression to output.
+  * `function(data) {if (data.isEmpty) { return "<div>my content with " + data.query + "</div>";}}`, which receives
+```javascript
+data = {
+   isEmpty: false, /* is current dataset empty */
+   query: "<current query>",
+   hit: { /* current hit as received from Souce (server) */ },
+   highlightQuery: function(str) {return "<highlighted query in str>"}
+      // useful for highlighting custom fields in hits
+      // - ignores cases and accents/diacritics, i.e. cr, čr, Čr, CR, ... are highlighted for query "cr"
+      // - hightlights only prefixes, not text in the middle of word
+}
+```
+and return string with rendered HTML.
 
 
 ### 3. Use your own CSS styles
