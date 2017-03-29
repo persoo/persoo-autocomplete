@@ -24,7 +24,7 @@ class AutocompleteDataset extends Component {
 
     render() {
         const {query, hits, hitsCount, selectedHit, datasetIndex, datasetID, templates,
-                cssProps, priceSuffix, selectHitAction, clickHitAction} = this.props;
+                classNames, cssProps, priceSuffix, selectHitAction, clickHitAction} = this.props;
         const defaultTemplates = AutocompleteDataset.defaultProps.templates;
         const ItemComponent = templates.hit || defaultTemplates.hit;
         const HeaderComponent = templates.header || defaultTemplates.header;
@@ -34,16 +34,18 @@ class AutocompleteDataset extends Component {
 
         return (
             <div
-                {...cx('autocompleteDataset__root',
-                    'autocompleteDataset-' + datasetID + '__root',
-                    {selected: selectedHit >= 0})
+                {...cx('persoo-autocompleteDataset__root',
+                    'persoo-autocompleteDataset-' + datasetID + '__root',
+                    classNames.root,
+                    {'persoo-selected': selectedHit >= 0})
                 }
                 style={cssProps.root}
             >
                 {
                     HeaderComponent && <HeaderComponent
-                        {...cx('autocompleteDataset__header',
-                            'autocompleteDataset-' + datasetID + '__header')
+                        {...cx('persoo-autocompleteDataset__header',
+                            classNames.header,
+                            'persoo-autocompleteDataset-' + datasetID + '__header')
                         }
                         query={query}
                         count={hitsCount}
@@ -54,8 +56,9 @@ class AutocompleteDataset extends Component {
                 {
                     (!hits || hits.length <= 0) && EmptyComponent &&
                     <EmptyComponent
-                        {...cx('autocompleteDataset__empty',
-                            'autocompleteDataset-' + datasetID + '__empty')
+                        {...cx('persoo-autocompleteDataset__empty',
+                            classNames.empty,
+                            'persoo-autocompleteDataset-' + datasetID + '__empty')
                         }
                         query={query}
                         count={hitsCount}
@@ -63,16 +66,18 @@ class AutocompleteDataset extends Component {
                         style={cssProps.empty}
                     />
                 }
-                <div {...cx('autocompleteDataset__hits',
-                        'autocompleteDataset-' + datasetID + '__hits')
+                <div {...cx('persoo-autocompleteDataset__hits',
+                        classNames.hits,
+                        'persoo-autocompleteDataset-' + datasetID + '__hits')
                     }
                     style={cssProps.hits}
                 >
                     {hits.map( (hit, index) =>
                         <ItemComponent
-                            {...cx('autocompleteDataset__hits__hit',
-                                   'autocompleteDataset-' + datasetID + '__hits__hit',
-                                   {selected: selectedHit == index})
+                            {...cx('persoo-autocompleteDataset__hits__hit',
+                                   classNames.hit,
+                                   'persoo-autocompleteDataset-' + datasetID + '__hits__hit',
+                                   {'persoo-selected': selectedHit == index})
                             }
                             key={hit.objectID}
                             hit={hit}
@@ -88,8 +93,9 @@ class AutocompleteDataset extends Component {
                     )}
                 </div>
                 {FooterComponent && <FooterComponent
-                            {...cx('autocompleteDataset__footer',
-                                    'autocompleteDataset-' + datasetID + '__footer')
+                            {...cx('persoo-autocompleteDataset__footer',
+                                    classNames.footer,
+                                    'persoo-autocompleteDataset-' + datasetID + '__footer')
                             }
                             query={query}
                             count={hitsCount}

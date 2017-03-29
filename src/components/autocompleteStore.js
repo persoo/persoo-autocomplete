@@ -16,6 +16,9 @@ const defaultOptions = {
     cssProps: {
         // root: {}  // add CSS classes to autocompleteDropdown__root
     },
+    classNames: {
+        // component.part, i.e. autocompleteDropdown.root
+    },
     onSelect: function(selectedHit, redirectToHitLink){
         redirectToHitLink();
     },
@@ -29,6 +32,7 @@ const defaultOptions = {
 const defaultDatasetOptions = {
     showWhenEmptyResults: true,
     templates: {},
+    classNames: {},
     cssProps: {}
 };
 

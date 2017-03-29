@@ -98,11 +98,20 @@ For each option, there is data type and default value in the bracket.
     * hit
     * footer
     * empty -- there is no default template, will not display if not provided in options
+  * **classNames** (map) -- for each dataset element, it contains custom class names,
+    * root (string)
+    * hits (string)
+    * hit (string)
+    * header (string)
+    * footer (string)
+    * empty (string)
   * **cssProps** (map) -- for each element, it contains map with CSS properties,
     * header (map with CSS props)
     * hit (map with CSS props)
     * footer (map with CSS props)
     * empty (map with CSS props)
+* **classNames** (map) -- for each dataset element, it contains custom class names,
+    * root (string)
 * **cssProps** (map) ---- for each element, it contains map with CSS properties,
     * root (map with CSS props)
 

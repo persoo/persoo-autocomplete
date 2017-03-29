@@ -81,6 +81,7 @@ export default class AutocompleteManager extends Component {
                 datasetsOptions={options.datasets}
                 selectedDataset={state.selectedDataset}
                 selectedHit={state.selectedHit}
+                classNames={options.classNames}
                 style={customCss ? Object.assign({}, customCss, dropdownStyle) : dropdownStyle}
                 selectHitAction={this.actions.selectHitAction}
                 clickHitAction={this.actions.clickHitAction}

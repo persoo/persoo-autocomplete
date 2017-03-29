@@ -39,6 +39,6 @@ function getClassNames () {
 //with hosting web page and its CSS.
 export default function classNames() {
   return (...elements) => ({
-    className: getClassNames(elements).split(' ').map((x) => (prefix + '-' +  x)).join(' ')
+    className: getClassNames(elements) // .split(' ').map((x) => (prefix + '-' +  x)).join(' ')
   });
 }

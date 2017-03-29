@@ -16,9 +16,10 @@ class AutocompleteDropdown extends Component {
         const {offerID, locationID, autocompleteID, query, priceSuffix,
                 selectedDataset, selectedHit, datasetsOptions, datasetsState,
                 selectHitAction, clickHitAction, clickDropdownAction,
-                isVisible, style} = this.props;
-        let {className} = {...cx('autocompleteDropdown__root', offerID)};
+                isVisible, classNames, style} = this.props;
+        let {className} = {...cx('persoo-autocompleteDropdown__root', offerID)};
         className += ' persooLocation persooAction';
+        className += ' ' + classNames.root;
 
         return (isVisible &&
             <div
@@ -40,6 +41,7 @@ class AutocompleteDropdown extends Component {
                             datasetIndex={index}
                             datasetID={datasetsOptions[index].id}
                             templates={datasetsOptions[index].templates}
+                            classNames={datasetsOptions[index].classNames}
                             cssProps={datasetsOptions[index].cssProps}
                             {...{query, priceSuffix, selectHitAction, clickHitAction}}
                         />
