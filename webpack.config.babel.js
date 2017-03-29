@@ -85,7 +85,7 @@ module.exports = {
             compress: { warnings: false },
             global_defs: { DEBUG: false }
         }),
-        new webpack.BannerPlugin("persooAutocomplete 2.1; build from " + (new Date()).toISOString() +
+        new webpack.BannerPlugin("persooAutocomplete 2.3; build from " + (new Date()).toISOString() +
                 "\n© Persoo, s.r.o; Licensed MIT | github.com/persoo/persoo-autocomplete.", {})
     ] : [
         new webpack.optimize.UglifyJsPlugin({

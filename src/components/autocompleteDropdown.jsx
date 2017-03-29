@@ -14,8 +14,8 @@ class AutocompleteDropdown extends Component {
 
     render() {
         const {offerID, locationID, autocompleteID, query, priceSuffix,
-                selectedDataset, selectedHit, datasetsOptions, datasetsState,
-                selectHitAction, clickHitAction, clickDropdownAction,
+                selectedDataset, selectedItem, datasetsOptions, datasetsState,
+                selectItemAction, clickItemAction, clickDropdownAction,
                 isVisible, classNames, style} = this.props;
         let {className} = {...cx('persoo-autocompleteDropdown__root', offerID)};
         className += ' persooLocation persooAction';
@@ -28,22 +28,22 @@ class AutocompleteDropdown extends Component {
                 style={Object.assign({}, defaultStyle, style)}
                 data-offerID={offerID}
                 data-locationID={locationID}
-                onMouseLeave={selectHitAction.bind(null, null, null)}
+                onMouseLeave={selectItemAction.bind(null, null, null)}
                 onMouseDown={clickDropdownAction}
             >
                 {
                     datasetsOptions.map( (dataset, index) => (
                         canShowDataset(datasetsOptions, datasetsState, index) &&
                         <AutocompleteDataset
-                            hits={datasetsState[index].hits}
-                            hitsCount={datasetsState[index].hitsCount}
-                            selectedHit={selectedDataset == index ? selectedHit : -1}
+                            items={datasetsState[index].items}
+                            itemsCount={datasetsState[index].itemsCount}
+                            selectedItem={selectedDataset == index ? selectedItem : -1}
                             datasetIndex={index}
                             datasetID={datasetsOptions[index].id}
                             templates={datasetsOptions[index].templates}
                             classNames={datasetsOptions[index].classNames}
                             cssProps={datasetsOptions[index].cssProps}
-                            {...{query, priceSuffix, selectHitAction, clickHitAction}}
+                            {...{query, priceSuffix, selectItemAction, clickItemAction}}
                         />
                     ))
                 }
@@ -53,8 +53,8 @@ class AutocompleteDropdown extends Component {
 }
 
 function canShowDataset(datasetsOptions, datasetsState, index) {
-    const hits = datasetsState[index].hits;
-    return (datasetsOptions[index].showWhenEmptyResults || (hits && hits.length > 0));
+    const items = datasetsState[index].items;
+    return (datasetsOptions[index].showWhenEmptyResults || (items && items.length > 0));
 }
 
 AutocompleteDropdown.propTypes = {
@@ -65,9 +65,9 @@ AutocompleteDropdown.propTypes = {
     datasetsOptions: PropTypes.array,
     datasetsState: PropTypes.array,
     selectedDataset: PropTypes.number,
-    selectedHit: PropTypes.number,
-    selectHitAction: PropTypes.func,
-    clickHitAction: PropTypes.func,
+    selectedItem: PropTypes.number,
+    selectItemAction: PropTypes.func,
+    clickItemAction: PropTypes.func,
     style: PropTypes.object
 };
 

@@ -67,7 +67,7 @@ export default class AutocompleteManager extends Component {
             dropdownStyle.width = dropdownWidth + 'px';
         }
         const customCss = options.cssProps.root;
-        const isVisible = dropdownIsVisible && (this.store.hasHits() || (showWhenEmptyResults && state.query != null));
+        const isVisible = dropdownIsVisible && (this.store.hasItems() || (showWhenEmptyResults && state.query != null));
 
         return (
             <AutocompleteDropdown
@@ -80,11 +80,11 @@ export default class AutocompleteManager extends Component {
                 datasetsState={state.datasets}
                 datasetsOptions={options.datasets}
                 selectedDataset={state.selectedDataset}
-                selectedHit={state.selectedHit}
+                selectedItem={state.selectedItem}
                 classNames={options.classNames}
                 style={customCss ? Object.assign({}, customCss, dropdownStyle) : dropdownStyle}
-                selectHitAction={this.actions.selectHitAction}
-                clickHitAction={this.actions.clickHitAction}
+                selectItemAction={this.actions.selectItemAction}
+                clickItemAction={this.actions.clickItemAction}
                 clickDropdownAction={this.actions.clickDropdownAction}
             />
         );

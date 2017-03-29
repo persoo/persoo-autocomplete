@@ -19,8 +19,8 @@ const defaultOptions = {
     classNames: {
         // component.part, i.e. autocompleteDropdown.root
     },
-    onSelect: function(selectedHit, redirectToHitLink){
-        redirectToHitLink();
+    onSelect: function(selectedItem, redirectToItemLink){
+        redirectToItemLink();
     },
 
     autocompleteID: 'persooAutocomplete',
@@ -41,14 +41,14 @@ export function getInitialState(optionsFromArgs) {
         options: null,
         query: null,
 
-        dropdownIsVisible: false, // in having no hits, its no visible even if this flag is true
+        dropdownIsVisible: false, // in having no items, its no visible even if this flag is true
         dropdownTop: 0,
         dropdownLeft: 0,
         dropdownWidth: 0,
 
         datasets: [],
         selectedDataset: null,
-        selectedHit: null
+        selectedItem: null
     };
 
     state.options = Object.assign({}, defaultOptions, optionsFromArgs);
@@ -67,9 +67,9 @@ export function getInitialState(optionsFromArgs) {
     state.showWhenEmptyResults = showWhenEmptyResults;
 
     const datasetInitialState = {
-            hits: [],
-            hitsCount: 0,
-            query: null, // query corresponding to hits
+            items: [],
+            itemsCount: 0,
+            query: null, // query corresponding to items
             searching: false
     };
     options.datasets.forEach(
@@ -92,78 +92,78 @@ export function createAutocompleteStore(initialState) {
     /* custom methods working with store */
     return Object.assign(store, {
 
-        hasHits() { // in any dataset
-            let hasHits = false;
+        hasItems() { // in any dataset
+            let hasItems = false;
             store.getState().datasets.forEach(
-                    dataset => {if (dataset.hits && dataset.hits.length > 0) {hasHits = true;}}
+                    dataset => {if (dataset.items && dataset.items.length > 0) {hasItems = true;}}
             );
-            return hasHits;
+            return hasItems;
         },
 
-        getSelectedHit() {
-            let {selectedDataset, selectedHit, datasets} = store.getState();
-            if (selectedDataset != null && selectedHit != null) {
-                return datasets[selectedDataset].hits[selectedHit];
+        getSelectedItem() {
+            let {selectedDataset, selectedItem, datasets} = store.getState();
+            if (selectedDataset != null && selectedItem != null) {
+                return datasets[selectedDataset].items[selectedItem];
             } else {
                 return null;
             }
         },
 
-        moveToNextHit() {
-            if (this.hasHits()) {
-                let {selectedDataset, selectedHit, datasets} = store.getState();
+        moveToNextItem() {
+            if (this.hasItems()) {
+                let {selectedDataset, selectedItem, datasets} = store.getState();
 
                 if (selectedDataset == null) {
                     selectedDataset = 0;
-                    selectedHit = 0;
+                    selectedItem = 0;
                 } else {
-                    selectedHit++;
+                    selectedItem++;
                 }
-                while (selectedHit >= datasets[selectedDataset].hits.length) {
+                while (selectedItem >= datasets[selectedDataset].items.length) {
                     selectedDataset = (selectedDataset + 1) % datasets.length;
-                    selectedHit = 0;
+                    selectedItem = 0;
                 }
-                store.updateState({selectedDataset, selectedHit});
+                store.updateState({selectedDataset, selectedItem});
             }
         },
 
-        moveToPreviousHit() {
-            if (this.hasHits()) {
-                let {selectedDataset, selectedHit, datasets} = store.getState();
+        moveToPreviousItem() {
+            if (this.hasItems()) {
+                let {selectedDataset, selectedItem, datasets} = store.getState();
 
                 if (selectedDataset == null) {
                     selectedDataset = datasets.length - 1;
-                    selectedHit = datasets[selectedDataset].hits.length - 1;
+                    selectedItem = datasets[selectedDataset].items.length - 1;
                 } else {
-                    selectedHit--;
+                    selectedItem--;
                 }
-                while (selectedHit < 0) {
+                while (selectedItem < 0) {
                     selectedDataset = (selectedDataset - 1 + datasets.length) % datasets.length;
-                    selectedHit = datasets[selectedDataset].hits.length - 1;
+                    selectedItem = datasets[selectedDataset].items.length - 1;
                 }
-                store.updateState({selectedDataset, selectedHit});
+                store.updateState({selectedDataset, selectedItem});
             }
         },
 
         /** return false if not moved in case of only 1 dataset */
         moveToNextDataset() {
-            if (this.hasHits()) {
-                let {selectedDataset, selectedHit, datasets} = store.getState();
+            if (this.hasItems()) {
+                let {selectedDataset, selectedItem, datasets} = store.getState();
                 const originalDataset = selectedDataset;
 
                 if (selectedDataset == null) {
                     selectedDataset = 0;
-                    selectedHit = 0;
+                    selectedItem = 0;
                 } else {
                     selectedDataset = (selectedDataset + 1) % datasets.length;
                 }
-                while (selectedHit >= datasets[selectedDataset].hits.length) {
+                while (selectedItem >= datasets[selectedDataset].items.length) {
                     selectedDataset = (selectedDataset + 1) % datasets.length;
-                    selectedHit = 0;
+                    selectedItem = 0;
                 }
 
                 if (originalDataset == null || originalDataset != selectedDataset) {
-                    store.updateState({selectedDataset, selectedHit});
+                    store.updateState({selectedDataset, selectedItem});
                     return true;
                 } else {
                     return false;

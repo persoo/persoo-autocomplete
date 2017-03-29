@@ -47,8 +47,8 @@ window.persoo.getAlgorithmSource = function(algorithmID, maxCount) {
                 {_w:'getRecommendation', algorithmID: algorithmID, query: term, page: 0, itemsPerPage: maxCount},
                 function(data){
                     callback({
-                        hits: data.items || [],
-                        hitsCount: data.itemsCount || 0
+                        items: data.items || [],
+                        itemsCount: data.itemsCount || 0
                     });
                 }
         );

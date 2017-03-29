@@ -12,20 +12,20 @@ const KEYS = {
 
 // const DEBUG = true;
 
-function getRedirectToHitLinkAction (link) {
+function getRedirectToItemLinkAction (link) {
     return function () {
         window.location = link;
     };
 }
 
 export default function createAutocompleteActions(store, inputConnector, caches) {
-    const receiveHitsForIndex = [];
+    const receiveItemsForIndex = [];
     for (let i = 0; i < store.getState().datasets.length; i++) {
         // bind actions for each index only once
-        receiveHitsForIndex.push(receiveHits.bind(this, i));
+        receiveItemsForIndex.push(receiveItems.bind(this, i));
     }
     // throttle request for people who type extremly fast
-    const getSearchHitsThrottled = throttle(getSearchHits, store.getState().options.requestThrottlingInMs);
+    const getSearchItemsThrottled = throttle(getSearchItems, store.getState().options.requestThrottlingInMs);
 
 
     /* helper functions */
@@ -33,11 +33,11 @@ export default function createAutocompleteActions(store, inputConnector, caches)
         query = normalizeQuery(query);
         if (query != store.getState().query) {
             store.updateState({ query });  // ??? update state directly without re-render???
-            getSearchHitsThrottled();
+            getSearchItemsThrottled();
         }
     }
 
-    function getSearchHits() {
+    function getSearchItems() {
         const state = store.getState();
         let datasetsCount = state.options.datasets.length;
         let query = state.query;
@@ -48,12 +48,12 @@ export default function createAutocompleteActions(store, inputConnector, caches)
                 if (searchResult) {
                     // take it from cache
                     store.setDatasetState(i, {query: query});
-                    receiveHits(i, searchResult);
+                    receiveItems(i, searchResult);
                     if (DEBUG) { console.log('Serving query "' + query + '" from cache'); }
                 } else {
-                    // call external source to get hits for this dataset
+                    // call external source to get items for this dataset
                     store.setDatasetState(i, {searching: true, query: query});
-                    let callback = receiveHitsForIndex[i];
+                    let callback = receiveItemsForIndex[i];
                     state.options.datasets[i].source( query, callback);
                     if (DEBUG) { console.log('Sending query "' + query + '".'); }
                 }
@@ -62,25 +62,25 @@ export default function createAutocompleteActions(store, inputConnector, caches)
             }
         }
     }
-    function receiveHits(datasetIndex, searchResult) {
+    function receiveItems(datasetIndex, searchResult) {
         const state = store.getState();
         let dataReceivedForQuery = state.datasets[datasetIndex].query;
         let currentQuery = state.query;
 
-        // Note:  hits.map() for hits created in other iFrame returns undefined.
+        // Note:  items.map() for items created in other iFrame returns undefined.
         // Thus we need create clone in js-context of new iFrame window.
         searchResult = JSON.parse(JSON.stringify(searchResult));
-        searchResult.hits = searchResult.hits || [];
-        searchResult.hitsCount = searchResult.hitsCount || 0;
+        searchResult.items = searchResult.items || [];
+        searchResult.itemsCount = searchResult.itemsCount || 0;
 
         store.setDatasetState(datasetIndex,
-                {hits: searchResult.hits, hitsCount: searchResult.hitsCount, searching: false},
-                {selectedDataset: null, selectedHit: null});
+                {items: searchResult.items, itemsCount: searchResult.itemsCount, searching: false},
+                {selectedDataset: null, selectedItem: null});
 
         caches[datasetIndex].set(dataReceivedForQuery, searchResult);
 
         if (currentQuery != dataReceivedForQuery) {
-            getSearchHitsThrottled();
+            getSearchItemsThrottled();
         }
     }
 
@@ -100,18 +100,18 @@ export default function createAutocompleteActions(store, inputConnector, caches)
                 // move cursor
                 switch (key) {
                     case KEYS.DOWN:
-                        store.moveToNextHit();
+                        store.moveToNextItem();
                         break;
                     case KEYS.UP:
-                        store.moveToPreviousHit();
+                        store.moveToPreviousItem();
                         break;
                     case KEYS.RIGHT:
-                        if (store.getSelectedHit() != null)
-                            store.moveToNextHit();
+                        if (store.getSelectedItem() != null)
+                            store.moveToNextItem();
                         break;
                     case KEYS.LEFT:
-                        if (store.getSelectedHit() != null)
-                            store.moveToPreviousHit();
+                        if (store.getSelectedItem() != null)
+                            store.moveToPreviousItem();
                         break;
                     default:
                 }
@@ -121,7 +121,7 @@ export default function createAutocompleteActions(store, inputConnector, caches)
                 // hide dropdown
                 store.updateState({dropdownIsVisible: false});
             }
-            else if (key == KEYS.TAB && store.getSelectedHit() !== null) {
+            else if (key == KEYS.TAB && store.getSelectedItem() !== null) {
                 // rotate datasets
                 if (store.moveToNextDataset()) {
                    // TODO tab is strange, how to get rid of browser default tab behavior???
@@ -129,11 +129,11 @@ export default function createAutocompleteActions(store, inputConnector, caches)
                 }
             }
             else if (key == KEYS.ENTER) {
-                let selectedHit = store.getSelectedHit();
-                if (selectedHit) {
-                    // apply selected hit
-                    if (DEBUG) { console.log("KeyDown action: " + key + " go to selected hit"); }
-                    store.getState().options.onSelect(selectedHit, getRedirectToHitLinkAction(selectedHit.link));
+                let selectedItem = store.getSelectedItem();
+                if (selectedItem) {
+                    // apply selected item
+                    if (DEBUG) { console.log("KeyDown action: " + key + " go to selected item"); }
+                    store.getState().options.onSelect(selectedItem, getRedirectToItemLinkAction(selectedItem.link));
                 } else {
                     // default search action
                     if (DEBUG) { console.log("KeyDown action: " + key + " default search action/submit query"); }
@@ -171,16 +171,16 @@ export default function createAutocompleteActions(store, inputConnector, caches)
             }
             return true;
         },
-        selectHitAction(datasetIndex, hitIndex) {
-            store.updateState({selectedDataset: datasetIndex, selectedHit: hitIndex})
+        selectItemAction(datasetIndex, itemIndex) {
+            store.updateState({selectedDataset: datasetIndex, selectedItem: itemIndex})
         },
-        clickHitAction(datasetIndex, hitIndex, event) {
-            if (DEBUG) { console.log('OnClick Hit Action'); }
+        clickItemAction(datasetIndex, itemIndex, event) {
+            if (DEBUG) { console.log('OnClick Item Action'); }
 
             if (event.button == 0) { // Left mouse button only
-                let selectedHit = store.getSelectedHit();
-                store.getState().options.onSelect(selectedHit, getRedirectToHitLinkAction(selectedHit.link));
-                store.updateState({selectedDataset: datasetIndex, selectedHit: hitIndex});
+                let selectedItem = store.getSelectedItem();
+                store.getState().options.onSelect(selectedItem, getRedirectToItemLinkAction(selectedItem.link));
+                store.updateState({selectedDataset: datasetIndex, selectedItem: itemIndex});
             }
         },
         clickDropdownAction() {

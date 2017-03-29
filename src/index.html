@@ -94,7 +94,7 @@
             padding: 10px 3% 10px 3%;
         }
 
-        #autocomplete1 .persoo-autocompleteDataset__hits__hit {
+        #autocomplete1 .persoo-autocompleteDataset__items__item {
             cursor: pointer;
             padding: 10px 3% 10px 3%;
             line-height: 23px;
@@ -104,49 +104,49 @@
             width: 95%;
         }
 
-        #autocomplete1 .persoo-autocompleteDataset__hits__hit.persoo-selected {
+        #autocomplete1 .persoo-autocompleteDataset__items__item.persoo-selected {
             background-color: rgba(0,0,1,0.2);
             box-shadow: 0 2px 5px #ccc;
         }
 
-        #autocomplete1 .persoo-autocompleteDataset-0__hits__hit {
+        #autocomplete1 .persoo-autocompleteDataset-0__items__item {
             position: relative;
             display: table;
             height: 60px;
         }
 
-        #autocomplete1 .persoo-autocompleteDataset__hits__hit a,
-        #autocomplete1 .persoo-autocompleteDataset__hits__hit:hover {
+        #autocomplete1 .persoo-autocompleteDataset__items__item a,
+        #autocomplete1 .persoo-autocompleteDataset__items__item:hover {
             text-decoration: none;
             color: #333;
         }
 
-        #autocomplete1 .persoo-autocompleteDataset__hits__hit b {
+        #autocomplete1 .persoo-autocompleteDataset__items__item b {
             font-weight: bold;
             color: #498fdb;
         }
 
 
-        #autocomplete1 .persoo-autocompleteDataset__hits__hit__img {
+        #autocomplete1 .persoo-autocompleteDataset__items__item__img {
             width: 17%;
             display: table-cell;
             vertical-align: middle;
         }
 
-        #autocomplete1 .persoo-autocompleteDataset__hits__hit__title {
+        #autocomplete1 .persoo-autocompleteDataset__items__item__title {
             display: table-cell;
             vertical-align: middle;
             text-overflow: ellipsis;
             width: 70%;
         }
 
-        #autocomplete1 .persoo-autocompleteDataset__hits__hit__price {
+        #autocomplete1 .persoo-autocompleteDataset__items__item__price {
             display: table-cell;
             vertical-align: middle;
             font-weight: bold;
         }
 
-        #autocomplete1 .persoo-autocompleteDataset__hits__hit__img img {
+        #autocomplete1 .persoo-autocompleteDataset__items__item__img img {
             max-width: 64px;
             max-height: 64px;
             display: table-cell;
@@ -172,10 +172,10 @@
             color: #333;
             background: #fff;
         }
-        #autocomplete2 .persoo-autocompleteDataset-0__hits__hit.persoo-selected {
+        #autocomplete2 .persoo-autocompleteDataset-0__items__item.persoo-selected {
             background-color: #498fdb;
         }
-        #autocomplete2 .persoo-autocompleteDataset-1__hits__hit.persoo-selected {
+        #autocomplete2 .persoo-autocompleteDataset-1__items__item.persoo-selected {
             background-color: #f0f0f0;
         }
         #autocomplete2 .persoo-autocompleteDataset__header {
@@ -190,7 +190,7 @@
         #autocomplete2 .persoo-autocompleteDataset-1__header {
             color: #498fdb;
         }
-        #autocomplete2 .persoo-autocompleteDataset__hits__hit {
+        #autocomplete2 .persoo-autocompleteDataset__items__item {
             cursor: pointer;
             padding: 10px 3% 10px 3%;
             line-height: 23px;
@@ -198,49 +198,49 @@
             font-size: 1.0em;
             width: 95%;
         }
-        #autocomplete2 .persoo-autocompleteDataset__hits__hit:hover {
+        #autocomplete2 .persoo-autocompleteDataset__items__item:hover {
             text-decoration: none;
         }
-        #autocomplete2 .persoo-autocompleteDataset-1__hits {
+        #autocomplete2 .persoo-autocompleteDataset-1__items {
             display: flex;
             flex-wrap: wrap;
         }
-        #autocomplete2 .persoo-autocompleteDataset-1__hits__hit {
+        #autocomplete2 .persoo-autocompleteDataset-1__items__item {
             flex: 1;
             min-width: 100px;
             max-width: 150px;
             min-height: 160px;
         }
 
-        #autocomplete2 .persoo-autocompleteDataset-1__hits__hit a {
+        #autocomplete2 .persoo-autocompleteDataset-1__items__item a {
             display: flex;
             flex-direction: column;
             text-decoration: none;
             text-align: center;
             color: #333;
         }
-        #autocomplete2 .persoo-autocompleteDataset-1__hits__hit a div {
+        #autocomplete2 .persoo-autocompleteDataset-1__items__item a div {
             vertical-align: middle;
         }
 
-        #autocomplete2 .persoo-autocompleteDataset__hits__hit__img {
+        #autocomplete2 .persoo-autocompleteDataset__items__item__img {
         }
 
-        #autocomplete2 .persoo-autocompleteDataset__hits__hit__title {
+        #autocomplete2 .persoo-autocompleteDataset__items__item__title {
             margin: 5px 0;
             text-overflow: ellipsis;
         }
 
-        #autocomplete2 .persoo-autocompleteDataset__hits__hit__title b {
+        #autocomplete2 .persoo-autocompleteDataset__items__item__title b {
             font-weight: bold;
             color: #498fdb;
         }
 
-        #autocomplete2 .persoo-autocompleteDataset__hits__hit__price {
+        #autocomplete2 .persoo-autocompleteDataset__items__item__price {
             font-weight: bold;
         }
 
-        #autocomplete2 .persoo-autocompleteDataset__hits__hit__img img {
+        #autocomplete2 .persoo-autocompleteDataset__items__item__img img {
             max-width: 100px;
             max-height: 100px;
         }
@@ -292,9 +292,9 @@
                 autocompleteID: "autocomplete1",
                 width: 'input',
                 closeOnBlur: false,
-                onSelect: function(selectedHit, redirectToHitLink){
-                    redirectToHitLink();
-                    console.log('persooAutocomplete: selected hit is ' + JSON.stringify(selectedHit));
+                onSelect: function(selectedItem, redirectToItemLink){
+                    redirectToItemLink();
+                    console.log('persooAutocomplete: selected item is ' + JSON.stringify(selectedItem));
                 },
                 classNames: {
                     root: 'myDropdownClass__root myDropdownOtherClass__root'
@@ -305,10 +305,10 @@
                         showWhenEmptyResults: true,
                         templates: {
                             header: "<% if (!isEmpty) { %>PRODUCTS matching \"<%= '<b>'+ query + '</b>' %>\" (<%= count %> found)<% } %>",
-                            hit: '<a href="<%= hit.link %>">' +
-                                    '<div class="persoo-autocompleteDataset__hits__hit__img"><img src="<%= hit.imageLink %>"></div> ' +
-                                    '<div class="persoo-autocompleteDataset__hits__hit__title"><%= highlightQuery(hit.title) %></div>' +
-                                    '<div class="persoo-autocompleteDataset__hits__hit__price"><%= hit.price %>&nbsp;Kč</div>' +
+                            item: '<a href="<%= item.link %>">' +
+                                    '<div class="persoo-autocompleteDataset__items__item__img"><img src="<%= item.imageLink %>"></div> ' +
+                                    '<div class="persoo-autocompleteDataset__items__item__title"><%= highlightQuery(item.title) %></div>' +
+                                    '<div class="persoo-autocompleteDataset__items__item__price"><%= item.price %>&nbsp;Kč</div>' +
                                  '</a>',
                             empty: "No product found for \"<%= query %>\"."
                         },
@@ -317,8 +317,8 @@
                             header: 'myClass__header',
                             footer: 'myClass__footer',
                             empty: 'myClass__empty',
-                            hits: 'myClass__hits',
-                            hit: 'myClass__hit'
+                            items: 'myClass__items',
+                            item: 'myClass__item'
                         },
                         cssProps: {
                             header: { color: "green"}
@@ -328,8 +328,8 @@
                         source: window.persoo.getAlgorithmSource(algorithmID, 5),
                         templates: {
                             header: "CATEGORIES",
-                            hit: function(data) {
-                                var item = data.hit;
+                            item: function(data) {
+                                var item = data.item;
                                 return data.highlightQuery(item.title);
                             },
                             empty: 'No results found.'
@@ -339,8 +339,8 @@
                             header: 'myClass__header',
                             footer: 'myClass__footer',
                             empty: 'myClass__empty',
-                            hits: 'myClass__hits',
-                            hit: 'myClass__hit'
+                            items: 'myClass__items',
+                            item: 'myClass__item'
                         },
                         cssProps: {
                             header: { color: "red"}
@@ -353,17 +353,17 @@
                 autocompleteID: "autocomplete2",
                 width: 600,
                 closeOnBlur: false,
-                onSelect: function(selectedHit, redirectToHitLink){
-                    redirectToHitLink();
-                    console.log('persooAutocomplete: selected hit is ' + JSON.stringify(selectedHit));
+                onSelect: function(selectedItem, redirectToItemLink){
+                    redirectToItemLink();
+                    console.log('persooAutocomplete: selected item is ' + JSON.stringify(selectedItem));
                 },
                 datasets: [
                     {
                         source: window.persoo.getAlgorithmSource(algorithmID, 5),
                         templates: {
                             header: "CATEGORIES",
-                            hit: function(data) {
-                                var item = data.hit;
+                            item: function(data) {
+                                var item = data.item;
                                 return data.highlightQuery(item.title);
                             }
                         }

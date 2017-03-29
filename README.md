@@ -45,7 +45,7 @@ var myAutocomplete1 = new PersooAutocomplete('#demoInput1', {
         {
             source: window.persoo.getAlgorithmSource(algorithmID, 5),
             templates: {
-                //  optional templates for header, hit, footer
+                //  optional templates for header, item, footer
             }
         }
     ]
@@ -59,17 +59,17 @@ Knowing the structure will help you to understand the options, because they are 
 <autocompleteDropdown>
     <autocompleteDataset>
         <header>
-        <hits>
-            <hit>
-            ... other hits ...
-        </hits>
+        <items>
+            <item>
+            ... other items ...
+        </items>
         <footer>
     </autocompleteDataset>
     ... other datasets ...
 </autocompleteDropdown>
 ```
 
-Hits may be replaced by `<Empty>` when there are no hits in dataset. `<Empty>` typically displays "No results found.".
+Items may be replaced by `<Empty>` when there are no items in dataset. `<Empty>` typically displays "No results found.".
 
 ### Available options
 
@@ -90,24 +90,24 @@ For each option, there is data type and default value in the bracket.
 
 * **datasets** (array of objects) -- datasetOptions for each dataset
   * **id** (string) -- id used in CSS classes for this dataset (dataset index is used by default)
-  * **source** (function) -- `function (query, callback)` which for given query calls `callback(result)`, where result is `{hits: [], hitsCount: 0}`. `Hits` are hits to be displayed and `hitsCount` are total hits found (not only hits returned). Most often you will use `window.persoo.getAlgorithmSource(algorithmID, 5)` to get 5 results for persoo algorithm with id algorithmID.
+  * **source** (function) -- `function (query, callback)` which for given query calls `callback(result)`, where result is `{items: [], itemsCount: 0}`. `Items` are items to be displayed and `itemsCount` are total items found (not only items returned). Most often you will use `window.persoo.getAlgorithmSource(algorithmID, 5)` to get 5 results for persoo algorithm with id algorithmID.
   * **showWhenEmptyResults** (boolean, true) -- show dataset even with empty results (other dataset may have some results)
   * **templates** (map) -- templates for each item in the structure.
 
     * header
-    * hit
+    * item
     * footer
     * empty -- there is no default template, will not display if not provided in options
   * **classNames** (map) -- for each dataset element, it contains custom class names,
     * root (string)
-    * hits (string)
-    * hit (string)
+    * items (string)
+    * item (string)
     * header (string)
     * footer (string)
     * empty (string)
   * **cssProps** (map) -- for each element, it contains map with CSS properties,
     * header (map with CSS props)
-    * hit (map with CSS props)
+    * item (map with CSS props)
     * footer (map with CSS props)
     * empty (map with CSS props)
 * **classNames** (map) -- for each dataset element, it contains custom class names,
@@ -115,11 +115,11 @@ For each option, there is data type and default value in the bracket.
 * **cssProps** (map) ---- for each element, it contains map with CSS properties,
     * root (map with CSS props)
 
-* **onSelect** (function) -- `function(selectedHit, redirectToHitLink){}` to be called when user selects suggested hit (either by click or pressing Enter). Default `onSelect()` calls only `redirectToHitLink()`, but you can override default onSelect function and add your own actions.
+* **onSelect** (function) -- `function(selectedItem, redirectToItemLink){}` to be called when user selects suggested item (either by click or pressing Enter). Default `onSelect()` calls only `redirectToItemLink()`, but you can override default onSelect function and add your own actions.
 
 > NOTE 1:
 >
->  Default on select action redirects to `hit.link`, not to src in rendered `<a>` element. This way we redirect to the same link by both click and pressing Enter. But `<a>` elements are usefull, i.e. let's use right mouse button to open link in new tab.
+>  Default on select action redirects to `item.link`, not to src in rendered `<a>` element. This way we redirect to the same link by both click and pressing Enter. But `<a>` elements are usefull, i.e. let's use right mouse button to open link in new tab.
 
 
 > NOTE 2:
@@ -150,9 +150,9 @@ Template may have one of the following formats
 data = {
    isEmpty: false, /* is current dataset empty */
    query: "<current query>",
-   hit: { /* current hit as received from Souce (server) */ },
+   item: { /* current item as received from Souce (server) */ },
    highlightQuery: function(str) {return "<highlighted query in str>"}
-      // useful for highlighting custom fields in hits
+      // useful for highlighting custom fields in items
       // - ignores cases and accents/diacritics, i.e. cr, čr, Čr, CR, ... are highlighted for query "cr"
       // - hightlights only prefixes, not text in the middle of word
 }
@@ -171,15 +171,15 @@ Dropdown box displayed below your input has folowing structure and classes.
       <div class="persoo-autocompleteDataset__header persoo-autocompleteDataset-0__header">
          ... header from template ...
       </div>
-      <div class="persoo-autocompleteDataset__hits persoo-autocompleteDataset-0__hits">
-         ... other hits ...
-         <div class="persoo-autocompleteDataset__hits__hit persoo-autocompleteDataset-0__hits__hit">
-               ... hit from your template ...
+      <div class="persoo-autocompleteDataset__items persoo-autocompleteDataset-0__items">
+         ... other items ...
+         <div class="persoo-autocompleteDataset__items__item persoo-autocompleteDataset-0__items__item">
+               ... item from your template ...
          </div>
-         <div class="persoo-autocompleteDataset__hits__hit persoo-autocompleteDataset-0__hits__hit selected">
-               ... selected hit from your template ...
+         <div class="persoo-autocompleteDataset__items__item persoo-autocompleteDataset-0__items__item selected">
+               ... selected item from your template ...
          </div>
-         ... other hits ...
+         ... other items ...
       <div class="persoo-autocompleteDataset__footer persoo-autocompleteDataset-0__footer">
          ... header from template ...
       </div>
