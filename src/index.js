@@ -1,9 +1,6 @@
 import { h, render } from 'preact';
 import objectAssignPolyfill from 'objectAssignPolyfill';
 
-// add all necessary polyfills
-objectAssignPolyfill();
-
 /**
  * Add autocomplete functionality to an input.
  * It's just a wrapper function to call React component and add it to document body.
@@ -39,6 +36,8 @@ class PersooAutocomplete {
 
 window.PersooAutocomplete = PersooAutocomplete;
 
+// add all necessary polyfills
+objectAssignPolyfill();
 
 // add suggest source to Persoo client
 // TODO later add the method directly to Persoo client

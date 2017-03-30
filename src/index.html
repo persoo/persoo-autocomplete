@@ -292,6 +292,7 @@
                 autocompleteID: "autocomplete1",
                 width: 'input',
                 closeOnBlur: false,
+                requestThrottlingInMs: 200,
                 onSelect: function(selectedItem, redirectToItemLink){
                     redirectToItemLink();
                     console.log('persooAutocomplete: selected item is ' + JSON.stringify(selectedItem));

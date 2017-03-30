@@ -23,7 +23,7 @@ function assign(target, firstSource) {
   return to;
 }
 
-export function polyfill() {
+export default function polyfill() {
   if (!Object.assign) {
     Object.defineProperty(Object, 'assign', {
       enumerable: false,

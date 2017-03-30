@@ -25,7 +25,7 @@ export default function createAutocompleteActions(store, inputConnector, caches)
         receiveItemsForIndex.push(receiveItems.bind(this, i));
     }
     // throttle request for people who type extremly fast
-    const getSearchItemsThrottled = throttle(getSearchItems, store.getState().options.requestThrottlingInMs);
+    const getSearchItemsThrottled = throttle(getSearchItems, store.getState().options.requestThrottlingInMs, false);
 
 
     /* helper functions */

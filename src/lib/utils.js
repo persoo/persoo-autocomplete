@@ -94,26 +94,28 @@ function normalizeQuery(str) {
  * in case it was canceled during the interval.
  * @param {function} callback
  * @param {number} limit in millis
+ * @param {boolean} callOnLeadingEdgeToo ... call function on the leading edge of the interval, too.
  * @return {function} throttled function with the same arguments
  */
-function throttle(callback, limit) {
-    var wait = false;
-    var haveCanceledCallInInterval = false;
+function throttle(callback, limit, callOnLeadingEdgeToo) {
+    var callOnLeadingEdgeIndicator = callOnLeadingEdgeToo ? 1 : 0;
+    var canceledCallsInInterval = 0;
     return function () {
         var myThis = this;
         var myArguments = arguments; // remember last used arguments
-        if (!wait) {
-            callback.apply(myThis, myArguments);
-            wait = true;
+        if (!canceledCallsInInterval) {
+            if (callOnLeadingEdgeToo) {
+                callback.apply(myThis, myArguments);
+            }
+            canceledCallsInInterval = 1;
             setTimeout(function () {
-                wait = false;
-                if (haveCanceledCallInInterval) {
+                if (canceledCallsInInterval > callOnLeadingEdgeIndicator) {
                     callback.apply(myThis, myArguments);
                 }
-                haveCanceledCallInInterval = false;
+                canceledCallsInInterval = 0;
             }, limit);
         } else {
-            haveCanceledCallInInterval = true;
+            canceledCallsInInterval++;
         }
     }
 }
