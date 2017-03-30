@@ -248,6 +248,7 @@
                     <input id="demoSubmit1" type="submit" value="Search">
                 </div>
             </form>
+            <div id="dropdownContainer1"></div>
         </div>
         <div class="contentVariant">
             <h2>Autocomplete with 2 datasets next to each other</h2>
@@ -258,6 +259,7 @@
                     <input id="demoSubmit2" type="submit" value="Search">
                 </div>
             </form>
+            <div id="dropdownContainer2"></div>
         </div>
     </div>
     <script>
@@ -276,7 +278,7 @@
         var algorithmID = 'f645379a715b4b189eff1c14805e9f6e';
     </script>
     <script>
-        var myAutocomplete1 = new PersooAutocomplete('#demoInput1', {
+        var myAutocomplete1 = new PersooAutocomplete('#demoInput1', '#dropdownContainer1', {
             autocompleteID: "autocomplete1",
             width: 'input',
             onSelect: function(selectedItem, redirectToItemLink){
@@ -317,7 +319,7 @@
             ]
         });
 
-        var myAutocomplete2 = new PersooAutocomplete('#demoInput2', {
+        var myAutocomplete2 = new PersooAutocomplete('#demoInput2', '#dropdownContainer2', {
             autocompleteID: "autocomplete2",
             width: 600,
             onSelect: function(selectedItem, redirectToItemLink){

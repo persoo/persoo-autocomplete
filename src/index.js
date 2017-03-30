@@ -8,8 +8,9 @@ import objectAssignPolyfill from 'objectAssignPolyfill';
  * TODO spec, how to use
  */
 class PersooAutocomplete {
-      constructor(inputSelector, options) {
+      constructor(inputSelector, dropdownSelector, options) {
         this._inputSelector = inputSelector;
+        this._dropdownSelector = dropdownSelector;
         this._options = options;
         this._render();
         this.root = null;
@@ -18,9 +19,10 @@ class PersooAutocomplete {
 
       _render() {
           let AutocompleteManager = require('./components/autocompleteManager').default;
+          let container = document.querySelector(this._dropdownSelector) || document.body;
           this.root = render(
               <AutocompleteManager inputSelector={this._inputSelector} options={this._options} />,
-              document.body, this.root
+              container, this.root
           );
       }
 
