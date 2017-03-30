@@ -1,4 +1,8 @@
 import { h, render } from 'preact';
+import objectAssignPolyfill from 'objectAssignPolyfill';
+
+// add all necessary polyfills
+objectAssignPolyfill();
 
 /**
  * Add autocomplete functionality to an input.
