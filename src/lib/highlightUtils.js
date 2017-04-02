@@ -12,18 +12,20 @@ function highlightTerms(query, tagName, str) {
         const wordWithoutAccents = diacriticsUtils.removeDiacritics(word).toLowerCase();
         for (let i = 0; i < terms.length; i++) {
             const term = terms[i];
-            if (i == terms.length - 1) {
-                // prefix term match
-                if (wordLowerCase.indexOf(term) == 0 || wordWithoutAccents.indexOf(term) == 0) {
-                    const wordPrefix = word.substr(0, term.length);
-                    const wordRest = word.substr(term.length);
-                    word = "<" + tagName + ">" + wordPrefix + "</" + tagName + ">" + wordRest;
-                }
-            } else {
-                // full word match
-                if (wordLowerCase.match(term) || wordWithoutAccents.match(term)) {
-                    word = "<" + tagName + ">" + word + "</" + tagName + ">";
-                    break;
+            if (term.length > 0) {
+                if (i == terms.length - 1) {
+                    // prefix term match
+                    if (wordLowerCase.indexOf(term) == 0 || wordWithoutAccents.indexOf(term) == 0) {
+                        const wordPrefix = word.substr(0, term.length);
+                        const wordRest = word.substr(term.length);
+                        word = "<" + tagName + ">" + wordPrefix + "</" + tagName + ">" + wordRest;
+                    }
+                } else {
+                    // full word match
+                    if (wordLowerCase == term || wordWithoutAccents == term) {
+                        word = "<" + tagName + ">" + word + "</" + tagName + ">";
+                        break;
+                    }
                 }
             }
         }
@@ -31,8 +33,8 @@ function highlightTerms(query, tagName, str) {
         return word;
     }
 
-    const words = str.split(' ');
-    return words.map(highlightWord).join(' ');
+    const words = str.split(/\b/);
+    return words.map(highlightWord).join('');
 }
 
 
@@ -52,5 +54,6 @@ function getHighlightingFunc(terms, tagName) {
 }
 
 export {
-    getHighlightingFunc
+    getHighlightingFunc,
+    highlightTerms
 }

@@ -293,7 +293,7 @@
             var myAutocomplete1 = new PersooAutocomplete('#demoInput1', '#dropdownContainer1', {
                 autocompleteID: "autocomplete1",
                 width: 'input',
-                closeOnBlur: false,
+                closeOnBlur: true,
                 requestThrottlingInMs: 200,
                 onSelect: function(selectedItem, redirectToItemLink){
                     redirectToItemLink();
@@ -355,7 +355,7 @@
             var myAutocomplete2 = new PersooAutocomplete('#demoInput2', '#dropdownContainer2', {
                 autocompleteID: "autocomplete2",
                 width: 600,
-                closeOnBlur: false,
+                closeOnBlur: true,
                 onSelect: function(selectedItem, redirectToItemLink){
                     redirectToItemLink();
                     console.log('persooAutocomplete: selected item is ' + JSON.stringify(selectedItem));

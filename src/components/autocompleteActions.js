@@ -161,7 +161,8 @@ export default function createAutocompleteActions(store, inputConnector, caches)
             }
         },
         onBlurAction() {
-            if (store.getState().options.closeOnBlur) {
+            console.log("Document has focus: " + document.hasFocus());
+            if (document.hasFocus() && store.getState().options.closeOnBlur) {
                 if (!store.getState().dropdownClickProcessing) {
                     store.updateState({dropdownIsVisible: false});
                 } else {
