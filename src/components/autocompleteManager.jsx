@@ -48,10 +48,14 @@ export default class AutocompleteManager extends Component {
             blur: this.actions.onBlurAction
         });
         this.actions.onResizeAction();
+        this.refreshFunctionTimerID = setInterval(this.actions.onResizeAction.bind(this), 1000);
     }
 
     componentWillUnmount() {
         this.inputConnector.destroy();
+        if (this.refreshFunctionTimerID) {
+            clearInterval(this.refreshFunctionTimerID);
+        }
     }
 
     render() {
