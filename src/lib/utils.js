@@ -91,7 +91,7 @@ function normalizeQuery(str) {
 
 /**
  * Call callback() at most once in time interval. Call callback() at the end of interval
- * in case it was canceled during the interval.
+ * in case it was canceled during the interval. Use function arguments passed in the last call.
  * @param {function} callback
  * @param {number} limit in millis
  * @param {boolean} callOnLeadingEdgeToo ... call function on the leading edge of the interval, too.
@@ -100,17 +100,19 @@ function normalizeQuery(str) {
 function throttle(callback, limit, callOnLeadingEdgeToo) {
     var callOnLeadingEdgeIndicator = callOnLeadingEdgeToo ? 1 : 0;
     var canceledCallsInInterval = 0;
+    var lastArguments = null;
+    var lastThis = null;
     return function () {
-        var myThis = this;
-        var myArguments = arguments; // remember last used arguments
+        lastThis = this;
+        lastArguments = arguments;
         if (!canceledCallsInInterval) {
             if (callOnLeadingEdgeToo) {
-                callback.apply(myThis, myArguments);
+                callback.apply(lastThis, lastArguments);
             }
             canceledCallsInInterval = 1;
             setTimeout(function () {
                 if (canceledCallsInInterval > callOnLeadingEdgeIndicator) {
-                    callback.apply(myThis, myArguments);
+                    callback.apply(lastThis, lastArguments);
                 }
                 canceledCallsInInterval = 0;
             }, limit);

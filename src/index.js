@@ -44,6 +44,7 @@ objectAssignPolyfill();
 // add suggest source to Persoo client
 // TODO later add the method directly to Persoo client
 window.persoo = window.persoo || {};
+window.persoo.throttle = throttle;
 window.persoo.getAlgorithmSource = function(algorithmID, maxCount) {
     return function(term, callback){
         if (DEBUG) console.log('AlgorithmSource: sending request for query "' + term + "'.");
