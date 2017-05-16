@@ -11,6 +11,7 @@
     "postbuild": "mkdirp dist && ncp build/bundle.js dist/persooAutocomplete.js",
     "test": "npm run -s lint && npm run -s test:karma",
     "test:karma": "karma start test/karma.conf.js --single-run",
+    "test-watch": "karma start test/karma.conf.js --single-run=false --auto-watch",
     "lint": "eslint {src,test}"
   },
   "keywords": [

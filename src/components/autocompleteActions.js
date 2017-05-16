@@ -89,8 +89,8 @@ export default function createAutocompleteActions(store, inputConnector, caches)
             const {top, left, width} = inputConnector.getDropdownPosition();
             const options = store.getState().options;
             store.updateState({
-                dropdownTop: top + options.offsetTop,
-                dropdownLeft: left + options.offsetLeft,
+                dropdownTop: options.offsetTop != null ? top + options.offsetTop : null,
+                dropdownLeft: options.offsetTop != null ? left + options.offsetLeft : null,
                 dropdownWidth: (options.width === 'input' ? width : options.width)
             });
         },

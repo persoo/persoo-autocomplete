@@ -85,8 +85,8 @@ For each option, there is data type and default value in the bracket.
 * **openOnFocus** (boolean, true) -- open dropdown again on focus (even without changing query)
 * **closeOnBlur** (boolean, true) -- false is very usefull for debugging
 
-* **offsetLeft** (number, 0) -- dropdown offset in px relatively to InputElement
-* **offsetTop** (number, 1) -- dropdown offset in px relatively to InputElement
+* **offsetLeft** (number|null, 0) -- dropdown offset in px relatively to InputElement, null means do not set width in inline styles
+* **offsetTop** (number|null, 1) -- dropdown offset in px relatively to InputElement, null means do not set width in inline styles
 * **width** (number|'input'|null, 'input') -- dropdown width in px, 'input' means use the width of the Input Element, null means do not set width in inline styles because it will be set in CSS.
 
 * **datasets** (array of objects) -- datasetOptions for each dataset
@@ -117,6 +117,8 @@ For each option, there is data type and default value in the bracket.
     * root (map with CSS props)
 
 * **onSelect** (function) -- `function(selectedItem, redirectToItemLink){}` to be called when user selects suggested item (either by click or pressing Enter). Default `onSelect()` calls only `redirectToItemLink()`, but you can override default onSelect function and add your own actions.
+* **onRender** (function) -- `function(isVisible){}` to be called dropdown rendering, so you can use isVisible status, i.e. to update input box classes. By default there is no function.
+
 
 > NOTE 1:
 >

@@ -299,6 +299,9 @@
                     redirectToItemLink();
                     console.log('persooAutocomplete: selected item is ' + JSON.stringify(selectedItem));
                 },
+                onRender: function(isVisible) {
+                    console.log('persooAutocomplete: rendering with status ' + (isVisible ? "visible." : "hidden."));
+                },
                 classNames: {
                     root: 'myDropdownClass__root myDropdownOtherClass__root'
                 },

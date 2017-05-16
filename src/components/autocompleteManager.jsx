@@ -48,7 +48,11 @@ export default class AutocompleteManager extends Component {
             blur: this.actions.onBlurAction
         });
         this.actions.onResizeAction();
-        this.refreshFunctionTimerID = setInterval(this.actions.onResizeAction.bind(this), 1000);
+
+        const options = this.store.getState().options;
+        if (options.offsetTop != null || options.offsetLeft != null || options.width != null) {
+            this.refreshFunctionTimerID = setInterval(this.actions.onResizeAction.bind(this), 1000);
+        }
     }
 
     componentWillUnmount() {
@@ -63,15 +67,20 @@ export default class AutocompleteManager extends Component {
         const options = state.options;
 
         const {dropdownTop, dropdownLeft, dropdownWidth, dropdownIsVisible, showWhenEmptyResults} = this.state;
-        let dropdownStyle = {
-            top: dropdownTop + 'px',
-            left: dropdownLeft + 'px'
+        let dropdownStyle = {};
+        if (dropdownTop !== null && dropdownLeft !== null) {
+            dropdownStyle.top = dropdownTop + 'px',
+            dropdownStyle.left = dropdownLeft + 'px'
         }
         if (dropdownWidth !== null) {
             dropdownStyle.width = dropdownWidth + 'px';
         }
         const customCss = options.cssProps.root;
         const isVisible = dropdownIsVisible && (this.store.hasItems() || (showWhenEmptyResults && state.query != null));
+
+        if (typeof options.onRender == 'function') {
+            options.onRender(isVisible);
+        }
 
         return (
             <AutocompleteDropdown

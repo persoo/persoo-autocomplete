@@ -33,10 +33,26 @@ function highlightTerms(query, tagName, str) {
         return word;
     }
 
-    const words = str.split(/\b/);
+    const words = splitStringByWordBoundaries(str);
     return words.map(highlightWord).join('');
 }
 
+function splitStringByWordBoundaries(str) {
+    // Note: word boundaries by /\b/ does not work for accents
+    // const brokenWords = str.split(/\b/);
+
+    const strWithoutAccents = diacriticsUtils.removeDiacritics(str);
+    const wordsWithoutAccents = strWithoutAccents.split(/\b/);
+    let words = [];
+    let index = 0;
+    for (var i = 0; i < wordsWithoutAccents.length; i++) {
+        const len = wordsWithoutAccents[i].length;
+        words.push( str.substr(index, len) );
+        index += len;
+    }
+
+    return words;
+}
 
 /**
  * Return compiled function for highlighting words from "terms" by wrapping matched terms in tagName.
@@ -55,5 +71,6 @@ function getHighlightingFunc(terms, tagName) {
 
 export {
     getHighlightingFunc,
-    highlightTerms
+    highlightTerms,
+    splitStringByWordBoundaries
 }
