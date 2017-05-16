@@ -299,7 +299,8 @@
                     redirectToItemLink();
                     console.log('persooAutocomplete: selected item is ' + JSON.stringify(selectedItem));
                 },
-                onRender: function(isVisible) {
+                onRender: function(simpleState) {
+                    isVisible = simpleState.isVisible;
                     console.log('persooAutocomplete: rendering with status ' + (isVisible ? "visible." : "hidden."));
                 },
                 classNames: {
