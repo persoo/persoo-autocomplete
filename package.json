@@ -66,11 +66,12 @@
     "webpack-dev-server": "^1.15.0"
   },
   "dependencies": {
+    "es6-symbol": "^3.1.1",
+    "persoo-templates": "*",
     "preact": "*",
     "preact-compat": "*",
     "preact-router": "*",
-    "proptypes": "*",
-    "persoo-templates": "*"
+    "proptypes": "*"
   },
   "main": "webpack.config.babel.js",
   "directories": {

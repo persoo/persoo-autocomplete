@@ -1,3 +1,4 @@
+import 'es6-symbol/implement';
 import { h, render } from 'preact';
 import { throttle } from 'utils';
 import objectAssignPolyfill from 'objectAssignPolyfill';
