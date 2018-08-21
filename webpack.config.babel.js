@@ -2,15 +2,15 @@ import webpack from 'webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import OfflinePlugin from 'offline-plugin';
+import UglifyJsPlugin  from 'uglifyjs-webpack-plugin';
 import path from 'path';
 
 const ENV = process.env.NODE_ENV || 'development';
 
 module.exports = {
+    mode: ENV,
     context: path.resolve(__dirname, "src"),
     entry: './index.js',
-
     output: {
         path: path.resolve(__dirname, "build"),
         publicPath: '/',
@@ -18,12 +18,12 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['', '.jsx', '.js', '.json'],
-        modulesDirectories: [
-            path.resolve(__dirname, "src/lib"),
-            path.resolve(__dirname, "node_modules"),
-            'node_modules'
-        ],
+        extensions: ['.jsx', '.js', '.json'],
+        modules: [
+			path.resolve(__dirname, "src/lib"),
+			path.resolve(__dirname, "node_modules"),
+			'node_modules'
+		],
         alias: {
             components: path.resolve(__dirname, "src/components"),    // used for tests
             'react': 'preact-compat',
@@ -32,40 +32,42 @@ module.exports = {
     },
 
     module: {
-        preLoaders: [
+        rules:  [
             {
-                test: /\.jsx?$/,
-                exclude: /src\//,
-                loader: 'source-map'
-            }
-        ],
-        loaders: [
-            {
-                test: /\.jsx?$/,
-                exclude: /node_modules/,
-                loader: 'babel'
-            },
-            {
-                test: /\.json$/,
-                loader: 'json'
-            },
-            {
-                test: /\.(xml|html|txt|md)$/,
-                loader: 'raw'
-            },
-            {
-                test: /\.(svg|woff2?|ttf|eot|jpe?g|png|gif)(\?.*)?$/i,
-                loader: ENV==='production' ? 'file?name=[path][name]_[hash:base64:5].[ext]' : 'url'
-            }
-        ]
+                 test: /\.jsx?$/,
+                 exclude: path.resolve(__dirname, 'src'),
+                 enforce: 'pre',
+                 use: 'source-map-loader'
+             },
+             {
+                 test: /\.jsx?$/,
+                 exclude: /node_modules/,
+                 use: 'babel-loader'
+             },
+             {
+                 test: /\.json$/,
+                 use: 'json-loader'
+             },
+             {
+                 test: /\.(xml|html|txt|md)$/,
+                 use: 'raw-loader'
+             },
+             {
+                 test: /\.(svg|woff2?|ttf|eot|jpe?g|png|gif)(\?.*)?$/i,
+                 use: ENV === 'production' ? {
+                     loader: 'file-loader',
+                     options: {
+                         name: '[path][name]_[hash:base64:5].[ext]'
+                     }
+                 } : {
+                     loader: 'url-loader'
+                 }
+             }
+         ]
     },
 
     plugins: ([
-        new webpack.NoErrorsPlugin(),
-        new webpack.optimize.DedupePlugin(),
-        new webpack.DefinePlugin({
-            'process.env': JSON.stringify({ NODE_ENV: ENV })
-        }),
+        new webpack.NoEmitOnErrorsPlugin(),
         new HtmlWebpackPlugin({
             template: './index.html',
             minify: { collapseWhitespace: true }
@@ -75,24 +77,20 @@ module.exports = {
             { from: './favicon.ico', to: './' }
         ])
     ]).concat(ENV==='production' ? [
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: { warnings: false },
-            global_defs: { DEBUG: false }
+        new webpack.DefinePlugin({
+            DEBUG: JSON.stringify(false)
         }),
-        new webpack.BannerPlugin("persooAutocomplete 2.4; build from " + (new Date()).toISOString() +
-                "\n© Persoo, s.r.o; Licensed MIT | github.com/persoo/persoo-autocomplete.", {})
+        new webpack.BannerPlugin("persooAutocomplete 2.5; build from " + (new Date()).toISOString() +
+                "\n© Persoo, s.r.o; Licensed MIT | github.com/persoo/persoo-autocomplete.")
     ] : [
-        new OfflinePlugin({
-            relativePaths: false,
-            AppCache: false,
-            publicPath: '/'
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: { warnings: true },
-            global_defs: { DEBUG: true }
+        new webpack.DefinePlugin({
+            DEBUG: JSON.stringify(true)
         })
     ]),
+
+    optimization: {
+        minimize: true
+    },
 
     stats: { colors: true },
 
@@ -110,17 +108,9 @@ module.exports = {
     devServer: {
         port: process.env.PORT || 8080,
         host: 'localhost',
-        colors: true,
         publicPath: '/',
-        contentBase: './src',
+        contentBase: path.join(__dirname, 'src'),
         historyApiFallback: true,
-        open: true,
-        proxy: {
-            // OPTIONAL: proxy configuration:
-            // '/optional-prefix/**': { // path pattern to rewrite
-            //   target: 'http://target-host.com',
-            //   pathRewrite: path => path.replace(/^\/[^\/]+\//, '')   // strip first path segment
-            // }
-        }
+        open: true
     }
 };

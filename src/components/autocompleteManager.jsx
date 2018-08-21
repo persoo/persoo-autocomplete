@@ -8,8 +8,6 @@ import PersooInputConnector from './InputConnector';
 
 import Cache from 'cache';
 
-require('offline-plugin/runtime').install();
-
 export default class AutocompleteManager extends Component {
     constructor(args) {
         super(args);

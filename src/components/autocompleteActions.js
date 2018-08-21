@@ -14,7 +14,7 @@ const KEYS = {
 
 function getRedirectToItemLinkAction (link) {
     return function () {
-        window.location = link;
+        window.location.href = link;
     };
 }
 
@@ -129,10 +129,12 @@ export default function createAutocompleteActions(store, inputConnector, caches)
                 }
             }
             else if (key == KEYS.ENTER) {
+                if (DEBUG) { console.log("KeyDown action: ENTER!!!"); }
                 let selectedItem = store.getSelectedItem();
                 if (selectedItem) {
                     // apply selected item
                     if (DEBUG) { console.log("KeyDown action: " + key + " go to selected item"); }
+                    e.preventDefault(); // otherwise submit action will be send before url redirect
                     store.getState().options.onSelect(selectedItem, getRedirectToItemLinkAction(selectedItem.link));
                 } else {
                     // default search action
@@ -142,9 +144,8 @@ export default function createAutocompleteActions(store, inputConnector, caches)
             }
         },
         onKeyUpAction(e) {
-            if (DEBUG) { console.log("KeyUp action: " + key); }
-
             let key = window.event ? e.keyCode : e.which;
+            if (DEBUG) { console.log("KeyUp action: " + key); }
             if (!key || (key < 35 || key > 40) && key != KEYS.ENTER && key != KEYS.ESC) {
                 let value = inputConnector.getValue();
                 if (value.length >= store.getState().options.minChars) {
@@ -166,7 +167,7 @@ export default function createAutocompleteActions(store, inputConnector, caches)
                     store.updateState({dropdownIsVisible: false});
                 } else {
                     // Prevent onBlur for clicks into Autocomplete Dropdown
-                    inputConnector.setFocus();
+                    store.updateState({dropdownIsVisible: true});
                 }
             }
             return true;
@@ -184,6 +185,8 @@ export default function createAutocompleteActions(store, inputConnector, caches)
             }
         },
         clickDropdownAction() {
+            if (DEBUG) { console.log('OnClickDropdownAction'); }
+
             // Note: trigger onMouseDown which is before onBlur
             //       used to prevent onBlur action
             store.updateState({dropdownClickProcessing: true});

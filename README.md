@@ -31,8 +31,8 @@ and prepare Input element on which you want to bind "autocomplete".
 
 ```html
 <script src="./dist/persooAutocomplete.js"></script>
-<input id="#demoInput">
-<div id="#demoDropdownContainer">
+<input id="demoInput">
+<div id="demoDropdownContainer">
 ```
 
 ### 2. Create a PersooAutocomplete instance
