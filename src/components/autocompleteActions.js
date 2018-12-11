@@ -1,5 +1,7 @@
 import {normalizeQuery, throttle} from 'utils';
 
+const DEBUG = true;
+
 const KEYS = {
         TAB: 9,
         ENTER: 13,
@@ -34,6 +36,8 @@ export default function createAutocompleteActions(store, inputConnector, caches)
         if (query != store.getState().query) {
             store.updateState({ query });  // ??? update state directly without re-render???
             getSearchItemsThrottled();
+
+            store.getState().options.onQueryChanged({query: query});
         }
     }
 

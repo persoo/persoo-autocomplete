@@ -77,7 +77,7 @@ export default class AutocompleteManager extends Component {
         const isVisible = dropdownIsVisible && (this.store.hasItems() || (showWhenEmptyResults && state.query != null));
 
         if (typeof options.onRender == 'function') {
-            options.onRender({isVisible: isVisible});
+            options.onRender({isVisible: isVisible, datasets: state.datasets});
         }
 
         return (

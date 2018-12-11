@@ -21,6 +21,8 @@ class AutocompleteDropdown extends Component {
         className += ' persooLocation persooAction';
         className += ' ' + classNames.root;
 
+        let datasetGroups = splitDatasetsToGroups(datasetsOptions);
+
         return (isVisible &&
             <div
                 id={autocompleteID}
@@ -32,24 +34,55 @@ class AutocompleteDropdown extends Component {
                 onMouseDown={clickDropdownAction}
             >
                 {
-                    datasetsOptions.map( (dataset, index) => (
-                        canShowDataset(datasetsOptions, datasetsState, index) &&
-                        <AutocompleteDataset
-                            items={datasetsState[index].items}
-                            itemsCount={datasetsState[index].itemsCount}
-                            selectedItem={selectedDataset == index ? selectedItem : -1}
-                            datasetIndex={index}
-                            datasetID={datasetsOptions[index].id}
-                            templates={datasetsOptions[index].templates}
-                            classNames={datasetsOptions[index].classNames}
-                            cssProps={datasetsOptions[index].cssProps}
-                            {...{query, priceSuffix, selectItemAction, clickItemAction}}
-                        />
-                    ))
+                    datasetGroups.map( (group) => {
+                        let innerComponents = group.datasets.map( (dataset) => {
+                            let index = dataset.index;
+                            if (canShowDataset(datasetsOptions, datasetsState, dataset.index)) {
+                                return <AutocompleteDataset
+                                    items={datasetsState[index].items}
+                                    itemsCount={datasetsState[index].itemsCount}
+                                    selectedItem={selectedDataset == index ? selectedItem : -1}
+                                    datasetIndex={index}
+                                    datasetID={datasetsOptions[index].id}
+                                    templates={datasetsOptions[index].templates}
+                                    classNames={datasetsOptions[index].classNames}
+                                    cssProps={datasetsOptions[index].cssProps}
+                                    {...{query, priceSuffix, selectItemAction, clickItemAction}}
+                                />;
+                            } else {
+                                return null;
+                            }
+                        });
+                        let groupClassName = 'persoo-autocompleteDropdown__group ' + group.groupId;
+                        return (group.isSingle) ? innerComponents :
+                                <div class={groupClassName}>{ innerComponents }</div>;
+                    })
                 }
             </div>
         );
     }
+}
+
+function splitDatasetsToGroups(datasetsOptions) {
+    let datasetGroups = {}
+    Array.from(datasetsOptions).forEach( (dataset, index) => {
+        dataset.index = index;
+        if (dataset.group) {
+            datasetGroups[dataset.group] = datasetGroups[dataset.group] || [];
+            datasetGroups[dataset.group].push(dataset);
+        } else {
+            datasetGroups['_single_' + index] = [dataset];
+        }
+    });
+    let datasetGroupsList = []
+    Object.keys(datasetGroups).forEach( (key) => {
+        datasetGroupsList.push({
+            groupId: key,
+            isSingle: !!(key.match(/^_single_/)),
+            datasets: datasetGroups[key]
+        });
+    });
+    return datasetGroupsList;
 }
 
 function canShowDataset(datasetsOptions, datasetsState, index) {

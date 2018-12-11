@@ -45,6 +45,7 @@ var myAutocomplete1 = new PersooAutocomplete('#demoInput1', '#demoDropdownContai
     datasets: [
         {
             source: window.persoo.getAlgorithmSource(algorithmID, 5),
+            group: "myGroupID", // optional
             templates: {
                 //  optional templates for header, item, footer
             }
@@ -58,19 +59,26 @@ Knowing the structure will help you to understand the options, because they are 
 
 ```xml
 <autocompleteDropdown>
-    <autocompleteDataset>
-        <header>
-        <items>
-            <item>
-            ... other items ...
-        </items>
-        <footer>
-    </autocompleteDataset>
-    ... other datasets ...
+    <div class="myGroupID">
+        <autocompleteDataset>
+            <header>
+            <items>
+                <item>
+                ... other items ...
+            </items>
+            <footer>
+        </autocompleteDataset>
+        ... other datasets ...
 </autocompleteDropdown>
 ```
 
 Items may be replaced by `<Empty>` when there are no items in dataset. `<Empty>` typically displays "No results found.".
+
+> NOTE: datasets are grouped by the same group id or have no group wrapper iff their configuration contains no "group" field.
+>
+
+> NOTE: if you need to access datasets data from outside, see `myAutocomplete1.autocompleteManager.state.datasets` object.
+>
 
 ### Available options
 
@@ -117,7 +125,8 @@ For each option, there is data type and default value in the bracket.
     * root (map with CSS props)
 
 * **onSelect** (function) -- `function(selectedItem, redirectToItemLink){}` to be called when user selects suggested item (either by click or pressing Enter). Default `onSelect()` calls only `redirectToItemLink()`, but you can override default onSelect function and add your own actions.
-* **onRender** (function) -- `function(simpleState){}` to be called dropdown rendering with argumetn {isVisible: true/false}, so you can use isVisible status, i.e. to update input box classes. By default there is no function.
+* **onRender** (function) -- `function(simpleState){}` to be called dropdown rendering with argumetn {isVisible: true/false, datasets: datasetsList}, so you can use isVisible status, i.e. to update input box classes. By default there is no function.
+* **onQueryChanged** (function) -- `function(simpleState){}` to be called dropdown rendering with argumetn {query: "current query"}. By default there is no function.
 
 
 > NOTE 1:
@@ -154,7 +163,7 @@ data = {
    isEmpty: false, /* is current dataset empty */
    query: "<current query>",
    item: { /* current item as received from Souce (server) */ },
-   highlightQuery: function(str) {return "<highlighted query in str>"}
+   highlightQuery: function(str) { return "<highlighted query in str>" }
       // useful for highlighting custom fields in items
       // - ignores cases and accents/diacritics, i.e. cr, čr, Čr, CR, ... are highlighted for query "cr"
       // - hightlights only prefixes, not text in the middle of word

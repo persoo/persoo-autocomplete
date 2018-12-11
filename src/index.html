@@ -290,7 +290,7 @@
     <script>
         // timeout just because async loading of the lib
         setTimeout( function() {
-            var myAutocomplete1 = new PersooAutocomplete('#demoInput1', '#dropdownContainer1', {
+            window.myAutocomplete1 = new PersooAutocomplete('#demoInput1', '#dropdownContainer1', {
                 autocompleteID: "autocomplete1",
                 width: 'input',
                 closeOnBlur: true,
@@ -310,6 +310,7 @@
                     {
                         source: window.persoo.getAlgorithmSource(algorithmID, 5),
                         showWhenEmptyResults: true,
+                        group: "myGroup",
                         templates: {
                             header: "<% if (!isEmpty) { %>PRODUCTS matching \"<%= '<b>'+ query + '</b>' %>\" (<%= count %> found)<% } %>",
                             item: '<a href="<%= item.link %>">' +
@@ -334,6 +335,7 @@
                     },
                     {
                         source: window.persoo.getAlgorithmSource(algorithmID, 5),
+                        group: "myGroup",
                         templates: {
                             header: "CATEGORIES",
                             item: function(data) {
@@ -357,7 +359,7 @@
                 ]
             });
 
-            var myAutocomplete2 = new PersooAutocomplete('#demoInput2', '#dropdownContainer2', {
+            window.myAutocomplete2 = new PersooAutocomplete('#demoInput2', '#dropdownContainer2', {
                 autocompleteID: "autocomplete2",
                 width: 600,
                 closeOnBlur: true,

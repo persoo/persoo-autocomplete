@@ -23,7 +23,7 @@ class PersooAutocomplete {
           let AutocompleteManager = require('./components/autocompleteManager').default;
           let container = document.querySelector(this._dropdownSelector) || document.body;
           this.root = render(
-              <AutocompleteManager inputSelector={this._inputSelector} options={this._options} />,
+              <AutocompleteManager inputSelector={this._inputSelector} options={this._options} ref={ c => this.autocompleteManager=c } />,
               container, this.root
           );
       }

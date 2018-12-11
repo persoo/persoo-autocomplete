@@ -22,6 +22,7 @@ const defaultOptions = {
     onSelect: function(selectedItem, redirectToItemLink){
         redirectToItemLink();
     },
+    onQueryChanged: function() {}, // always existing default
 
     autocompleteID: 'persooAutocomplete',
     offerID: 'persooAutocomplete',
