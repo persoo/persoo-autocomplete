@@ -1,7 +1,5 @@
 import {normalizeQuery, throttle} from 'utils';
 
-const DEBUG = true;
-
 const KEYS = {
         TAB: 9,
         ENTER: 13,
