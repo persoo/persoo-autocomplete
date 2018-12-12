@@ -47,12 +47,13 @@ objectAssignPolyfill();
 // TODO later add the method directly to Persoo client
 window.persoo = window.persoo || {};
 window.persoo.throttle = throttle;
-window.persoo.getAlgorithmSource = function(algorithmID, maxCount) {
+window.persoo.getAlgorithmSource = function(algorithmID, maxCount, options) {
     return function(term, callback){
         if (DEBUG) console.log('AlgorithmSource: sending request for query "' + term + "'.");
 
         persoo('send', 'suggest',
                 {_w:'getRecommendation', algorithmID: algorithmID, query: term, page: 0, itemsPerPage: maxCount},
+                options,
                 function(data){
                     callback({
                         items: data.items || [],
