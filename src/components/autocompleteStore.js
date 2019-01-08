@@ -49,7 +49,9 @@ export function getInitialState(optionsFromArgs) {
 
         datasets: [],
         selectedDataset: null,
-        selectedItem: null
+        selectedItem: null,
+
+        waitingForDataRequests: false
     };
 
     state.options = Object.assign({}, defaultOptions, optionsFromArgs);
@@ -99,6 +101,15 @@ export function createAutocompleteStore(initialState) {
                     dataset => {if (dataset.items && dataset.items.length > 0) {hasItems = true;}}
             );
             return hasItems;
+        },
+        hasDataReceived() {
+            let hasData = true;
+            const state = store.getState();
+            const query = state.query;
+            state.datasets.forEach(
+                    dataset => {if (dataset.searching || dataset.query != query) {hasData = false;}}
+            );
+            return hasData;
         },
 
         getSelectedItem() {

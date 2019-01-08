@@ -242,7 +242,7 @@
         <div class="contentVariant">
             <h2>Autocomplete with 2 datasets below each other </h2>
             <p>Type your query into input box below.</p>
-            <form id="demoForm1" accept-charset="utf-8" role="search" onsubmit="javascript: alert('you searched for ...');">
+            <form id="demoForm1" accept-charset="utf-8" role="search" onsubmit="javascript: return myAutocompleteOnSubmit1();">
                 <div>
                     <input id="demoInput1" type="search" autocomplete="off">
                     <input id="demoSubmit1" type="submit" value="Search">
@@ -318,6 +318,16 @@
                 }
             ]
         });
+        var myAutocompleteOnSubmit1 = function(e) {
+            var query = myAutocomplete1.autocompleteManager.state.query;
+            console.log("Waiting until data received for query: " + query);
+            myAutocomplete1.autocompleteManager.actions.waitForDataReceived(5000, function callback(){
+                console.log("Waiting Done, data received for query: " + query);
+                console.log(JSON.stringify(myAutocomplete1.autocompleteManager.state));
+                alert('you searched for "' + query + '"');
+            })
+            return false; // to prevent default onSubmit handler
+        }
 
         var myAutocomplete2 = new PersooAutocomplete('#demoInput2', '#dropdownContainer2', {
             autocompleteID: "autocomplete2",

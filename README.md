@@ -206,6 +206,32 @@ You can find a few CSS examples in the [Demo]. Just look at the source code for 
 
 > You can also use inline CSS styles provided through options (cssProps on various objects).
 
+### 4. Custom onSumit handlers / custom onSubmit logic
+
+Sometimes you need to wait for data received for the query and call your custom javascript function to decide
+what to do on form submit -- either go to search results page or go directly to item detail in case when itemID
+has exact match with query. You can use autocomplete actions as following:
+
+```html
+<script>
+var myAutocompleteOnSubmit = function(e) {
+    var query = myAutocomplete.autocompleteManager.state.query;
+    myAutocomplete1.autocompleteManager.actions.waitForDataReceived(3000, function callback(){        
+        var datasets = myAutocomplete.autocompleteManager.state.datasets;
+        // custom logic with
+        alert('you searched for "' + query + '"');
+    })
+    return false; // to prevent default onSubmit handler
+}
+</script>
+<form id="mySearchForm" accept-charset="utf-8" role="search" onsubmit="javascript: return myAutocompleteOnSubmit();">
+    <div>
+        <input id="myInput" type="search" autocomplete="off">
+        <input id="mySubmit" type="submit" value="Search">
+    </div>
+</form>
+```
+
 ## Development Workflow
 
 Or checkout this repository and modify it as you want to.

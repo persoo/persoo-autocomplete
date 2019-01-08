@@ -83,6 +83,23 @@ export default function createAutocompleteActions(store, inputConnector, caches)
 
         if (currentQuery != dataReceivedForQuery) {
             getSearchItemsThrottled();
+        } else {
+            checkIfDataReceived();
+        }
+    }
+
+    /* wait for data for given query to be able to perfom custom js logic based on the data, i.e. redirect to item detail */
+    function checkIfDataReceived() {
+        const state = store.getState();
+        if (state.waitingForDataRequests && store.hasDataReceived()) {
+            /* data received, call callback */
+            store.dataReceivedCallback();
+            clearTimeout(store.dataReceivedCallbackTimer);
+            store.updateState({waitingForDataRequests: false});
+            return true;
+        } else {
+            /* not ready */
+            return false;
         }
     }
 
@@ -195,6 +212,18 @@ export default function createAutocompleteActions(store, inputConnector, caches)
             setTimeout(function() {
                 store.updateState({dropdownClickProcessing: false});
             }, 1);
+        },
+
+        waitForDataReceived(maxWaitingTimeInMilis, callback) {
+            let value = inputConnector.getValue();
+            updateQuery(value);
+
+            store.dataReceivedCallback = callback;
+            if (!checkIfDataReceived()) {
+                store.dataReceivedCallbackTimer = setTimeout(store.dataReceivedCallback, maxWaitingTimeInMilis);
+                store.updateState({waitingForDataRequests: true});
+            }
         }
+
     }
 }
