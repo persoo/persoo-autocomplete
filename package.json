@@ -48,7 +48,7 @@
     "karma-phantomjs-launcher": "*",
     "karma-sourcemap-loader": "*",
     "karma-webpack": "*",
-    "mkdirp": "*",
+    "mkdirp": "^0.5.1",
     "mocha": "*",
     "ncp": "*",
     "offline-plugin": "^5.0.5",

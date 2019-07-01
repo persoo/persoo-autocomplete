@@ -51,8 +51,8 @@ window.persoo.getAlgorithmSource = function(algorithmID, maxCount, options) {
     return function(term, callback){
         if (DEBUG) console.log('AlgorithmSource: sending request for query "' + term + "'.");
 
-        persoo('send', 'suggest',
-                {_w:'getRecommendation', algorithmID: algorithmID, query: term, page: 0, itemsPerPage: maxCount},
+        persoo('send', 'getRecommendation',
+                {algorithmID: algorithmID, query: term, page: 0, itemsPerPage: maxCount},
                 options,
                 function(data){
                     callback({
