@@ -7,6 +7,7 @@ import AutocompleteDropdown from './autocompleteDropdown';
 import PersooInputConnector from './InputConnector';
 
 import Cache from 'cache';
+import TypingEffectManager from 'typingEffect';
 
 export default class AutocompleteManager extends Component {
     constructor(args) {
@@ -51,12 +52,19 @@ export default class AutocompleteManager extends Component {
         if (options.offsetTop != null || options.offsetLeft != null || options.width != null) {
             this.refreshFunctionTimerID = setInterval(this.actions.onResizeAction.bind(this), 1000);
         }
+
+        if (options.placeholdersToRotate) {
+            this.typingEffectManager = new TypingEffectManager(this.inputSelector, options.placeholdersToRotate, options.placeholdesRotationPeriod);
+        }
     }
 
     componentWillUnmount() {
         this.inputConnector.destroy();
         if (this.refreshFunctionTimerID) {
             clearInterval(this.refreshFunctionTimerID);
+        }
+        if (this.typingEffectManager) {
+            this.typingEffectManager.destroy();
         }
     }
 

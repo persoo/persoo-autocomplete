@@ -293,6 +293,8 @@
             window.myAutocomplete1 = new PersooAutocomplete('#demoInput1', '#dropdownContainer1', {
                 autocompleteID: "autocomplete1",
                 width: 'input',
+                placeholdersToRotate: ["prodejny", "iphone", "televize"],
+                placeholdesRotationPeriod: 4000,
                 closeOnBlur: true,
                 requestThrottlingInMs: 200,
                 onSelect: function(selectedItem, redirectToItemLink){
