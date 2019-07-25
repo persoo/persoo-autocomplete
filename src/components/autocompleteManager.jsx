@@ -54,7 +54,7 @@ export default class AutocompleteManager extends Component {
         }
 
         if (options.placeholdersToRotate) {
-            this.typingEffectManager = new TypingEffectManager(this.inputSelector, options.placeholdersToRotate, options.placeholdesRotationPeriod);
+            this.typingEffectManager = new TypingEffectManager(this.inputSelector, options.placeholdersToRotate, options.placeholdersRotationPeriod);
         }
     }
 

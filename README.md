@@ -98,7 +98,7 @@ For each option, there is data type and default value in the bracket.
 * **width** (number|'input'|null, 'input') -- dropdown width in px, 'input' means use the width of the Input Element, null means do not set width in inline styles because it will be set in CSS.
 
 * **placeholdersToRotate** (array of strings|null, 0) -- simulate typing effect in InputElement, rotate given placeholders
-* **placeholdesRotationPeriod** (number|null, 4000) -- typing effect period in ms, how long is one placeholder text displayed after finishing typing
+* **placeholdersRotationPeriod** (number|null, 4000) -- typing effect period in ms, how long is one placeholder text displayed after finishing typing
 
 * **datasets** (array of objects) -- datasetOptions for each dataset
   * **id** (string) -- id used in CSS classes for this dataset (dataset index is used by default)
