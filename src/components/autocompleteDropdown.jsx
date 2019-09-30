@@ -65,7 +65,9 @@ class AutocompleteDropdown extends Component {
 
 function splitDatasetsToGroups(datasetsOptions) {
     let datasetGroups = {}
-    Array.from(datasetsOptions).forEach( (dataset, index) => {
+    for (let index = 0; index < datasetsOptions.length; index++) {
+        let dataset = Object.assign({}, datasetsOptions[index]);
+
         dataset.index = index;
         if (dataset.group) {
             datasetGroups[dataset.group] = datasetGroups[dataset.group] || [];
@@ -73,7 +75,7 @@ function splitDatasetsToGroups(datasetsOptions) {
         } else {
             datasetGroups['_single_' + index] = [dataset];
         }
-    });
+    };
     let datasetGroupsList = []
     Object.keys(datasetGroups).forEach( (key) => {
         datasetGroupsList.push({
