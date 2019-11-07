@@ -16,7 +16,9 @@ class AutocompleteDropdown extends Component {
         const {offerID, locationID, autocompleteID, query, priceSuffix,
                 selectedDataset, selectedItem, datasetsOptions, datasetsState,
                 selectItemAction, clickItemAction, clickDropdownAction,
+                showWhenAllResultsEmpty, noResultTemplate,
                 isVisible, classNames, style} = this.props;
+        const NoResultsComponent = noResultTemplate;
         let {className} = {...cx('persoo-autocompleteDropdown__root', offerID)};
         className += ' persooLocation persooAction';
         className += ' ' + classNames.root;
@@ -58,6 +60,13 @@ class AutocompleteDropdown extends Component {
                                 <div class={groupClassName}>{ innerComponents }</div>;
                     })
                 }
+                {
+                    showWhenAllResultsEmpty && hasNoResults(datasetsState) && NoResultsComponent &&
+                        <NoResultsComponent {
+                            ...cx('persoo-autocompleteNoResults',
+                            classNames.noresults)
+                        }/>
+                }
             </div>
         );
     }
@@ -92,11 +101,23 @@ function canShowDataset(datasetsOptions, datasetsState, index) {
     return (datasetsOptions[index].showWhenEmptyResults || (items && items.length > 0));
 }
 
+function hasNoResults(datasetsState) {
+    let hasResult = false;
+    datasetsState.map( (dataset) => {
+        if (dataset.items && dataset.items.length > 0 ) {
+            hasResult = true;
+        }
+    });
+    return !hasResult;
+}
+
 AutocompleteDropdown.propTypes = {
     autocompleteID: PropTypes.string,
     offerID: PropTypes.string,
     locationID: PropTypes.string,
     isVisible: PropTypes.boolean,
+    showWhenAllResultsEmpty: PropTypes.boolean,
+    noResultTemplate: PropTypes.function,
     datasetsOptions: PropTypes.array,
     datasetsState: PropTypes.array,
     selectedDataset: PropTypes.number,

@@ -287,10 +287,12 @@
                 redirectToItemLink();
                 console.log('persooAutocomplete: selected item is ' + JSON.stringify(selectedItem));
             },
+            showWhenAllResultsEmpty: true,
+            noResultTemplate: "No global result",
             datasets: [
                 {
                     source: window.persoo.getAlgorithmSource(algorithmID, 5),
-                    showWhenEmptyResults: true,
+                    showWhenEmptyResults: false,
                     templates: {
                         header: "<% if (!isEmpty) { %>PRODUCTS matching \"<%= '<b>'+ query + '</b>' %>\" (<%= count %> found)<% } %>",
                         item: '<a href="<%= item.link %>">' +
@@ -306,6 +308,7 @@
                 },
                 {
                     source: window.persoo.getAlgorithmSource(algorithmID, 5),
+                    showWhenEmptyResults: false,
                     templates: {
                         header: "CATEGORIES",
                         item: function(data) {

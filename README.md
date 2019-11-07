@@ -100,6 +100,9 @@ For each option, there is data type and default value in the bracket.
 * **placeholdersToRotate** (array of strings|null, 0) -- simulate typing effect in InputElement, rotate given placeholders
 * **placeholdersRotationPeriod** (number|null, 4000) -- typing effect period in ms, how long is one placeholder text displayed after finishing typing
 
+* **showWhenAllResultsEmpty** (boolean, false) -- show no results template in case, all datasets contains no results
+* **noResultTemplate** (string or function, null) -- template to be shown when all results in all datasets are empty
+
 * **datasets** (array of objects) -- datasetOptions for each dataset
   * **id** (string) -- id used in CSS classes for this dataset (dataset index is used by default)
   * **source** (function) -- `function (query, callback)` which for given query calls `callback(result)`, where result is `{items: [], itemsCount: 0}`. `Items` are items to be displayed and `itemsCount` are total items found (not only items returned). Most often you will use `window.persoo.getAlgorithmSource(algorithmID, 5)` to get 5 results for persoo algorithm with id algorithmID.

@@ -72,7 +72,7 @@ export default class AutocompleteManager extends Component {
         const state = this.store.getState();
         const options = state.options;
 
-        const {dropdownTop, dropdownLeft, dropdownWidth, dropdownIsVisible, showWhenEmptyResults} = this.state;
+        const {dropdownTop, dropdownLeft, dropdownWidth, dropdownIsVisible, showWhenEmptyResults, showWhenAllResultsEmpty} = this.state;
         let dropdownStyle = {};
         if (dropdownTop !== null && dropdownLeft !== null) {
             dropdownStyle.top = dropdownTop + 'px',
@@ -82,7 +82,7 @@ export default class AutocompleteManager extends Component {
             dropdownStyle.width = dropdownWidth + 'px';
         }
         const customCss = options.cssProps.root;
-        const isVisible = dropdownIsVisible && (this.store.hasItems() || (showWhenEmptyResults && state.query != null));
+        const isVisible = dropdownIsVisible && (this.store.hasItems() || ((showWhenEmptyResults || showWhenAllResultsEmpty) && state.query != null));
 
         if (typeof options.onRender == 'function') {
             options.onRender({isVisible: isVisible, datasets: state.datasets});
@@ -95,6 +95,8 @@ export default class AutocompleteManager extends Component {
                 locationID={options.locationID}
                 priceSuffix={options.priceSuffix}
                 isVisible={isVisible}
+                showWhenAllResultsEmpty={showWhenAllResultsEmpty}
+                noResultTemplate={options.noResultTemplate}
                 query={state.query}
                 datasetsState={state.datasets}
                 datasetsOptions={options.datasets}

@@ -24,6 +24,8 @@ const defaultOptions = {
     },
     onQueryChanged: function() {}, // always existing default
 
+    showWhenAllResultsEmpty: false,
+
     autocompleteID: 'persooAutocomplete',
     offerID: 'persooAutocomplete',
     locationID: 'persooAutocomplete',
@@ -68,6 +70,11 @@ export function getInitialState(optionsFromArgs) {
         }
     );
     state.showWhenEmptyResults = showWhenEmptyResults;
+    state.showWhenAllResultsEmpty = state.options.showWhenAllResultsEmpty;
+
+    if (state.options.noResultTemplate) {
+        state.options.noResultTemplate = convertToReactComponent(state.options.noResultTemplate);
+    }
 
     const datasetInitialState = {
             items: [],
