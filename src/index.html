@@ -308,6 +308,13 @@
                 classNames: {
                     root: 'myDropdownClass__root myDropdownOtherClass__root'
                 },
+                analytics: {
+                    pushFunction: function(state) {
+                        console.log("Analytics PushFunction triggered with state " + JSON.stringify(state));
+                    },
+                    triggerOnClick: true,
+                    triggerDelayInMs: 3000
+                },
                 datasets: [
                     {
                         source: window.persoo.getAlgorithmSource(algorithmID, 5),
@@ -368,6 +375,13 @@
                 onSelect: function(selectedItem, redirectToItemLink){
                     redirectToItemLink();
                     console.log('persooAutocomplete: selected item is ' + JSON.stringify(selectedItem));
+                },
+                analytics: {
+                    pushFunction: function(state) {
+                        console.log("Analytics PushFunction triggered with state " + JSON.stringify(state));
+                    },
+                    triggerOnClick: true,
+                    triggerDelayInMs: 3000
                 },
                 datasets: [
                     {

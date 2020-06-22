@@ -26,16 +26,40 @@ export default function createAutocompleteActions(store, inputConnector, caches)
     }
     // throttle request for people who type extremly fast
     const getSearchItemsThrottled = throttle(getSearchItems, store.getState().options.requestThrottlingInMs, false);
+    let analyticsTimeoutID = null;
 
 
     /* helper functions */
     function updateQuery(query) {
         query = normalizeQuery(query);
         if (query != store.getState().query) {
-            store.updateState({ query });  // ??? update state directly without re-render???
+            const queryLastModificationTimestamp = Date.now();
+            store.updateState({ query, queryLastModificationTimestamp });  // ??? update state directly without re-render???
             getSearchItemsThrottled();
 
+            sendVirtualPageviewIfStoppedTyping();
             store.getState().options.onQueryChanged({query: query});
+        }
+    }
+
+    function sendVirtualPageviewIfStoppedTyping() {
+        const state = store.getState();
+        if (state.queryLastModificationTimestamp < Date.now() - state.options.analytics.triggerDelayInMs) {
+            analyticsTimeoutID = null;
+            state.options.analytics.pushFunction({ query: state.query, datasets: state.datasets });
+        } else {
+            if (analyticsTimeoutID != null) {
+                clearTimeout(analyticsTimeoutID);
+            }
+            analyticsTimeoutID = setTimeout(sendVirtualPageviewIfStoppedTyping, state.options.analytics.triggerDelayInMs);
+        }
+    }
+    function sendVirtualPageviewNow() {
+        const state = store.getState();
+        if (state.options.analytics.triggerOnClick) {
+            const queryLastModificationTimestamp = Date.now();
+            store.updateState({ queryLastModificationTimestamp }); // to count next delay from last reported pageview
+            state.options.analytics.pushFunction({ query: state.query, datasets: state.datasets });
         }
     }
 
@@ -202,6 +226,7 @@ export default function createAutocompleteActions(store, inputConnector, caches)
                 store.getState().options.onSelect(selectedItem, getRedirectToItemLinkAction(selectedItem.link));
                 store.updateState({selectedDataset: datasetIndex, selectedItem: itemIndex});
             }
+            sendVirtualPageviewNow();
         },
         clickDropdownAction() {
             if (DEBUG) { console.log('OnClickDropdownAction'); }
@@ -212,6 +237,8 @@ export default function createAutocompleteActions(store, inputConnector, caches)
             setTimeout(function() {
                 store.updateState({dropdownClickProcessing: false});
             }, 1);
+
+            sendVirtualPageviewNow();
         },
 
         waitForDataReceived(maxWaitingTimeInMilis, callback) {

@@ -130,6 +130,10 @@ For each option, there is data type and default value in the bracket.
 * **cssProps** (map) ---- for each element, it contains map with CSS properties,
     * root (map with CSS props)
 
+* **analytics** (map) -- push virtual pageview to external analytics
+    * pushFunction (function)
+    * triggerOnClick (boolean, true)
+    * triggerDelayInMs (number, 3000) in millis
 * **onSelect** (function) -- `function(selectedItem, redirectToItemLink){}` to be called when user selects suggested item (either by click or pressing Enter). Default `onSelect()` calls only `redirectToItemLink()`, but you can override default onSelect function and add your own actions.
 * **onRender** (function) -- `function(simpleState){}` to be called dropdown rendering with argumetn {isVisible: true/false, datasets: datasetsList}, so you can use isVisible status, i.e. to update input box classes. By default there is no function.
 * **onQueryChanged** (function) -- `function(simpleState){}` to be called dropdown rendering with argumetn {query: "current query"}. By default there is no function.

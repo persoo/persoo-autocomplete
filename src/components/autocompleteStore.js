@@ -24,6 +24,12 @@ const defaultOptions = {
     },
     onQueryChanged: function() {}, // always existing default
 
+    analytics: {
+        pushFunction: function() {},
+        triggerOnClick: true,
+        triggerDelayInMs: 3000
+    },
+
     showWhenAllResultsEmpty: false,
 
     autocompleteID: 'persooAutocomplete',
@@ -43,6 +49,7 @@ export function getInitialState(optionsFromArgs) {
     const state = {
         options: null,
         query: null,
+        queryLastModificationTimestamp: 0,
 
         dropdownIsVisible: false, // in having no items, its no visible even if this flag is true
         dropdownTop: 0,
@@ -71,6 +78,7 @@ export function getInitialState(optionsFromArgs) {
     );
     state.showWhenEmptyResults = showWhenEmptyResults;
     state.showWhenAllResultsEmpty = state.options.showWhenAllResultsEmpty;
+    state.useAnalytics = (state.options.analytics && typeof state.options.analytics.pushFunction == "function");
 
     if (state.options.noResultTemplate) {
         state.options.noResultTemplate = convertToReactComponent(state.options.noResultTemplate);
