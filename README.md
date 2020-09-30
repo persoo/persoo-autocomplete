@@ -161,6 +161,9 @@ For each option, there is data type and default value in the bracket.
 > :information_source: TODO:
 > * custom listeners to events
 
+> NOTE 3:
+>
+>  Query is sanitized. All HTML tags are removed to prevent XSS vulnerability.
 
 ### Templates
 

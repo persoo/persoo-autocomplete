@@ -1,6 +1,6 @@
 {
   "name": "persoo-autocomplete",
-  "version": "2.5.2",
+  "version": "2.5.3",
   "description": "Persoo autocomplete widget.",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress",

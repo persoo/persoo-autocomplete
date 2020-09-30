@@ -84,9 +84,22 @@ function mergeObjects(obj1, obj2) {
     return result;
 }
 
+function sanitizeHTML(string) {
+  const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#x27;',
+      "/": '&#x2F;',
+  };
+  const reg = /[&<>"'/]/ig;
+  return string.replace(reg, (match)=>(map[match]));
+}
+
 function normalizeQuery(str) {
     // strips leading whitespace and condenses all whitespace
-    return (str || '').replace(/^\s*/g, '').replace(/\s{2,}/g, ' ');
+    return (str || '').replace(/<[^>]*>/g, ' ').replace(/^\s*/g, '').replace(/\s{2,}/g, ' ');
 }
 
 /**
