@@ -216,9 +216,9 @@ export default function createAutocompleteActions(store, inputConnector, caches)
             return true;
         },
         selectItemAction(datasetIndex, itemIndex, isEnabled = true) {
-			if (isEnabled) {
-            	store.updateState({selectedDataset: datasetIndex, selectedItem: itemIndex})
-			}
+            if (isEnabled) {
+                store.updateState({selectedDataset: datasetIndex, selectedItem: itemIndex})
+            }
         },
         clickItemAction(datasetIndex, itemIndex, event) {
             if (DEBUG) { console.log('OnClick Item Action'); }

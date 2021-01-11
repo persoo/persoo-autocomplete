@@ -49,7 +49,7 @@ class AutocompleteDropdown extends Component {
                                     templates={datasetsOptions[index].templates}
                                     classNames={datasetsOptions[index].classNames}
                                     cssProps={datasetsOptions[index].cssProps}
-									selectItemOnHover={selectItemOnHover}
+                                    selectItemOnHover={selectItemOnHover}
                                     {...{query, priceSuffix, selectItemAction, clickItemAction}}
                                 />;
                             } else {

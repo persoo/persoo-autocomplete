@@ -13,15 +13,15 @@ class AutocompleteDataset extends Component {
     }
 
     getBoundAction(actionFunction, actionName, datasetIndex, index, isEnabled = true) {
-		if (isEnabled) {
-			const key = JSON.stringify({a: actionName, d: datasetIndex, i: index});
-			let f = this.actionCache.get(key);
-			if (!f) {
-				f = actionFunction.bind(null, datasetIndex, index)
-				this.actionCache.set(key, f);
-			}
-			return f;
-		}
+        if (isEnabled) {
+            const key = JSON.stringify({a: actionName, d: datasetIndex, i: index});
+            let f = this.actionCache.get(key);
+            if (!f) {
+                f = actionFunction.bind(null, datasetIndex, index)
+                this.actionCache.set(key, f);
+            }
+            return f;
+        }
     }
 
     render() {
