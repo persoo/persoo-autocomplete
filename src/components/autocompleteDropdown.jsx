@@ -17,7 +17,7 @@ class AutocompleteDropdown extends Component {
                 selectedDataset, selectedItem, datasetsOptions, datasetsState,
                 selectItemAction, clickItemAction, clickDropdownAction,
                 showWhenAllResultsEmpty, noResultTemplate,
-                isVisible, classNames, style} = this.props;
+                isVisible, classNames, style, selectItemOnHover} = this.props;
         const NoResultsComponent = noResultTemplate;
         let {className} = {...cx('persoo-autocompleteDropdown__root', offerID)};
         className += ' persooLocation persooAction';
@@ -49,6 +49,7 @@ class AutocompleteDropdown extends Component {
                                     templates={datasetsOptions[index].templates}
                                     classNames={datasetsOptions[index].classNames}
                                     cssProps={datasetsOptions[index].cssProps}
+									selectItemOnHover={selectItemOnHover}
                                     {...{query, priceSuffix, selectItemAction, clickItemAction}}
                                 />;
                             } else {

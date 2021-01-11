@@ -107,6 +107,7 @@ export default class AutocompleteManager extends Component {
                 selectItemAction={this.actions.selectItemAction}
                 clickItemAction={this.actions.clickItemAction}
                 clickDropdownAction={this.actions.clickDropdownAction}
+				selectItemOnHover={options.selectItemOnHover}
             />
         );
     }
