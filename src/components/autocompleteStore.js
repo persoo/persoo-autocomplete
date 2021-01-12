@@ -6,7 +6,7 @@ const defaultOptions = {
     requestThrottlingInMs: 200,
     openOnFocus: true,
     closeOnBlur: true, // usefull for debugging
-	selectItemOnHover: true,
+    selectItemOnHover: true,
     datasets: [
        // using defaultDatasetOptions for each dataset
     ],
