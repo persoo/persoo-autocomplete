@@ -12,19 +12,21 @@ class AutocompleteDataset extends Component {
         this.actionCache = new Cache();
     }
 
-    getBoundAction(actionFunction, actionName, datasetIndex, index) {
-        const key = JSON.stringify({a: actionName, d: datasetIndex, i: index});
-        let f = this.actionCache.get(key);
-        if (!f) {
-            f = actionFunction.bind(null, datasetIndex, index)
-            this.actionCache.set(key, f);
+    getBoundAction(actionFunction, actionName, datasetIndex, index, isEnabled = true) {
+        if (isEnabled) {
+            const key = JSON.stringify({a: actionName, d: datasetIndex, i: index});
+            let f = this.actionCache.get(key);
+            if (!f) {
+                f = actionFunction.bind(null, datasetIndex, index)
+                this.actionCache.set(key, f);
+            }
+            return f;
         }
-        return f;
     }
 
     render() {
         const {query, items, itemsCount, selectedItem, datasetIndex, datasetID, templates,
-                classNames, cssProps, priceSuffix, selectItemAction, clickItemAction} = this.props;
+                classNames, cssProps, priceSuffix, selectItemAction, clickItemAction, selectItemOnHover} = this.props;
         const defaultTemplates = AutocompleteDataset.defaultProps.templates;
         const ItemComponent = templates.item || defaultTemplates.item;
         const HeaderComponent = templates.header || defaultTemplates.header;
@@ -86,7 +88,7 @@ class AutocompleteDataset extends Component {
                             priceSuffix={priceSuffix}
                             style={cssProps.items__item}
                             onMouseEnter={(selectedItem != index) && this.getBoundAction(
-                                    selectItemAction, 'selectItemAction', datasetIndex, index)}
+                                    selectItemAction, 'selectItemAction', datasetIndex, index, selectItemOnHover)}
                             onMouseDown={this.getBoundAction(
                                     clickItemAction, 'clickItemAction', datasetIndex, index)}
                         />
