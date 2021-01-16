@@ -26,8 +26,8 @@ module.exports = {
 		],
         alias: {
             components: path.resolve(__dirname, "src/components"),    // used for tests
-            'react': 'preact-compat',
-            'react-dom': 'preact-compat'
+            'react': 'preact/compat',
+            'react-dom': 'preact/compat'
         }
     },
 

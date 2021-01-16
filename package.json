@@ -70,9 +70,8 @@
     "es6-symbol": "3.1.1",
     "lint": "1.1.2",
     "persoo-templates": "1.1.1",
-    "preact": "8.3.1",
-    "preact-compat": "3.18.3",
-    "preact-router": "2.6.1",
+    "preact": "10.5.10",
+    "preact-router": "3.2.1",
     "proptypes": "1.1.0"
   },
   "main": "webpack.config.babel.js",
